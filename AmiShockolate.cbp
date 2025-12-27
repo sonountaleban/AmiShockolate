@@ -1,0 +1,1475 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="AmiShockolate" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/AmiShockolate" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/AmiShockolate" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O1" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-std=c99" />
+			<Add option="-fPIC" />
+			<Add option="-m64" />
+			<Add option="-I/usr/include/axrt-4.0" />
+			<Add option="-specs=/usr/lib/x86_64-linux-gnu/axrt-4.0/axrt.specs" />
+			<Add option="-fsigned-char" />
+			<Add option="-fno-strict-aliasing" />
+			<Add option="-D__TIMER_STDLIBBASE__" />
+			<Add option="-D__STDC_LIMIT_MACROS" />
+			<Add option="-DAMIGA" />
+			<Add directory="src/Libraries/3D/Source" />
+			<Add directory="src/Libraries/INPUT/Source" />
+			<Add directory="src/Libraries/AFILE/Source" />
+			<Add directory="src/Libraries/DSTRUCT/Source" />
+			<Add directory="src/Libraries/PALETTE/Source" />
+			<Add directory="src/Libraries/2D/Source/" />
+			<Add directory="src/Libraries/2D/Source/GR" />
+			<Add directory="src/Libraries/2D/Source/RSD" />
+			<Add directory="src/Libraries/2D/Source/Clip" />
+			<Add directory="src/Libraries/2D/Source/string" />
+			<Add directory="src/Libraries/2D/Source/Flat8" />
+			<Add directory="src/Libraries/2D/Source/Gen" />
+			<Add directory="src/Libraries/RES/Source" />
+			<Add directory="src/Libraries/adlmidi/wopl" />
+			<Add directory="src/Libraries/adlmidi/chips" />
+			<Add directory="src/Libraries/adlmidi/chips/dosbox" />
+			<Add directory="src/Libraries/adlmidi/chips/nuked" />
+			<Add directory="src/Libraries/adlmidi/include" />
+			<Add directory="src/Libraries/EDMS/Source" />
+			<Add directory="src/Libraries/EDMS/Source/MODELS" />
+			<Add directory="src/Libraries/FIXPP/Source" />
+			<Add directory="src/Libraries/H" />
+			<Add directory="src/Libraries/UI/Source" />
+			<Add directory="src/Libraries/LG/Source" />
+			<Add directory="src/Libraries/LG/Source/LOG" />
+			<Add directory="src/Libraries/LG/Source/LOG/src" />
+			<Add directory="src/Libraries/SND/Source" />
+			<Add directory="src/Libraries/RND/Source" />
+			<Add directory="src/Libraries/FIX/Source" />
+			<Add directory="src/Libraries/VOX/Source" />
+			<Add directory="src/AmigaSrc" />
+			<Add directory="src/GameSrc/Headers" />
+			<Add directory="src/MusicSrc" />
+		</Compiler>
+		<Linker>
+			<Add option="-m64" />
+			<Add option="/usr/lib/x86_64-linux-gnu/axrt-4.0/axrt.ld" />
+			<Add option="-L/usr/lib/x86_64-linux-gnu/axrt-4.0" />
+			<Add option="-specs=/usr/lib/x86_64-linux-gnu/axrt-4.0/axrt.specs" />
+			<Add option="-shared" />
+		</Linker>
+		<Unit filename="src/AmigaSrc/AmigaTune.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/AmigaSrc/AmigaTune.h" />
+		<Unit filename="src/AmigaSrc/InitAmiga.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/AmigaSrc/InitAmiga.h" />
+		<Unit filename="src/AmigaSrc/Modding.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/AmigaSrc/Modding.h" />
+		<Unit filename="src/AmigaSrc/OpenGL.cc" />
+		<Unit filename="src/AmigaSrc/OpenGL.h" />
+		<Unit filename="src/AmigaSrc/Prefs.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/AmigaSrc/Prefs.h" />
+		<Unit filename="src/AmigaSrc/SDLSound.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/AmigaSrc/Shock.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/AmigaSrc/Shock.h" />
+		<Unit filename="src/AmigaSrc/ShockBitmap.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/AmigaSrc/ShockBitmap.h" />
+		<Unit filename="src/AmigaSrc/Xmi.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/AmigaSrc/Xmi.h" />
+		<Unit filename="src/GameSrc/FrUtils.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/Headers/FrUtils.h" />
+		<Unit filename="src/GameSrc/Headers/ai.h" />
+		<Unit filename="src/GameSrc/Headers/aiflags.h" />
+		<Unit filename="src/GameSrc/Headers/airupt.h" />
+		<Unit filename="src/GameSrc/Headers/amap.h" />
+		<Unit filename="src/GameSrc/Headers/amaploop.h" />
+		<Unit filename="src/GameSrc/Headers/ammomfd.h" />
+		<Unit filename="src/GameSrc/Headers/anim.h" />
+		<Unit filename="src/GameSrc/Headers/archiveformat.h" />
+		<Unit filename="src/GameSrc/Headers/audiolog.h" />
+		<Unit filename="src/GameSrc/Headers/automap.h" />
+		<Unit filename="src/GameSrc/Headers/bark.h" />
+		<Unit filename="src/GameSrc/Headers/biohelp.h" />
+		<Unit filename="src/GameSrc/Headers/biotrax.h" />
+		<Unit filename="src/GameSrc/Headers/canvchek.h" />
+		<Unit filename="src/GameSrc/Headers/cardmfd.h" />
+		<Unit filename="src/GameSrc/Headers/cit2d.h" />
+		<Unit filename="src/GameSrc/Headers/citalog.h" />
+		<Unit filename="src/GameSrc/Headers/citbark.h" />
+		<Unit filename="src/GameSrc/Headers/citmat.h" />
+		<Unit filename="src/GameSrc/Headers/citres.h" />
+		<Unit filename="src/GameSrc/Headers/colors.h" />
+		<Unit filename="src/GameSrc/Headers/combat.h" />
+		<Unit filename="src/GameSrc/Headers/cone.h" />
+		<Unit filename="src/GameSrc/Headers/criterr.h" />
+		<Unit filename="src/GameSrc/Headers/cutsloop.h" />
+		<Unit filename="src/GameSrc/Headers/cyber.h" />
+		<Unit filename="src/GameSrc/Headers/cybermfd.h" />
+		<Unit filename="src/GameSrc/Headers/cybmem.h" />
+		<Unit filename="src/GameSrc/Headers/cybrloop.h" />
+		<Unit filename="src/GameSrc/Headers/cybrnd.h" />
+		<Unit filename="src/GameSrc/Headers/cybstrng.h" />
+		<Unit filename="src/GameSrc/Headers/damage.h" />
+		<Unit filename="src/GameSrc/Headers/diffq.h" />
+		<Unit filename="src/GameSrc/Headers/digifx.h" />
+		<Unit filename="src/GameSrc/Headers/dirac.h" />
+		<Unit filename="src/GameSrc/Headers/doorparm.h" />
+		<Unit filename="src/GameSrc/Headers/drugs.h" />
+		<Unit filename="src/GameSrc/Headers/dynmem.h" />
+		<Unit filename="src/GameSrc/Headers/effect.h" />
+		<Unit filename="src/GameSrc/Headers/email.h" />
+		<Unit filename="src/GameSrc/Headers/emailbit.h" />
+		<Unit filename="src/GameSrc/Headers/faceobj.h" />
+		<Unit filename="src/GameSrc/Headers/faketime.h" />
+		<Unit filename="src/GameSrc/Headers/fatigue.h" />
+		<Unit filename="src/GameSrc/Headers/fauxrint.h" />
+		<Unit filename="src/GameSrc/Headers/fixtrmfd.h" />
+		<Unit filename="src/GameSrc/Headers/fr3d.h" />
+		<Unit filename="src/GameSrc/Headers/framer8.h" />
+		<Unit filename="src/GameSrc/Headers/frcamera.h" />
+		<Unit filename="src/GameSrc/Headers/frcursors.h" />
+		<Unit filename="src/GameSrc/Headers/fredge.h" />
+		<Unit filename="src/GameSrc/Headers/frflags.h" />
+		<Unit filename="src/GameSrc/Headers/frintern.h" />
+		<Unit filename="src/GameSrc/Headers/froslew.h" />
+		<Unit filename="src/GameSrc/Headers/frparams.h" />
+		<Unit filename="src/GameSrc/Headers/frprotox.h" />
+		<Unit filename="src/GameSrc/Headers/frquad.h" />
+		<Unit filename="src/GameSrc/Headers/frscreen.h" />
+		<Unit filename="src/GameSrc/Headers/frshipm.h" />
+		<Unit filename="src/GameSrc/Headers/frspans.h" />
+		<Unit filename="src/GameSrc/Headers/frsubclp.h" />
+		<Unit filename="src/GameSrc/Headers/frtables.h" />
+		<Unit filename="src/GameSrc/Headers/frtypes.h" />
+		<Unit filename="src/GameSrc/Headers/frtypesx.h" />
+		<Unit filename="src/GameSrc/Headers/frworld.h" />
+		<Unit filename="src/GameSrc/Headers/fullamap.h" />
+		<Unit filename="src/GameSrc/Headers/fullscrn.h" />
+		<Unit filename="src/GameSrc/Headers/game_screen.h" />
+		<Unit filename="src/GameSrc/Headers/gameloop.h" />
+		<Unit filename="src/GameSrc/Headers/gameobj.h" />
+		<Unit filename="src/GameSrc/Headers/gamepal.h" />
+		<Unit filename="src/GameSrc/Headers/gamerend.h" />
+		<Unit filename="src/GameSrc/Headers/gamescr.h" />
+		<Unit filename="src/GameSrc/Headers/gamesort.h" />
+		<Unit filename="src/GameSrc/Headers/gamestrn.h" />
+		<Unit filename="src/GameSrc/Headers/gamesys.h" />
+		<Unit filename="src/GameSrc/Headers/gametime.h" />
+		<Unit filename="src/GameSrc/Headers/gamewrap.h" />
+		<Unit filename="src/GameSrc/Headers/gearmfd.h" />
+		<Unit filename="src/GameSrc/Headers/gettmaps.h" />
+		<Unit filename="src/GameSrc/Headers/gr2ss.h" />
+		<Unit filename="src/GameSrc/Headers/grenades.h" />
+		<Unit filename="src/GameSrc/Headers/hand.h" />
+		<Unit filename="src/GameSrc/Headers/handart.h" />
+		<Unit filename="src/GameSrc/Headers/hkeyfunc.h" />
+		<Unit filename="src/GameSrc/Headers/hud.h" />
+		<Unit filename="src/GameSrc/Headers/hudobj.h" />
+		<Unit filename="src/GameSrc/Headers/ice.h" />
+		<Unit filename="src/GameSrc/Headers/init.h" />
+		<Unit filename="src/GameSrc/Headers/input.h" />
+		<Unit filename="src/GameSrc/Headers/invdims.h" />
+		<Unit filename="src/GameSrc/Headers/invent.h" />
+		<Unit filename="src/GameSrc/Headers/invpages.h" />
+		<Unit filename="src/GameSrc/Headers/leanmetr.h" />
+		<Unit filename="src/GameSrc/Headers/loops.h" />
+		<Unit filename="src/GameSrc/Headers/lvldata.h" />
+		<Unit filename="src/GameSrc/Headers/mainloop.h" />
+		<Unit filename="src/GameSrc/Headers/map.h" />
+		<Unit filename="src/GameSrc/Headers/mapflags.h" />
+		<Unit filename="src/GameSrc/Headers/mapnorm.h" />
+		<Unit filename="src/GameSrc/Headers/mfdart.h" />
+		<Unit filename="src/GameSrc/Headers/mfddims.h" />
+		<Unit filename="src/GameSrc/Headers/mfdext.h" />
+		<Unit filename="src/GameSrc/Headers/mfdfunc.h" />
+		<Unit filename="src/GameSrc/Headers/mfdgadg.h" />
+		<Unit filename="src/GameSrc/Headers/mfdgames.h" />
+		<Unit filename="src/GameSrc/Headers/mfdgump.h" />
+		<Unit filename="src/GameSrc/Headers/mfdint.h" />
+		<Unit filename="src/GameSrc/Headers/mfdpanel.h" />
+		<Unit filename="src/GameSrc/Headers/minimax.h" />
+		<Unit filename="src/GameSrc/Headers/miscqvar.h" />
+		<Unit filename="src/GameSrc/Headers/mlimbs.h" />
+		<Unit filename="src/GameSrc/Headers/models.h" />
+		<Unit filename="src/GameSrc/Headers/modtext.h" />
+		<Unit filename="src/GameSrc/Headers/mouselook.h" />
+		<Unit filename="src/GameSrc/Headers/movekeys.h" />
+		<Unit filename="src/GameSrc/Headers/musicai.h" />
+		<Unit filename="src/GameSrc/Headers/newmfd.h" />
+		<Unit filename="src/GameSrc/Headers/obj3d.h" />
+		<Unit filename="src/GameSrc/Headers/objapp.h" />
+		<Unit filename="src/GameSrc/Headers/objart.h" />
+		<Unit filename="src/GameSrc/Headers/objart2.h" />
+		<Unit filename="src/GameSrc/Headers/objart3.h" />
+		<Unit filename="src/GameSrc/Headers/objbit.h" />
+		<Unit filename="src/GameSrc/Headers/objclass.h" />
+		<Unit filename="src/GameSrc/Headers/objcrit.h" />
+		<Unit filename="src/GameSrc/Headers/objects.h" />
+		<Unit filename="src/GameSrc/Headers/objgame.h" />
+		<Unit filename="src/GameSrc/Headers/objload.h" />
+		<Unit filename="src/GameSrc/Headers/objmode.h" />
+		<Unit filename="src/GameSrc/Headers/objprop.h" />
+		<Unit filename="src/GameSrc/Headers/objsim.h" />
+		<Unit filename="src/GameSrc/Headers/objstuff.h" />
+		<Unit filename="src/GameSrc/Headers/objuse.h" />
+		<Unit filename="src/GameSrc/Headers/objver.h" />
+		<Unit filename="src/GameSrc/Headers/objwarez.h" />
+		<Unit filename="src/GameSrc/Headers/objwpn.h" />
+		<Unit filename="src/GameSrc/Headers/olhext.h" />
+		<Unit filename="src/GameSrc/Headers/olhint.h" />
+		<Unit filename="src/GameSrc/Headers/olhscan.h" />
+		<Unit filename="src/GameSrc/Headers/otrip.h" />
+		<Unit filename="src/GameSrc/Headers/palfx.h" />
+		<Unit filename="src/GameSrc/Headers/pathfind.h" />
+		<Unit filename="src/GameSrc/Headers/physics.h" />
+		<Unit filename="src/GameSrc/Headers/physunit.h" />
+		<Unit filename="src/GameSrc/Headers/player.h" />
+		<Unit filename="src/GameSrc/Headers/playerlayout.h" />
+		<Unit filename="src/GameSrc/Headers/plotware.h" />
+		<Unit filename="src/GameSrc/Headers/popups.h" />
+		<Unit filename="src/GameSrc/Headers/precompiled.h">
+			<Option compile="1" />
+		</Unit>
+		<Unit filename="src/GameSrc/Headers/rcolors.h" />
+		<Unit filename="src/GameSrc/Headers/refstuf.h" />
+		<Unit filename="src/GameSrc/Headers/render.h" />
+		<Unit filename="src/GameSrc/Headers/rendfx.h" />
+		<Unit filename="src/GameSrc/Headers/rendtool.h" />
+		<Unit filename="src/GameSrc/Headers/safeedms.h" />
+		<Unit filename="src/GameSrc/Headers/saveload.h" />
+		<Unit filename="src/GameSrc/Headers/schedtyp.h" />
+		<Unit filename="src/GameSrc/Headers/schedule.h" />
+		<Unit filename="src/GameSrc/Headers/setploop.h" />
+		<Unit filename="src/GameSrc/Headers/setup.h" />
+		<Unit filename="src/GameSrc/Headers/sfxlist.h" />
+		<Unit filename="src/GameSrc/Headers/shockolate_version.h" />
+		<Unit filename="src/GameSrc/Headers/shodan.h" />
+		<Unit filename="src/GameSrc/Headers/sideart.h" />
+		<Unit filename="src/GameSrc/Headers/sideicon.h" />
+		<Unit filename="src/GameSrc/Headers/sndcall.h" />
+		<Unit filename="src/GameSrc/Headers/softdef.h" />
+		<Unit filename="src/GameSrc/Headers/splash.h" />
+		<Unit filename="src/GameSrc/Headers/splshpal.h" />
+		<Unit filename="src/GameSrc/Headers/star.h" />
+		<Unit filename="src/GameSrc/Headers/statics.h" />
+		<Unit filename="src/GameSrc/Headers/status.h" />
+		<Unit filename="src/GameSrc/Headers/strwrap.h" />
+		<Unit filename="src/GameSrc/Headers/svgacurs.h" />
+		<Unit filename="src/GameSrc/Headers/target.h" />
+		<Unit filename="src/GameSrc/Headers/textmaps.h" />
+		<Unit filename="src/GameSrc/Headers/texture.h" />
+		<Unit filename="src/GameSrc/Headers/tfdirect.h" />
+		<Unit filename="src/GameSrc/Headers/tickcount.h" />
+		<Unit filename="src/GameSrc/Headers/tilecam.h" />
+		<Unit filename="src/GameSrc/Headers/tilemap.h" />
+		<Unit filename="src/GameSrc/Headers/tilename.h" />
+		<Unit filename="src/GameSrc/Headers/tools.h" />
+		<Unit filename="src/GameSrc/Headers/tpolys.h" />
+		<Unit filename="src/GameSrc/Headers/treasure.h" />
+		<Unit filename="src/GameSrc/Headers/trigger.h" />
+		<Unit filename="src/GameSrc/Headers/verify.h" />
+		<Unit filename="src/GameSrc/Headers/version.h" />
+		<Unit filename="src/GameSrc/Headers/view360.h" />
+		<Unit filename="src/GameSrc/Headers/viewhelp.h" />
+		<Unit filename="src/GameSrc/Headers/visible.h" />
+		<Unit filename="src/GameSrc/Headers/vitals.h" />
+		<Unit filename="src/GameSrc/Headers/vmail.h" />
+		<Unit filename="src/GameSrc/Headers/wares.h" />
+		<Unit filename="src/GameSrc/Headers/weapons.h" />
+		<Unit filename="src/GameSrc/Headers/wrapper.h" />
+		<Unit filename="src/GameSrc/ai.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/airupt.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/amap.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/amaploop.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/ammomfd.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/anim.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/archiveformat.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/audiolog.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/automap.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/bark.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/biohelp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/cardmfd.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/citres.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/combat.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/cone.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/criterr.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/cutsloop.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/cyber.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/cybermfd.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/cybmem.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/cybrnd.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/damage.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/digifx.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/drugs.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/effect.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/email.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/faceobj.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/fixtrmfd.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/frcamera.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/frclip.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/frcompil.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/frmain.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/frobj.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/froslew.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/frpipe.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/frpts.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/frsetup.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/frtables.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/frterr.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/frutil.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/fullamap.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/fullscrn.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/gameloop.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/gameobj.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/gamerend.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/gamesort.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/gamestrn.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/gamesys.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/gametime.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/gamewrap.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/gearmfd.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/gr2ss.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/grenades.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/hand.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/hflip.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/hkeyfunc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/hud.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/hudobj.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/init.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/input.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/invent.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/leanmetr.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/mainloop.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/map.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/mfdfunc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/mfdgadg.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/mfdgames.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/mfdgump.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/mfdpanel.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/minimax.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/mlimbs.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/mouselook.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/movekeys.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/musicai.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/newai.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/newmfd.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/objapp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/objects.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/objload.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/objprop.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/objsim.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/objuse.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/olh.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/olhscan.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/palfx.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/pathfind.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/physics.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/player.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/plotware.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/popups.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/render.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/rendtool.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/saveload.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/schedule.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/screen.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/setup.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/shodan.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/sideicon.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/sndcall.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/star.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/statics.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/status.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/target.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/textmaps.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/tfdirect.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/tfutil.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/tickcount.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/tools.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/trigger.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/view360.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/viewhelp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/vitals.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/vmail.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/wares.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/weapons.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/GameSrc/wrapper.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/2d.h" />
+		<Unit filename="src/Libraries/2D/Source/Clip/clip.h" />
+		<Unit filename="src/Libraries/2D/Source/Clip/clpclin.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Clip/clpcon.h" />
+		<Unit filename="src/Libraries/2D/Source/Clip/clpf24.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Clip/clpfcn.h" />
+		<Unit filename="src/Libraries/2D/Source/Clip/clplin.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Clip/clplin2.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Clip/clpltab.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Clip/clpltab.h" />
+		<Unit filename="src/Libraries/2D/Source/Clip/clpltyp.h" />
+		<Unit filename="src/Libraries/2D/Source/Clip/clpmono.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Clip/clpply.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Clip/clppoly.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Clip/clprect.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Clip/clpslin.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/FL8OPL.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/Fl8F.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8bl.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8bldbl.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8chfl8.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8clear.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8clin.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8clin.h" />
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8cnv.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8cop.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8cply.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8ctp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8dbl.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8fl8.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8fl8c.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8fl8m.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8fltr2.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8ft.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8g24.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8gfl8.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8gpix.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8hfl8.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8hlin.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8lf.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8lin.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8lin.h" />
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8ll.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8lnop.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8lop.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8lp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8ltp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8lw.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8mono.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8mscl.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8nl.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8ns.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8ntrp2.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8p.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8p.h" />
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8p24.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8pix.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8ply.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8pnt.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8rect.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8row.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8rsd8.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8s.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8slin.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8slin.h" />
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8sply.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8sub.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8tf.h" />
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8tl8.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8tmapdv.h" />
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8tpl.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8tsmap.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8vlin.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8w.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8wclin.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8wclin.h" />
+		<Unit filename="src/Libraries/2D/Source/Flat8/fl8wlin.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Flat8/flat8.h" />
+		<Unit filename="src/Libraries/2D/Source/GR/grbm.h" />
+		<Unit filename="src/Libraries/2D/Source/GR/grcbm.h" />
+		<Unit filename="src/Libraries/2D/Source/GR/grclhbm.h" />
+		<Unit filename="src/Libraries/2D/Source/GR/grcply.h" />
+		<Unit filename="src/Libraries/2D/Source/GR/grd.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/GR/grd.h" />
+		<Unit filename="src/Libraries/2D/Source/GR/grdbm.h" />
+		<Unit filename="src/Libraries/2D/Source/GR/grdev.h" />
+		<Unit filename="src/Libraries/2D/Source/GR/grgbm.h" />
+		<Unit filename="src/Libraries/2D/Source/GR/grhbm.h" />
+		<Unit filename="src/Libraries/2D/Source/GR/grilin.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/GR/grlin.h" />
+		<Unit filename="src/Libraries/2D/Source/GR/grmalloc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/GR/grmalloc.h" />
+		<Unit filename="src/Libraries/2D/Source/GR/grnull.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/GR/grnull.h" />
+		<Unit filename="src/Libraries/2D/Source/GR/grp24.h" />
+		<Unit filename="src/Libraries/2D/Source/GR/grpix.h" />
+		<Unit filename="src/Libraries/2D/Source/GR/grply.h" />
+		<Unit filename="src/Libraries/2D/Source/GR/grrect.h" />
+		<Unit filename="src/Libraries/2D/Source/GR/grrend.h" />
+		<Unit filename="src/Libraries/2D/Source/GR/grs.h" />
+		<Unit filename="src/Libraries/2D/Source/GR/grstate.h" />
+		<Unit filename="src/Libraries/2D/Source/GR/gruilin.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Gen/genbox.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Gen/genchfl8.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Gen/gencirc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Gen/genclin.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Gen/gencnv.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Gen/gencwlin.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Gen/gendisk.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Gen/genel.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Gen/genel.h" />
+		<Unit filename="src/Libraries/2D/Source/Gen/general.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Gen/general.h" />
+		<Unit filename="src/Libraries/2D/Source/Gen/genf24.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Gen/genfl8.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Gen/genfl8c.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Gen/gengfl8.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Gen/genhfl8.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Gen/genhlin.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Gen/genlin.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Gen/genmono.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Gen/genov.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Gen/genov.h" />
+		<Unit filename="src/Libraries/2D/Source/Gen/genpix.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Gen/genrect.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Gen/genrsd8.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Gen/genrsdbm.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Gen/genrsdtm.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Gen/genslin.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Gen/gente.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Gen/gente.h" />
+		<Unit filename="src/Libraries/2D/Source/Gen/gentf.h" />
+		<Unit filename="src/Libraries/2D/Source/Gen/gentl8.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Gen/gentm.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Gen/genuclin.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Gen/genuhlin.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Gen/genulin.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Gen/genuslin.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Gen/genuvlin.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Gen/genvcply.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Gen/genvlin.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Gen/genvpoly.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Gen/genvrect.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Gen/genwclin.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/Gen/genwlin.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/MacDev.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/MacDev.h" />
+		<Unit filename="src/Libraries/2D/Source/RSD/RSDUnpack.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/RSD/rsd.h" />
+		<Unit filename="src/Libraries/2D/Source/RSD/rsdcvt.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/RSD/rsdunpck.h" />
+		<Unit filename="src/Libraries/2D/Source/StateStk.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/bit.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/bit.h" />
+		<Unit filename="src/Libraries/2D/Source/bitmap.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/bitmap.h" />
+		<Unit filename="src/Libraries/2D/Source/blend.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/blend.h" />
+		<Unit filename="src/Libraries/2D/Source/blncon.h" />
+		<Unit filename="src/Libraries/2D/Source/blndat.h" />
+		<Unit filename="src/Libraries/2D/Source/blnfcn.h" />
+		<Unit filename="src/Libraries/2D/Source/buffer.h" />
+		<Unit filename="src/Libraries/2D/Source/canvas.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/canvas.h" />
+		<Unit filename="src/Libraries/2D/Source/chain.h" />
+		<Unit filename="src/Libraries/2D/Source/close.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/close.h" />
+		<Unit filename="src/Libraries/2D/Source/cnvdat.h" />
+		<Unit filename="src/Libraries/2D/Source/cnvdrv.h" />
+		<Unit filename="src/Libraries/2D/Source/cnvtab.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/cnvtab.h" />
+		<Unit filename="src/Libraries/2D/Source/context.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/context.h" />
+		<Unit filename="src/Libraries/2D/Source/ctxmac.h" />
+		<Unit filename="src/Libraries/2D/Source/detect.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/detect.h" />
+		<Unit filename="src/Libraries/2D/Source/devtab.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/devtab.h" />
+		<Unit filename="src/Libraries/2D/Source/fcntab.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/fcntab.h" />
+		<Unit filename="src/Libraries/2D/Source/fill.h" />
+		<Unit filename="src/Libraries/2D/Source/icanvas.h" />
+		<Unit filename="src/Libraries/2D/Source/idevice.h" />
+		<Unit filename="src/Libraries/2D/Source/ifcn.h" />
+		<Unit filename="src/Libraries/2D/Source/init.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/init_2D.h" />
+		<Unit filename="src/Libraries/2D/Source/initint.h" />
+		<Unit filename="src/Libraries/2D/Source/line.h" />
+		<Unit filename="src/Libraries/2D/Source/linfcn.h" />
+		<Unit filename="src/Libraries/2D/Source/lintab.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/lintab.h" />
+		<Unit filename="src/Libraries/2D/Source/lintyp.h" />
+		<Unit filename="src/Libraries/2D/Source/mode.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/mode.h" />
+		<Unit filename="src/Libraries/2D/Source/pal.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/pal.h" />
+		<Unit filename="src/Libraries/2D/Source/permap.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/persetup.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/pertol.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/pertol.h" />
+		<Unit filename="src/Libraries/2D/Source/pertyp.h" />
+		<Unit filename="src/Libraries/2D/Source/pixfill.h" />
+		<Unit filename="src/Libraries/2D/Source/pixtab.h" />
+		<Unit filename="src/Libraries/2D/Source/plytyp.h" />
+		<Unit filename="src/Libraries/2D/Source/poly.h" />
+		<Unit filename="src/Libraries/2D/Source/polyint.h" />
+		<Unit filename="src/Libraries/2D/Source/rgb.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/rgb.h" />
+		<Unit filename="src/Libraries/2D/Source/scrdat.h" />
+		<Unit filename="src/Libraries/2D/Source/screen.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/screen.h" />
+		<Unit filename="src/Libraries/2D/Source/scrmac.h" />
+		<Unit filename="src/Libraries/2D/Source/sscrn.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/state.h" />
+		<Unit filename="src/Libraries/2D/Source/status_2D.h" />
+		<Unit filename="src/Libraries/2D/Source/string/chr.h" />
+		<Unit filename="src/Libraries/2D/Source/string/chrsiz.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/string/genchr.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/string/genstr.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/string/genuchr.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/string/genustr.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/string/str.h" />
+		<Unit filename="src/Libraries/2D/Source/string/strnsiz.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/string/strscl.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/string/strsiz.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/string/struscl.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/string/strwrap.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/svgainit.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/tabdat.h" />
+		<Unit filename="src/Libraries/2D/Source/tabdrv.h" />
+		<Unit filename="src/Libraries/2D/Source/tempbm.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/temptm.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/tlucdat.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/tlucdat.h" />
+		<Unit filename="src/Libraries/2D/Source/tluctab.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/tluctab.h" />
+		<Unit filename="src/Libraries/2D/Source/tmapfcn.h" />
+		<Unit filename="src/Libraries/2D/Source/tmapint.h" />
+		<Unit filename="src/Libraries/2D/Source/tmaps.h" />
+		<Unit filename="src/Libraries/2D/Source/tmaptab.h" />
+		<Unit filename="src/Libraries/2D/Source/valloc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/valloc.h" />
+		<Unit filename="src/Libraries/2D/Source/vesa.h" />
+		<Unit filename="src/Libraries/2D/Source/vtab.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/2D/Source/vtab.h" />
+		<Unit filename="src/Libraries/2D/Source/wire.h" />
+		<Unit filename="src/Libraries/3D/Source/3d.h" />
+		<Unit filename="src/Libraries/3D/Source/3dinterp.h" />
+		<Unit filename="src/Libraries/3D/Source/Bitmap.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/3D/Source/GlobalV.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/3D/Source/GlobalV.h" />
+		<Unit filename="src/Libraries/3D/Source/alloc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/3D/Source/clip.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/3D/Source/detail.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/3D/Source/fauxrend.h" />
+		<Unit filename="src/Libraries/3D/Source/fov.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/3D/Source/instance.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/3D/Source/interp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/3D/Source/light.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/3D/Source/matrix.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/3D/Source/points.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/3D/Source/polygon.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/3D/Source/slew.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/3D/Source/tmap.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/3D/Source/vector.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/AFILE/Source/afile.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/AFILE/Source/afile.h" />
+		<Unit filename="src/Libraries/AFILE/Source/amov.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/AFILE/Source/circbuff.h" />
+		<Unit filename="src/Libraries/AFILE/Source/compose.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/AFILE/Source/compose.h" />
+		<Unit filename="src/Libraries/AFILE/Source/draw4x4.cpp" />
+		<Unit filename="src/Libraries/AFILE/Source/draw4x4.h" />
+		<Unit filename="src/Libraries/AFILE/Source/huff.h" />
+		<Unit filename="src/Libraries/AFILE/Source/huffde.cpp" />
+		<Unit filename="src/Libraries/AFILE/Source/movie.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/AFILE/Source/movie.h" />
+		<Unit filename="src/Libraries/DSTRUCT/Source/array.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/DSTRUCT/Source/array.h" />
+		<Unit filename="src/Libraries/DSTRUCT/Source/hash.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/DSTRUCT/Source/hash.h" />
+		<Unit filename="src/Libraries/DSTRUCT/Source/pqueue.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/DSTRUCT/Source/pqueue.h" />
+		<Unit filename="src/Libraries/DSTRUCT/Source/rect.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/DSTRUCT/Source/rect.h" />
+		<Unit filename="src/Libraries/DSTRUCT/Source/slist.h" />
+		<Unit filename="src/Libraries/EDMS/Source/MODELS/d_f_2.cc" />
+		<Unit filename="src/Libraries/EDMS/Source/MODELS/d_f_face.cc" />
+		<Unit filename="src/Libraries/EDMS/Source/MODELS/d_frame.cc" />
+		<Unit filename="src/Libraries/EDMS/Source/MODELS/d_frame.h" />
+		<Unit filename="src/Libraries/EDMS/Source/MODELS/ftl.cc" />
+		<Unit filename="src/Libraries/EDMS/Source/MODELS/ftl.h" />
+		<Unit filename="src/Libraries/EDMS/Source/MODELS/ftlface.cc" />
+		<Unit filename="src/Libraries/EDMS/Source/MODELS/pelface.cc" />
+		<Unit filename="src/Libraries/EDMS/Source/MODELS/pelvis.cc" />
+		<Unit filename="src/Libraries/EDMS/Source/MODELS/pelvis.h" />
+		<Unit filename="src/Libraries/EDMS/Source/MODELS/robot.cc" />
+		<Unit filename="src/Libraries/EDMS/Source/MODELS/robot.h" />
+		<Unit filename="src/Libraries/EDMS/Source/collide.cc" />
+		<Unit filename="src/Libraries/EDMS/Source/edms.h" />
+		<Unit filename="src/Libraries/EDMS/Source/edms_chk.h" />
+		<Unit filename="src/Libraries/EDMS/Source/edms_int.h" />
+		<Unit filename="src/Libraries/EDMS/Source/edms_mod.h" />
+		<Unit filename="src/Libraries/EDMS/Source/externs.h" />
+		<Unit filename="src/Libraries/EDMS/Source/globals.cc" />
+		<Unit filename="src/Libraries/EDMS/Source/idof.h" />
+		<Unit filename="src/Libraries/EDMS/Source/interfac.cc" />
+		<Unit filename="src/Libraries/EDMS/Source/intrsect.cc" />
+		<Unit filename="src/Libraries/EDMS/Source/phy_tool.cc" />
+		<Unit filename="src/Libraries/EDMS/Source/physhand.h" />
+		<Unit filename="src/Libraries/EDMS/Source/soliton.cc" />
+		<Unit filename="src/Libraries/EDMS/Source/ss_flet.h" />
+		<Unit filename="src/Libraries/FIX/Source/MakeTables.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/FIX/Source/f_exp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/FIX/Source/fix.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/FIX/Source/fix.h" />
+		<Unit filename="src/Libraries/FIX/Source/fix_sqrt.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/FIX/Source/trigtab.h" />
+		<Unit filename="src/Libraries/FIXPP/Source/fixpp.cpp" />
+		<Unit filename="src/Libraries/FIXPP/Source/fixpp.h" />
+		<Unit filename="src/Libraries/H/2dres.h">
+			<Option compile="1" />
+		</Unit>
+		<Unit filename="src/Libraries/H/error.h">
+			<Option compile="1" />
+		</Unit>
+		<Unit filename="src/Libraries/H/keydefs.h">
+			<Option compile="1" />
+		</Unit>
+		<Unit filename="src/Libraries/H/lg_types.h">
+			<Option compile="1" />
+		</Unit>
+		<Unit filename="src/Libraries/INPUT/Source/amiga_events.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/INPUT/Source/amiga_events.h" />
+		<Unit filename="src/Libraries/INPUT/Source/kb.h" />
+		<Unit filename="src/Libraries/INPUT/Source/kbcook.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/INPUT/Source/kbcook.h" />
+		<Unit filename="src/Libraries/INPUT/Source/mouse.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/INPUT/Source/mouse.h" />
+		<Unit filename="src/Libraries/LG/Source/LOG/src/log.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/LG/Source/LOG/src/log.h" />
+		<Unit filename="src/Libraries/LG/Source/dbg.h" />
+		<Unit filename="src/Libraries/LG/Source/lg.h" />
+		<Unit filename="src/Libraries/LG/Source/memall.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/LG/Source/memall.h" />
+		<Unit filename="src/Libraries/LG/Source/stack.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/LG/Source/tmpalloc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/LG/Source/tmpalloc.h" />
+		<Unit filename="src/Libraries/PALETTE/Source/palette.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/PALETTE/Source/palette.h" />
+		<Unit filename="src/Libraries/RES/Source/caseless.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/RES/Source/lzw.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/RES/Source/lzw.h" />
+		<Unit filename="src/Libraries/RES/Source/refacc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/RES/Source/res.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/RES/Source/res.h" />
+		<Unit filename="src/Libraries/RES/Source/res_.h" />
+		<Unit filename="src/Libraries/RES/Source/resacc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/RES/Source/resbuild.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/RES/Source/resfile.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/RES/Source/resformat.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/RES/Source/resformat.h" />
+		<Unit filename="src/Libraries/RES/Source/resload.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/RES/Source/resmake.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/RES/Source/restypes.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/RES/Source/restypes.h" />
+		<Unit filename="src/Libraries/RND/Source/rnd.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/RND/Source/rnd.h" />
+		<Unit filename="src/Libraries/SND/Source/lgsndx.h" />
+		<Unit filename="src/Libraries/UI/Source/curdat.h" />
+		<Unit filename="src/Libraries/UI/Source/curdrw.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/UI/Source/cursors.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/UI/Source/cursors.h" />
+		<Unit filename="src/Libraries/UI/Source/curtyp.h" />
+		<Unit filename="src/Libraries/UI/Source/event.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/UI/Source/event.h" />
+		<Unit filename="src/Libraries/UI/Source/hotkey.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/UI/Source/hotkey.h" />
+		<Unit filename="src/Libraries/UI/Source/region.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/UI/Source/region.h" />
+		<Unit filename="src/Libraries/UI/Source/resgadg.h" />
+		<Unit filename="src/Libraries/UI/Source/slab.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/UI/Source/slab.h" />
+		<Unit filename="src/Libraries/UI/Source/vmouse.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/UI/Source/vmouse.h" />
+		<Unit filename="src/Libraries/VOX/Source/vox.h" />
+		<Unit filename="src/Libraries/VOX/Source/vox2d.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/VOX/Source/vox3d.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/VOX/Source/voxinit.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/MusicSrc/MusicDevice.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/MusicSrc/MusicDevice.h" />
+		<Extensions>
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
