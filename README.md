@@ -9,4 +9,4 @@ Also I think it can be built and then run on Windows as well as native AROS with
 
 The next release should be able to produce the executable for native AROS (x86-64 version) and hopefully have the audio support, too. Then the following step would be the porting on the classic Amiga AGA in the near future.
 
-For the usage and installation, following the instructions of Shockolate (https://github.com/Interrupt/systemshock), in particular the res folder should have the "data" and "sound" folders taken from the original assets.
+For the usage and installation, follow the instructions of Shockolate (https://github.com/Interrupt/systemshock), in particular the res folder should have the "data" and "sound" folders taken from the original assets.
