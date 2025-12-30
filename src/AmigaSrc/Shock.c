@@ -251,6 +251,21 @@ void SetPalette(int index, int count, uchar *pal) {
         opengl_change_palette();*/
 }
 
+ULONG savedPalette[256 * 3];
+
+void SavePalette()
+{
+    GetRGB32(pMainScreen->ViewPort.ColorMap, 0, 256, savedPalette);
+}
+
+void ResetPalette()
+{
+    for (int i = 0; i < 256; i ++)
+    {
+        SetRGB32(&(pMainScreen->ViewPort), i, savedPalette[i * 3], savedPalette[i * 3 + 1], savedPalette[i * 3 + 2]);
+    }
+}
+
 void ScreenDraw() {
     //GP
     /*if (should_opengl_swap()) {

@@ -54,7 +54,8 @@ dkms.conf
 # debug information files
 *.dwo
 
-bin/
+bin/Debug/
+bin/Release/
 obj/
 res/
 *.dat

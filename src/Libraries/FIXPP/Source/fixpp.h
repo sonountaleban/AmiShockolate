@@ -29,7 +29,9 @@ language.
 #ifndef __FIXPP_H
 #define __FIXPP_H
 
+#ifndef AMIGA
 #include <istream>
+#endif
 #include <cstdio>
 #include <cstdlib>
 
@@ -560,6 +562,7 @@ inline Fixpoint operator*=(double d, Fixpoint fp) { return Fixpoint(d) *= fp; }
 //
 // ======================================
 
+#ifndef AMIGA
 inline std::ostream &operator<<(std::ostream &os, const Fixpoint &fp) {
     os << fp.to_double();
 
@@ -575,6 +578,7 @@ inline std::istream &operator>>(std::istream &is, Fixpoint &fp) {
 
     return is;
 }
+#endif
 
 // ====================================================
 //

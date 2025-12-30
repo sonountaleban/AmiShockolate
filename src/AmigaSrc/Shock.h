@@ -36,6 +36,8 @@ int main(int argc, char **argv);
 
 void InitScreen();
 void SetPalette(int index, int count, uchar *pal);
+void SavePalette();
+void ResetPalette();
 void ScreenDraw();
 void CaptureMouse(bool capture);
 bool CheckArgument(char *name);

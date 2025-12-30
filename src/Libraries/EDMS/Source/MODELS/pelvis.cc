@@ -26,7 +26,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //	Seamus, Nov 2, 1993...
 //	========================
 
+#ifndef AMIGA
 #include <iostream>
+#endif
 ////#include <conio.h>
 #include "edms_int.h" //This is the object type library. It is universal.
 #include "idof.h"
@@ -778,7 +780,7 @@ bool EDMS_pelvis_is_climbing()
 {
     return pelvis_is_climbing;
 }
-    
+
 void EDMS_lean_o_meter(physics_handle ph, fix &lean, fix &crouch) {
 
     lean = crouch = 0;

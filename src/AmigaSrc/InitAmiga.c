@@ -67,6 +67,8 @@ void InitAmiga(void)
         exit(1);
     }
 
+    SavePalette();
+
     InstallShockTimers(); // needed for the tick pointer
 }
 
@@ -109,6 +111,8 @@ void CleanupAndExit(void)
 	TimerBase = 0;
 	pTimerIOReq = 0;
 	pTimerMsgPort = 0;
+
+	ResetPalette();
 
 	UnlockPubScreen(NULL, pMainScreen);
 

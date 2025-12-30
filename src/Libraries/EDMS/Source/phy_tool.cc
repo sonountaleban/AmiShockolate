@@ -27,7 +27,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 //	Get on with it then...
 //	======================
+#ifndef AMIGA
 #include <iostream>
+#endif
 #include "edms_int.h" //Object types, END conventions, etc.
 #include "idof.h"
 

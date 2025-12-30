@@ -740,6 +740,7 @@ uchar Ascii2Code[95] = {
 
 void pump_events(void) {
 #ifdef AMIGA
+    BOOL isMouseButtonDown = FALSE;
     BOOL shiftKeysPressed = FALSE;
     BOOL leftMousePressed = FALSE;
     BOOL rightMousePressed = FALSE;
@@ -748,6 +749,12 @@ void pump_events(void) {
     struct IntuiMessage *msg;
     while ((msg = (struct IntuiMessage *)GetMsg(pMainWindow->UserPort)))
     {
+        UBYTE ascii = 0;
+        UBYTE keyBuffer[8];
+        int maskedCode;
+        APTR *pEventPtr;
+        struct InputEvent inputEvent = {0};
+
         switch (msg->Class)
         {
             case IDCMP_CLOSEWINDOW:
@@ -762,7 +769,7 @@ void pump_events(void) {
                 break;
 
             case IDCMP_MOUSEBUTTONS:
-                bool down = (msg->Code == SELECTDOWN || msg->Code == MENUDOWN);
+                isMouseButtonDown = (msg->Code == SELECTDOWN || msg->Code == MENUDOWN);
 
                 mouseEvent.type = 0;
                 mouseEvent.buttons = 0;
@@ -771,10 +778,10 @@ void pump_events(void) {
 				{
                     case SELECTDOWN:
                     case SELECTUP:
-                        mouseEvent.type = down ? MOUSE_LDOWN : MOUSE_LUP;
-                        mouseEvent.buttons |= down ? (1 << MOUSE_LBUTTON) : 0;
+                        mouseEvent.type = isMouseButtonDown ? MOUSE_LDOWN : MOUSE_LUP;
+                        mouseEvent.buttons |= isMouseButtonDown ? (1 << MOUSE_LBUTTON) : 0;
 
-                        if (down)
+                        if (isMouseButtonDown)
                         {
                             leftMousePressed = TRUE;
                         }
@@ -783,10 +790,10 @@ void pump_events(void) {
 
                     case MENUDOWN:
                     case MENUUP:
-                        mouseEvent.type = down ? MOUSE_RDOWN : MOUSE_RUP;
-                        mouseEvent.buttons |= down ? (1 << MOUSE_RBUTTON) : 0;
+                        mouseEvent.type = isMouseButtonDown ? MOUSE_RDOWN : MOUSE_RUP;
+                        mouseEvent.buttons |= isMouseButtonDown ? (1 << MOUSE_RBUTTON) : 0;
 
-                        if (down)
+                        if (isMouseButtonDown)
                         {
                             rightMousePressed = TRUE;
                         }
@@ -850,11 +857,7 @@ void pump_events(void) {
                 break;
 
             case IDCMP_RAWKEY:
-                UBYTE ascii = 0;
-                UBYTE keyBuffer[8];
-                int maskedCode = msg->Code & 0x7f;
-                APTR *pEventPtr;
-                struct InputEvent inputEvent = {0};
+                maskedCode = msg->Code & 0x7f;
 
                 inputEvent.ie_Code = maskedCode;
                 inputEvent.ie_Qualifier = msg->Qualifier;

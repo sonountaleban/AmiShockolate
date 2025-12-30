@@ -23,7 +23,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //	Seamus, June 29, 1993...
 //	========================
 
+#ifndef AMIGA
 #include <iostream>
+#endif
 //#include <conio.h>
 #include "edms_int.h" //This is the object type library. It is universal.
 #include "idof.h"
