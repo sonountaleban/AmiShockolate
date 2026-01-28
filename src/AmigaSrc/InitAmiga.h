@@ -38,22 +38,26 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // How many tick passed since game startup
 extern uint32_t gShockTicks;
 
-// Pointer to screen
+// Pointer to main/primary frame buffer
 extern intptr_t *gScreenAddress;
 extern int32_t gScreenRowbytes;
-// Size of current window
-extern int32_t gScreenWide, gScreenHigh;
+// Physical and logical Sizes of the screen/window
+extern int32_t gPhysicalWidth;
+extern int32_t gPhysicalHeight;
+extern int32_t gLogicalWidth;
+extern int32_t gLogicalHeight;
 
 //--------------------
 //  Prototypes
 //--------------------
 
 /// Initialize Amiga stuff.
-void InitAmiga(void);
+void InitAmiga();
 
-void CleanupAndExit(void);
+void CleanupAndExit();
 
 /// Startup the SystemShock timer.
-void InstallShockTimers(void);
+void InstallShockTimers();
 
 ULONG GetMilliseconds();
+bool CanGetCurrentFPS();

@@ -23,9 +23,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "lg_types.h"
 
 // Globals
-extern UBYTE *mainScreenDrawSurface;
-extern UBYTE *offscreenDrawSurface;
-extern struct RastPort *pMainScreenRastPort;
+extern UBYTE *pPrimaryFrameBuffer;
+extern UBYTE *pSecondaryFrameBuffer;
+extern struct RastPort *pPrimaryFrameBufferRastPort;
 
 // Types
 typedef struct
@@ -41,11 +41,11 @@ typedef struct
 /// Change screen size.
 void ChangeScreenSize(int width, int height);
 
-/// Setup the window and screen bitmaps
-void SetupWindowAndScreenBitmaps(int width, int height);
+/// Setup the window, screen and bitmaps
+void SetupWindowScreenBitmaps(int width, int height);
 
-void CleanupWindow();
-void CleanupScreenBitmaps();
+void CleanupScreenAndWindow();
+void CleanupFrameBuffers();
 
 struct RastPort *CreateRastPort(int width, int height, struct BitMap *pFriendBitmap, BOOL displayable);
 void FreeRastPort(struct RastPort *rp);

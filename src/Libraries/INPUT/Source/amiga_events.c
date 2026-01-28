@@ -32,8 +32,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endif
 #include <OpenGL.h>
 
-extern int32_t gScreenWide, gScreenHigh;
+extern int32_t gPhysicalWidth;
+extern int32_t gPhysicalHeight;
+extern int32_t gLogicalWidth;
+extern int32_t gLogicalHeight;
 #ifdef AMIGA
+extern struct Screen *pMainScreen;
 extern struct Window *pMainWindow;
 #endif // AMIGA
 
@@ -575,21 +579,21 @@ int MouseChaosY;
 
 extern bool MouseCaptured;
 
-void SetMouseXY(int mx, int my) {
+void SetMouseXY(int mx, int my)
+{
+#ifdef AMIGA
+    float scaleX = (float)gPhysicalWidth / gLogicalWidth;
+    float scaleY = (float)gPhysicalHeight / gLogicalHeight;
+
+    MouseX = mx / scaleX;
+    MouseY = my / scaleY;
+#else
     int physical_width, physical_height;
     int w, h;
 
-#ifdef AMIGA
-    physical_width = gScreenWide;
-    physical_height = gScreenHigh;
-
-    w = gScreenWide;
-    h = gScreenHigh;
-#else
     SDL_GetWindowSize(window, &physical_width, &physical_height);
 
     SDL_RenderGetLogicalSize(renderer, &w, &h);
-#endif // AMIGA
 
     float scale_x = (float)physical_width / w;
     float scale_y = (float)physical_height / h;
@@ -604,11 +608,7 @@ void SetMouseXY(int mx, int my) {
     }
 
     bool inside = (mx >= x && mx < x + w && my >= y && my < y + h);
-#ifdef AMIGA
-    bool focus = TRUE;
-#else
     bool focus = (SDL_GetWindowFlags(window) & SDL_WINDOW_INPUT_FOCUS); //checking mouse focus isn't what we want here
-#endif // AMIGA
 
     if (!inside && focus) {
         if (mx < x)
@@ -626,9 +626,6 @@ void SetMouseXY(int mx, int my) {
         MouseY = my;
     }
 
-#ifdef AMIGA
-    ShowCursor(!focus || (!inside && !MouseCaptured));
-#else
     SDL_ShowCursor((!focus || (!inside && !MouseCaptured)) ? SDL_ENABLE : SDL_DISABLE);
 #endif // AMIGA
 }

@@ -51,5 +51,5 @@ extern bool gPlayingGame;
 
 extern grs_screen *cit_screen;
 extern struct Screen *pMainScreen;
-extern struct RastPort *pMainRastPort;
 extern struct Window *pMainWindow;
+extern struct RastPort *pMainWindowRastPort;

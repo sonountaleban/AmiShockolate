@@ -54,16 +54,23 @@ bool gPlayingGame;
 grs_screen *cit_screen;
 struct Screen *pMainScreen = NULL;
 struct Window *pMainWindow = NULL;
-struct RastPort *pMainRastPort = NULL;
+struct RastPort *pMainWindowRastPort = NULL;
 
 //GP
 //SDL_AudioDeviceID device;
 
+bool showFPS;
+bool dontWaitTOF;
 int num_args;
+int frames = 0;
+int fps = 0;
+float averageFPS = 0.0f;
+int maxFPS = 0;
 char **arg_values;
 
 extern grs_screen *svga_screen;
 extern frc *svga_render_context;
+extern bool fullscreenActive;
 
 //--------------------
 //  Prototypes
@@ -72,6 +79,8 @@ extern void init_all(void);
 extern void inv_change_fullscreen(uchar on);
 extern void object_data_flush(void);
 extern errtype load_da_palette(void);
+
+void ShowRecapFPS();
 
 // see Prefs.c
 extern void CreateDefaultKeybindsFile(void);
@@ -95,6 +104,7 @@ int main(int argc, char **argv) {
 
     // init Amiga stuff
     atexit(CleanupAndExit);
+    atexit(ShowRecapFPS);
     InitAmiga();
 
     // Initialize the preferences file.
@@ -108,7 +118,9 @@ int main(int argc, char **argv) {
     LoadMoveKeybinds();
 
     // Process some startup arguments
-    bool show_splash = !CheckArgument("-nosplash");
+    bool showSplash = !CheckArgument("NOSPLASH");
+    showFPS = CheckArgument("SHOWFPS");
+    dontWaitTOF = CheckArgument("DONTWAITTOF");
 
     // CC: Modding support! This is so exciting.
     ProcessModArgs(argc, argv);
@@ -124,7 +136,7 @@ int main(int argc, char **argv) {
 
     // Draw the splash screen
     INFO("Showing splash screen");
-    splash_draw(show_splash);
+    splash_draw(showSplash);
 
     // Start in the Main Menu loop
     _new_mode = _current_loop = SETUP_LOOP;
@@ -162,8 +174,8 @@ void InitScreen()
 
     INFO("Setting up screen and render contexts");
 
-    // Create the window and the bitmaps
-    SetupWindowAndScreenBitmaps(grd_cap->w, grd_cap->h);
+    // Create the window, the screen and the bitmaps
+    SetupWindowScreenBitmaps(grd_cap->w, grd_cap->h);
 
     // Setup the screen
     svga_screen = cit_screen = gr_alloc_screen(grd_cap->w, grd_cap->h);
@@ -266,7 +278,8 @@ void ResetPalette()
     }
 }
 
-void ScreenDraw() {
+void ScreenDraw()
+{
     //GP
     /*if (should_opengl_swap()) {
         // We want the UI background to be transparent!
@@ -279,30 +292,108 @@ void ScreenDraw() {
         sdlPalette->colors[255].a = 0xff;
         return;
     }*/
+    char fpsText[16];
 
-    // A ridiculous chunky to planar routine
-    UBYTE colours[8];       // 8 = number of pixels to process at each cycle
-    UBYTE *pBitmapSrc = mainScreenDrawSurface;
-    int indexDst = 0;
-    for (int indexSrc = 0; indexSrc < gScreenWide * gScreenHigh; indexSrc += 8, indexDst ++, pBitmapSrc += 8)
+    // On AROS this pointer doesn't exist
+    if (true/*GfxBase->ChunkyToPlanarPtr*/)
     {
-        *((ULONG *)colours) = *((ULONG *)pBitmapSrc);
-        *((ULONG *)colours + 1) = *((ULONG *)pBitmapSrc + 1);
-
-        // Fill all the 8 planes (2^8 = 256 colours)
-        for (int j = 0; j < 8; j ++)
+        WriteChunkyPixels(pPrimaryFrameBufferRastPort, 0, 0, gLogicalWidth, gLogicalHeight, pPrimaryFrameBuffer, gScreenRowbytes);
+    }
+    else
+    {
+        // A ridiculous chunky to planar routine
+        /*UBYTE colours[8];       // 8 = number of pixels to process at each cycle
+        UBYTE *pBitmapSrc = pPrimaryFrameBuffer;
+        int indexDst = 0;
+        for (int indexSrc = 0; indexSrc < gWindowWidth * gWindowHeight; indexSrc += 8, indexDst ++, pBitmapSrc += 8)
         {
-            UBYTE planes = 0;
-            for (int l = 0; l < 8; l ++)
-            {
-                planes |= ((colours[l] >> j) & 0x1) << (7 - l);
-            }
+            *((ULONG *)colours) = *((ULONG *)pBitmapSrc);
+            *((ULONG *)colours + 1) = *((ULONG *)pBitmapSrc + 1);
 
-            *((UBYTE *)pMainScreenRastPort->BitMap->Planes[j] + indexDst) = planes;
-        }
+            // Fill all the 8 planes (2^8 = 256 colours)
+            for (int j = 0; j < 8; j ++)
+            {
+                UBYTE planes = 0;
+                for (int l = 0; l < 8; l ++)
+                {
+                    planes |= ((colours[l] >> j) & 0x1) << (7 - l);
+                }
+
+                *((UBYTE *)pPrimaryFrameBufferRastPort->BitMap->Planes[j] + indexDst) = planes;
+            }
+        }*/
     }
 
-    BltBitMapRastPort(pMainScreenRastPort->BitMap, 0, 0, pMainRastPort, pMainWindow->BorderLeft, pMainWindow->BorderTop, gScreenWide, gScreenHigh, 0xc0);
+    if (fullscreenActive)
+    {
+        if (gPhysicalWidth == gLogicalWidth && gPhysicalHeight == gLogicalHeight)
+        {
+            BltBitMapRastPort(pPrimaryFrameBufferRastPort->BitMap, 0, 0, pMainWindowRastPort, 0, 0, gLogicalWidth, gLogicalHeight, 0xc0);
+        }
+        else
+        {
+            struct BitScaleArgs bms_args;
+
+            bms_args.bsa_SrcBitMap = pPrimaryFrameBufferRastPort->BitMap;
+            bms_args.bsa_DestBitMap = pMainWindowRastPort->BitMap;
+
+            bms_args.bsa_Flags = 0;
+
+            bms_args.bsa_SrcWidth = gLogicalWidth;
+            bms_args.bsa_SrcHeight = gLogicalHeight;
+
+            bms_args.bsa_SrcX = 0;
+            bms_args.bsa_SrcY = 0;
+            bms_args.bsa_DestX = 0;
+            bms_args.bsa_DestY = 0;
+            bms_args.bsa_XSrcFactor = gLogicalWidth;
+            bms_args.bsa_XDestFactor = gPhysicalWidth;
+            bms_args.bsa_YSrcFactor = gLogicalHeight;
+            bms_args.bsa_YDestFactor = gPhysicalHeight;
+
+            BitMapScale(&bms_args);
+        }
+    }
+    else
+    {
+        BltBitMapRastPort(pPrimaryFrameBufferRastPort->BitMap, 0, 0, pMainWindowRastPort, pMainWindow->BorderLeft, pMainWindow->BorderTop, gLogicalWidth, gLogicalHeight, 0xc0);
+    }
+
+    if (showFPS)
+    {
+        frames ++;
+
+        if (CanGetCurrentFPS())
+        {
+            fps = frames;
+            frames = 0;
+
+            if (fps > maxFPS)
+            {
+                maxFPS = fps;
+            }
+
+            averageFPS = (averageFPS + fps) / 2.0f;
+        }
+
+        sprintf(fpsText, "%d FPS", fps);
+        SetAPen(pMainWindowRastPort, 2);
+        Move(pMainWindowRastPort, pMainWindow->BorderLeft + pMainWindowRastPort->TxWidth, pMainWindow->BorderTop + pMainWindowRastPort->TxHeight);
+        Text(pMainWindowRastPort, fpsText, strlen(fpsText));
+    }
+
+    if (!dontWaitTOF)
+    {
+        WaitTOF();
+    }
+}
+
+void ShowRecapFPS()
+{
+    if (showFPS)
+    {
+        printf("Max FPS: %d, average FPS: %f\n\n", maxFPS, averageFPS);
+    }
 }
 
 bool MouseCaptured = FALSE;

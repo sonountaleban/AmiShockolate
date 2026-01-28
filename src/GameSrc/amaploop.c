@@ -186,7 +186,7 @@ void fsmap_startup(void) {
 
     // Get the graphics system setup for fullscreen drawing.
 #ifdef AMIGA
-    full_map_context = fr_place_view(FR_NEWVIEW, FR_DEFCAM, offscreenDrawSurface, FR_DOUBLEB_MASK | FR_WINDOWD_MASK, 0, 0, 0,
+    full_map_context = fr_place_view(FR_NEWVIEW, FR_DEFCAM, pSecondaryFrameBuffer, FR_DOUBLEB_MASK | FR_WINDOWD_MASK, 0, 0, 0,
                                      0, grd_screen_canvas->bm.w, grd_screen_canvas->bm.h);
 #else
     full_map_context = fr_place_view(FR_NEWVIEW, FR_DEFCAM, offscreenDrawSurface->pixels, FR_DOUBLEB_MASK | FR_WINDOWD_MASK, 0, 0, 0,

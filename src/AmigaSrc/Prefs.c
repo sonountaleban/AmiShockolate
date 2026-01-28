@@ -63,6 +63,7 @@ extern int _fr_global_detail;
 extern bool DoubleSize;
 extern bool SkipLines;
 extern short mode_id;
+extern bool fullscreenActive;
 
 extern uchar curr_vol_lev;
 extern uchar curr_sfx_vol;
@@ -77,6 +78,7 @@ static const char *PREF_MUSIC_VOL = "music-volume";
 static const char *PREF_SFX_VOL = "sfx-volume";
 static const char *PREF_ALOG_VOL = "alog-volume";
 static const char *PREF_VIDEOMODE = "video-mode";
+static const char *PREF_FULLSCREEN = "full-screen";
 static const char *PREF_HALFRES = "half-resolution";
 static const char *PREF_DETAIL = "detail";
 static const char *PREF_USE_OPENGL = "use-opengl";
@@ -117,6 +119,7 @@ void SetDefaultPrefs(void) {
     gShockPrefs.soSfxVolume = 100;
     gShockPrefs.soAudioLogVolume = 100;
     gShockPrefs.doVideoMode = 3;
+    gShockPrefs.doFullScreen = true;
     gShockPrefs.doResolution = 0; // High-res.
     gShockPrefs.doDetail = 3;     // Max detail.
     gShockPrefs.doUseOpenGL = false;
@@ -208,6 +211,9 @@ int16_t LoadPrefs(void) {
             int mode = atoi(value);
             if (mode >= 0 && mode <= 4)
                 gShockPrefs.doVideoMode = mode;
+        } else if (strcasecmp(key, PREF_FULLSCREEN) == 0) {
+            int fullScreen = atoi(value);
+            gShockPrefs.doFullScreen = fullScreen == 1;
         } else if (strcasecmp(key, PREF_HALFRES) == 0) {
             gShockPrefs.doResolution = is_true(value);
         } else if (strcasecmp(key, PREF_DETAIL) == 0) {
@@ -272,6 +278,7 @@ int16_t SavePrefs(void) {
     fprintf(f, "%s = %d\n", PREF_SFX_VOL, sfx_on ? curr_sfx_vol : 0);
     fprintf(f, "%s = %d\n", PREF_ALOG_VOL, curr_alog_vol);
     fprintf(f, "%s = %d\n", PREF_VIDEOMODE, mode_id);
+    fprintf(f, "%s = %d\n", PREF_FULLSCREEN, gShockPrefs.doFullScreen);
     fprintf(f, "%s = %s\n", PREF_HALFRES, DoubleSize ? "yes" : "no");
     fprintf(f, "%s = %d\n", PREF_DETAIL, _fr_global_detail);
     fprintf(f, "%s = %s\n", PREF_USE_OPENGL, gShockPrefs.doUseOpenGL ? "yes" : "no");
@@ -300,6 +307,7 @@ static void SetShockGlobals(void) {
     curr_alog_vol = gShockPrefs.soAudioLogVolume;
 
     mode_id = gShockPrefs.doVideoMode;
+    fullscreenActive = gShockPrefs.doFullScreen;
     DoubleSize = (gShockPrefs.doResolution == 1); // Set this True for low-res.
     SkipLines = gShockPrefs.doUseQD;
     _fr_global_detail = gShockPrefs.doDetail;

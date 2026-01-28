@@ -235,13 +235,16 @@
 
 1764543274 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/AmigaSrc/Xmi.h
 
-1767128251 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/AmigaSrc/InitAmiga.c
+1769636235 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/AmigaSrc/InitAmiga.c
+	<graphics/gfx.h>
+	<graphics/gfxmacros.h>
+	<proto/graphics.h>
 	"InitAmiga.h"
 	"Shock.h"
 	"ShockBitmap.h"
 	"shockolate_version.h"
 
-1767012071 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/AmigaSrc/InitAmiga.h
+1769636222 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/AmigaSrc/InitAmiga.h
 	<stdbool.h>
 	<time.h>
 	<proto/intuition.h>
@@ -256,14 +259,14 @@
 	<devices/timer.h>
 	"lg_types.h"
 
-1767128259 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/AmigaSrc/Shock.h
+1769556249 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/AmigaSrc/Shock.h
 	<stdbool.h>
 	"precompiled.h"
 
-1766786536 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/AmigaSrc/ShockBitmap.h
+1769558481 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/AmigaSrc/ShockBitmap.h
 	"lg_types.h"
 
-1767127258 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/Headers/shockolate_version.h
+1769034245 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/Headers/shockolate_version.h
 
 1764457656 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/AmigaSrc/Modding.c
 	"Modding.h"
@@ -379,7 +382,7 @@
 	"region.h"
 	"2d.h"
 
-1764546455 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/AmigaSrc/Prefs.h
+1769035977 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/AmigaSrc/Prefs.h
 	<stdbool.h>
 	"lg_types.h"
 
@@ -391,7 +394,7 @@
 1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/Headers/wares.h
 	"gamesys.h"
 
-1766839288 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/AmigaSrc/Prefs.c
+1769641337 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/AmigaSrc/Prefs.c
 	"Shock.h"
 	"Prefs.h"
 	"popups.h"
@@ -424,7 +427,7 @@
 
 1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/MusicSrc/MusicDevice.h
 
-1766786536 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/AmigaSrc/Shock.c
+1769637063 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/AmigaSrc/Shock.c
 	<math.h>
 	"InitAmiga.h"
 	"Modding.h"
@@ -461,7 +464,7 @@
 
 1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/Headers/version.h
 
-1766787070 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/AmigaSrc/ShockBitmap.c
+1769558498 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/AmigaSrc/ShockBitmap.c
 	"InitAmiga.h"
 	"Shock.h"
 	"ShockBitmap.h"
@@ -632,7 +635,7 @@
 
 1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/Headers/fredge.h
 
-1764890904 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/amaploop.c
+1769556297 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/amaploop.c
 	<string.h>
 	"ShockBitmap.h"
 	"amaploop.h"
@@ -1397,7 +1400,7 @@
 	"amaploop.h"
 	"lvldata.h"
 
-1764548450 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/fullscrn.c
+1769556331 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/fullscrn.c
 	"ShockBitmap.h"
 	"Prefs.h"
 	"amap.h"
@@ -4901,7 +4904,7 @@
 	<intuition/intuition.h>
 	<devices/timer.h>
 
-1767033240 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/INPUT/Source/amiga_events.c
+1769558481 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/INPUT/Source/amiga_events.c
 	"lg.h"
 	"kb.h"
 	"mouse.h"
@@ -6574,4 +6577,8 @@
 	<bits/types/locale_t.h>
 	<strings.h>
 	<bits/string_fortified.h>
+
+1648372320 /usr/include/axrt-4.0/graphics/gfxmacros.h
+	<exec/types.h>
+	<graphics/rastport.h>
 

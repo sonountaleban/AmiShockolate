@@ -30,19 +30,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "2d.h"
 #include "shockolate_version.h"
 
+extern bool fullscreenActive;
+
 //--------------------
 //  Globals
 //--------------------
-UBYTE *mainScreenDrawSurface = NULL;
-UBYTE *offscreenDrawSurface = NULL;
-ULONG mainScreenDrawSurfaceSize = 0;
-ULONG offscreenDrawSurfaceSize = 0;
-struct RastPort *pMainScreenRastPort = NULL;
+UBYTE *pPrimaryFrameBuffer = NULL;
+UBYTE *pSecondaryFrameBuffer = NULL;
+ULONG primaryFrameBufferSize = 0;
+ULONG secondaryFrameBufferSize = 0;
+struct RastPort *pPrimaryFrameBufferRastPort = NULL;
 
 void ChangeScreenSize(int width, int height)
 {
-    int deltaWidth = width - gScreenWide;
-    int deltaHeight = height - gScreenHigh;
+    int deltaWidth = width - gLogicalWidth;
+    int deltaHeight = height - gLogicalHeight;
 
     if (deltaWidth == 0 && deltaHeight == 0)
     {
@@ -53,9 +55,6 @@ void ChangeScreenSize(int width, int height)
 
     //GP
     //SDL_RenderClear(renderer);
-
-    extern bool fullscreenActive;
-    //GP
     //SDL_SetWindowFullscreen(window, fullscreenActive ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0);
     //SDL_SetWindowSize(window, width, height);
     //SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
@@ -63,30 +62,77 @@ void ChangeScreenSize(int width, int height)
 
     //SizeWindow(pMainWindow, deltaWidth, deltaHeight);
 
-    SetupWindowAndScreenBitmaps(width, height);
+    SetupWindowScreenBitmaps(width, height);
 }
 
 //------------------------------------------------------------------------------------
-//		Setup the window and screen bitmaps
+//		Setup the window, screen and bitmaps
 //------------------------------------------------------------------------------------
-void SetupWindowAndScreenBitmaps(int width, int height)
+void SetupWindowScreenBitmaps(int width, int height)
 {
     DEBUG("SetupWindowAndScreenBitmaps %i %i", width, height);
 
-    CleanupWindow();
+    CleanupScreenAndWindow();
 
-    static char window_title[128];
-    sprintf(window_title, "%s", SHOCKOLATE_VERSION);
+    static char windowTitle[128];
+    sprintf(windowTitle, "%s", SHOCKOLATE_VERSION);
 
-    pMainWindow = OpenWindowTags(NULL,
-                                 WA_Left, 0, WA_Top, 0,
-                                 WA_InnerWidth, width, WA_InnerHeight, height,
-                                 WA_IDCMP, IDCMP_CLOSEWINDOW | IDCMP_REFRESHWINDOW | IDCMP_MOUSEBUTTONS | IDCMP_MOUSEMOVE | IDCMP_RAWKEY,
-                                 WA_Flags, WFLG_DRAGBAR | WFLG_DEPTHGADGET | WFLG_CLOSEGADGET | WFLG_ACTIVATE | WFLG_SMART_REFRESH | WFLG_REPORTMOUSE,
-                                 WA_Title, window_title,
-                                 WA_RMBTrap, TRUE,
-                                 WA_PubScreenName, "Workbench",
-                                 TAG_DONE);
+    if (fullscreenActive)
+    {
+        pMainScreen = OpenScreenTags(NULL,
+                                     SA_Left, 0, SA_Top, 0, SA_Width, width, SA_Height, height, SA_Depth, 8,
+                                     SA_Type, CUSTOMSCREEN,
+                                     SA_ShowTitle, FALSE,
+                                     SA_Quiet, TRUE,
+                                     SA_Exclusive, TRUE,
+                                     SA_SysFont, 1,
+                                     TAG_DONE);
+        if (!pMainScreen)
+        {
+            ERROR("Failed to create the main screen");
+
+            exit(1);
+        }
+
+        gPhysicalWidth = pMainScreen->Width;
+        gPhysicalHeight = pMainScreen->Height;
+
+        pMainWindow = OpenWindowTags(NULL,
+                                     WA_Left, 0, WA_Top, 0, WA_Width, gPhysicalWidth, WA_Height, gPhysicalHeight,
+                                     WA_IDCMP, IDCMP_CLOSEWINDOW | IDCMP_REFRESHWINDOW | IDCMP_MOUSEBUTTONS | IDCMP_MOUSEMOVE | IDCMP_RAWKEY,
+                                     WA_Flags, WFLG_ACTIVATE | WFLG_SMART_REFRESH | WFLG_REPORTMOUSE | WFLG_BORDERLESS,
+                                     WA_RMBTrap, TRUE,
+                                     WA_CustomScreen, pMainScreen,
+                                     TAG_DONE);
+
+        gLogicalWidth = width;
+        gLogicalHeight = height;
+    }
+    else
+    {
+        pMainScreen = LockPubScreen("Workbench");
+        if (!pMainScreen)
+        {
+            ERROR("Unable to lock the Workbench screen");
+
+            exit(1);
+        }
+
+        SavePalette();
+
+        pMainWindow = OpenWindowTags(NULL,
+                                     WA_Left, 0, WA_Top, 0, WA_InnerWidth, width, WA_InnerHeight, height,
+                                     WA_IDCMP, IDCMP_CLOSEWINDOW | IDCMP_REFRESHWINDOW | IDCMP_MOUSEBUTTONS | IDCMP_MOUSEMOVE | IDCMP_RAWKEY,
+                                     WA_Flags, WFLG_DRAGBAR | WFLG_DEPTHGADGET | WFLG_CLOSEGADGET | WFLG_ACTIVATE | WFLG_SMART_REFRESH | WFLG_REPORTMOUSE,
+                                     WA_Title, windowTitle,
+                                     WA_RMBTrap, TRUE,
+                                     WA_PubScreenName, "Workbench",
+                                     TAG_DONE);
+
+        gPhysicalWidth = gLogicalWidth = width;
+        gPhysicalHeight = gLogicalHeight = height;
+    }
+
     if (!pMainWindow)
     {
         ERROR("Failed to create the main window");
@@ -94,73 +140,76 @@ void SetupWindowAndScreenBitmaps(int width, int height)
         exit(1);
     }
 
-    pMainRastPort = pMainWindow->RPort;
+    pMainWindowRastPort = pMainWindow->RPort;
 
-    CleanupScreenBitmaps();
+    CleanupFrameBuffers();
 
-    mainScreenDrawSurfaceSize = width * height;
-    mainScreenDrawSurface = AllocMem(mainScreenDrawSurfaceSize, MEMF_FAST);
-    if (!mainScreenDrawSurface)
+    primaryFrameBufferSize = gLogicalWidth * gLogicalHeight;
+    pPrimaryFrameBuffer = AllocMem(primaryFrameBufferSize, MEMF_ANY);
+    if (!pPrimaryFrameBuffer)
     {
-        ERROR("Failed to create the main screen bitmap - insufficient fast ram");
+        ERROR("Failed to create the primary frame buffer - insufficient memory");
 
         exit(1);
     }
 
-    offscreenDrawSurfaceSize = width * height;
-    offscreenDrawSurface = AllocMem(offscreenDrawSurfaceSize, MEMF_FAST);
-    if (!offscreenDrawSurface)
+    secondaryFrameBufferSize = primaryFrameBufferSize;
+    pSecondaryFrameBuffer = AllocMem(secondaryFrameBufferSize, MEMF_ANY);
+    if (!pSecondaryFrameBuffer)
     {
-        ERROR("Failed to create the offscreen bitmap - insufficient fast ram");
+        ERROR("Failed to create the secondary frame buffer - insufficient memory");
 
         exit(1);
     }
 
-    pMainScreenRastPort = CreateRastPort(width, height, NULL, FALSE);
-    if (!pMainScreenRastPort)
+    pPrimaryFrameBufferRastPort = CreateRastPort(gLogicalWidth, gLogicalHeight, pMainWindowRastPort->BitMap, FALSE);
+    if (!pPrimaryFrameBufferRastPort)
     {
-        ERROR("Failed to create the main screen rastport");
+        ERROR("Failed to create the primary frame buffer rastport");
 
         exit(1);
     }
-
-    gScreenWide = width;
-    gScreenHigh = height;
 
     // Point the renderer at the screen bytes
-    gScreenRowbytes = width;
-    gScreenAddress = mainScreenDrawSurface;
+    gScreenRowbytes = gLogicalWidth;
+    gScreenAddress = pPrimaryFrameBuffer;
 
     grd_mode_cap.vbase = gScreenAddress;
 }
 
-void CleanupWindow()
+void CleanupScreenAndWindow()
 {
     if (pMainWindow)
     {
         CloseWindow(pMainWindow);
         pMainWindow = NULL;
     }
+
+    if (fullscreenActive)
+    {
+        CloseScreen(pMainScreen);
+        pMainScreen = NULL;
+    }
 }
 
-void CleanupScreenBitmaps()
+void CleanupFrameBuffers()
 {
-    if (pMainScreenRastPort)
+    if (pPrimaryFrameBufferRastPort)
     {
-        FreeRastPort(pMainScreenRastPort);
-        pMainScreenRastPort = NULL;
+        FreeRastPort(pPrimaryFrameBufferRastPort);
+        pPrimaryFrameBufferRastPort = NULL;
     }
 
-    if (mainScreenDrawSurface)
+    if (pPrimaryFrameBuffer)
     {
-        FreeMem(mainScreenDrawSurface, mainScreenDrawSurfaceSize);
-        mainScreenDrawSurface = NULL;
+        FreeMem(pPrimaryFrameBuffer, primaryFrameBufferSize);
+        pPrimaryFrameBuffer = NULL;
     }
 
-    if (offscreenDrawSurface)
+    if (pSecondaryFrameBuffer)
     {
-        FreeMem(offscreenDrawSurface, offscreenDrawSurfaceSize);
-        offscreenDrawSurface = NULL;
+        FreeMem(pSecondaryFrameBuffer, secondaryFrameBufferSize);
+        pSecondaryFrameBuffer = NULL;
     }
 }
 

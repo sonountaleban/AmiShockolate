@@ -24,16 +24,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //--------------------
 //  Includes
 //--------------------
+#include <graphics/gfx.h>
+#include <graphics/gfxmacros.h>
+#include <proto/graphics.h>
 #include "InitAmiga.h"
 #include "Shock.h"
 #include "ShockBitmap.h"
 #include "shockolate_version.h"
 
+extern bool fullscreenActive;
+
 //  Globals
 
 intptr_t *gScreenAddress = NULL;
 int32_t gScreenRowbytes;
-int32_t gScreenWide, gScreenHigh;
+int32_t gPhysicalWidth;
+int32_t gPhysicalHeight;
+int32_t gLogicalWidth;
+int32_t gLogicalHeight;
 
 //  Time Manager routines and globals
 
@@ -44,35 +52,39 @@ struct MsgPort *pTimerMsgPort = NULL;
 struct timerequest *pTimerIOReq = NULL;
 struct Library *TimerBase;
 struct timeval startTime;
+struct timeval startTimeFPS;
 
+extern struct GfxBase *GfxBase;
 struct Library *KeymapBase = NULL;
 
-void InitAmiga(void)
+void InitAmiga()
 {
     INFO("Starting %s", SHOCKOLATE_VERSION);
+
+    GfxBase = (struct GfxBase *)OpenLibrary("graphics.library", 40);
+    if (!GfxBase)
+    {
+    	ERROR("Unable to open graphics.library v40+");
+
+        exit(1);
+    }
+    /*if (GfxBase->ChunkyToPlanarPtr)
+    {
+        INFO("Found chunky-to-planar hardware");
+    }*/
 
     KeymapBase = OpenLibrary("keymap.library", 37);
     if (!KeymapBase)
     {
-        ERROR("Unable to open keymap.library");
+        ERROR("Unable to open keymap.library v37+");
 
         exit(1);
     }
-
-    pMainScreen = LockPubScreen("Workbench");
-    if (!pMainScreen)
-    {
-        ERROR("Unable to lock the Workbench screen");
-
-        exit(1);
-    }
-
-    SavePalette();
 
     InstallShockTimers(); // needed for the tick pointer
 }
 
-void InstallShockTimers(void)
+void InstallShockTimers()
 {
     pTimerMsgPort = CreateMsgPort();
 	pTimerIOReq = CreateIORequest(pTimerMsgPort, sizeof(struct MsgPort));
@@ -83,6 +95,7 @@ void InstallShockTimers(void)
 			TimerBase = (APTR)pTimerIOReq->tr_node.io_Device;
 
 			GetSysTime(&startTime);
+			GetSysTime(&startTimeFPS);
 
 			gShockTicks = 0;
             tmd_ticks = &gShockTicks;
@@ -96,11 +109,11 @@ void InstallShockTimers(void)
 	exit(1);
 }
 
-void CleanupAndExit(void)
+void CleanupAndExit()
 {
-	CleanupScreenBitmaps();
+	CleanupFrameBuffers();
 
-	CleanupWindow();
+	CleanupScreenAndWindow();
 
 	if (TimerBase)
     {
@@ -112,11 +125,15 @@ void CleanupAndExit(void)
 	pTimerIOReq = 0;
 	pTimerMsgPort = 0;
 
-	ResetPalette();
+	if (!fullscreenActive)
+    {
+        ResetPalette();
 
-	UnlockPubScreen(NULL, pMainScreen);
+        UnlockPubScreen(NULL, pMainScreen);
+    }
 
 	CloseLibrary(KeymapBase);
+	CloseLibrary((struct Library *)GfxBase);
 }
 
 ULONG GetMilliseconds()
@@ -126,5 +143,22 @@ ULONG GetMilliseconds()
 	GetSysTime(&endTime);
 	SubTime(&endTime, &startTime);
 
-	return (endTime.tv_secs * 1000 + endTime.tv_micro / 1000);
+	return endTime.tv_secs * 1000 + endTime.tv_micro / 1000;
+}
+
+bool CanGetCurrentFPS()
+{
+    struct timeval endTime;
+
+	GetSysTime(&endTime);
+	SubTime(&endTime, &startTimeFPS);
+
+	if (endTime.tv_secs * 1000 + endTime.tv_micro / 1000 >= 1000)
+    {
+        GetSysTime(&startTimeFPS);
+
+        return true;
+    }
+
+    return false;
 }
