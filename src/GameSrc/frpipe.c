@@ -248,16 +248,30 @@ void do_seen_pass(void) {
  */
 void draw_dir_dir(int dir, int st, int len) {
     short dmm = diag_map_moves[dir], dmx = diag_moves[dir][0], dmy = diag_moves[dir][1];
+
+    // MORPHOS FIX: Validate dir parameter
+    if (dir < 0 || dir > 3) {
+        return;
+    }
+
     if (st != 0) {
         _fdt_mptr += dmm * st;
         _fdt_x += dmx * st;
         _fdt_y += dmy * st;
     }
-    while (len-- > 0) {
-        if ((_fdt_x >= 0) && (_fdt_x < fr_map_x) && (_fdt_y >= 0) && (_fdt_y < fr_map_y))
+
+    // MORPHOS FIX: Limit loop iterations to prevent runaway
+    int max_iter = len > 100 ? 100 : len;
+    while (max_iter-- > 0 && len-- > 0) {
+        if ((_fdt_x >= 0) && (_fdt_x < fr_map_x) && (_fdt_y >= 0) && (_fdt_y < fr_map_y)) {
+            // MORPHOS FIX: Validate pointer is within map bounds
+            MapElem *map_end = fr_map_base + (fr_map_x * fr_map_y);
+            if (_fdt_mptr >= fr_map_base && _fdt_mptr < map_end) {
             if (me_subclip(_fdt_mptr) != SUBCLIP_OUT_OF_CONE) {
                 dumb_hack_for_now(_fdt_x, _fdt_y);
                 fr_draw_tile();
+                }
+            }
             }
         _fdt_mptr += dmm;
         _fdt_x += dmx;
@@ -284,14 +298,31 @@ int fr_pipe_go_3(void) {
     int i, j, p_dir; // p_dir is how many per diagonal element
     uchar *loc_code_ptr, *quad_order;
     short clip_len[4]; // , clip_contrib[4];
-    MapElem *endcaps[4], *center = MAP_GET_XY(_fr_x_cen, _fr_y_cen);
+    MapElem *endcaps[4], *center;
+    MapElem *map_end;
 
     // printf("  pipedist %d center %x %x\n",frpipe_dist,_fr_x_cen,_fr_y_cen);
+    if (fr_map_base == NULL || fr_map_x <= 0 || fr_map_y <= 0) {
+        _fr_ret;
+    }
 
     //   mprintf("\npipedist %d center %x %x\n",frpipe_dist,_fr_x_cen,_fr_y_cen);
+    if (_fr_x_cen < 0 || _fr_x_cen >= fr_map_x || _fr_y_cen < 0 || _fr_y_cen >= fr_map_y) {
+        _fr_ret;
+    }
+
+    map_end = fr_map_base + (fr_map_x * fr_map_y);
+    center = MAP_GET_XY(_fr_x_cen, _fr_y_cen);
+
+    // MORPHOS FIX: Validate center pointer
+    if (center < fr_map_base || center >= map_end) {
+        _fr_ret;
+    }
+
     fr_rend_start();
-    if ((_fr_curflags & FR_HACKCAM_MASK) == 0)
+    if ((_fr_curflags & FR_HACKCAM_MASK) == 0) {
         do_seen_pass();
+    }
 
     // use clip len as temp for delta within the square
     clip_len[0] = (short)((fr_camera_last[0] & 0xffff) - 0x8000);
@@ -339,6 +370,10 @@ int fr_pipe_go_3(void) {
             _fdt_x = _fr_x_cen + (diag_stupid[j][0] * _fdt_dist);
             _fdt_y = _fr_y_cen + (diag_stupid[j][1] * _fdt_dist);
             _fdt_mptr = endcaps[j];
+
+            // MORPHOS FIX: Only render if pointer is within map bounds
+            // but ALWAYS update clip_len and endcaps to keep iteration in sync
+            if (_fdt_mptr >= fr_map_base && _fdt_mptr < map_end) {
             if (clip_len[j] < 0) {
                 if (me_subclip(_fdt_mptr) != SUBCLIP_OUT_OF_CONE) {
                     _fdt_mask = (int)*loc_code_ptr; // the endcap
@@ -360,6 +395,8 @@ int fr_pipe_go_3(void) {
                 _fdt_mask = (int)*loc_code_ptr;
                 draw_dir_dir(diag_dirsets[j][1], 1, p_dir - 1);
             }
+            }
+            // Always update these to keep iteration in sync
             clip_len[j]--;
             endcaps[j] -= wall_adds[j];
         }
@@ -374,6 +411,8 @@ int fr_pipe_go_3(void) {
                 _fdt_y = _fr_y_cen + (diag_moves[j][1] * d_dist);
                 if ((_fdt_x >= 0) && (_fdt_x < fr_map_x) && (_fdt_y >= 0) && (_fdt_y < fr_map_y)) {
                     _fdt_mptr = center + diag_map_moves[j] * d_dist;
+                    // MORPHOS FIX: Validate pointer bounds
+                    if (_fdt_mptr < fr_map_base || _fdt_mptr >= map_end) continue;
                     if (me_subclip(_fdt_mptr) != SUBCLIP_OUT_OF_CONE) {
                         _fdt_mask = quad_code_to_mask_2[(j * QUAD2_DELTA) + QUAD2_LEFT_FORK];
                         dumb_hack_for_now(_fdt_x, _fdt_y);

@@ -28,6 +28,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <stdbool.h>
 #include "precompiled.h"
+#ifdef USE_SDL
+#include <SDL/SDL.h>
+#endif // USE_SDL
 
 //--------------------
 //  Function Prototypes
@@ -50,6 +53,11 @@ bool CheckArgument(char *name);
 extern bool gPlayingGame;
 
 extern grs_screen *cit_screen;
+#ifdef USE_SDL
+extern struct SDL_Surface *pMainScreen;
+#else
 extern struct Screen *pMainScreen;
 extern struct Window *pMainWindow;
 extern struct RastPort *pMainWindowRastPort;
+#endif // USE_SDL
+

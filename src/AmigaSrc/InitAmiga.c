@@ -24,9 +24,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //--------------------
 //  Includes
 //--------------------
+#ifdef USE_SDL
+#include <SDL/SDL.h>
+#else
 #include <graphics/gfx.h>
 #include <graphics/gfxmacros.h>
 #include <proto/graphics.h>
+#endif // USE_SDL
 #include "InitAmiga.h"
 #include "Shock.h"
 #include "ShockBitmap.h"
@@ -48,6 +52,9 @@ int32_t gLogicalHeight;
 uint32_t gShockTicks;
 uint32_t *tmd_ticks = NULL;
 
+#ifdef USE_SDL
+Uint32 startTimeFPS;
+#else
 struct MsgPort *pTimerMsgPort = NULL;
 struct timerequest *pTimerIOReq = NULL;
 struct Library *TimerBase;
@@ -56,11 +63,20 @@ struct timeval startTimeFPS;
 
 extern struct GfxBase *GfxBase;
 struct Library *KeymapBase = NULL;
+#endif // USE_SDL
 
 void InitAmiga()
 {
     INFO("Starting %s", SHOCKOLATE_VERSION);
 
+#ifdef USE_SDL
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_AUDIO) < 0)
+    {
+        DEBUG("%s: Init SDL failed", __FUNCTION__);
+    }
+
+    SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
+#else
     GfxBase = (struct GfxBase *)OpenLibrary("graphics.library", 40);
     if (!GfxBase)
     {
@@ -80,41 +96,55 @@ void InitAmiga()
 
         exit(1);
     }
+#endif
 
     InstallShockTimers(); // needed for the tick pointer
 }
 
 void InstallShockTimers()
 {
+#ifdef USE_SDL
+    gShockTicks = 0;
+    tmd_ticks = &gShockTicks;
+#else
     pTimerMsgPort = CreateMsgPort();
-	pTimerIOReq = CreateIORequest(pTimerMsgPort, sizeof(struct MsgPort));
-	if (pTimerIOReq)
+    if (pTimerMsgPort)
     {
-		if (OpenDevice(TIMERNAME, UNIT_VBLANK, (APTR)pTimerIOReq, 0) == 0)
-		{
-			TimerBase = (APTR)pTimerIOReq->tr_node.io_Device;
+        pTimerIOReq = CreateIORequest(pTimerMsgPort, sizeof(struct MsgPort));
+        if (pTimerIOReq)
+        {
+            if (OpenDevice(TIMERNAME, UNIT_VBLANK, (APTR)pTimerIOReq, 0) == 0)
+            {
+                TimerBase = (APTR)pTimerIOReq->tr_node.io_Device;
 
-			GetSysTime(&startTime);
-			GetSysTime(&startTimeFPS);
+                GetSysTime(&startTime);
+                GetSysTime(&startTimeFPS);
 
-			gShockTicks = 0;
-            tmd_ticks = &gShockTicks;
+                gShockTicks = 0;
+                tmd_ticks = &gShockTicks;
 
-			return;
-		}
-	}
+                return;
+            }
+        }
+    }
 
 	ERROR("Unable to init the timers");
 
 	exit(1);
+#endif // USE_SDL
 }
 
 void CleanupAndExit()
 {
+    gPlayingGame = false;
+
 	CleanupFrameBuffers();
 
 	CleanupScreenAndWindow();
 
+#ifdef USE_SDL
+    SDL_Quit();
+#else
 	if (TimerBase)
     {
 		CloseDevice((APTR)pTimerIOReq);
@@ -134,8 +164,15 @@ void CleanupAndExit()
 
 	CloseLibrary(KeymapBase);
 	CloseLibrary((struct Library *)GfxBase);
+#endif
 }
 
+#ifdef USE_SDL
+Uint32 GetMilliseconds()
+{
+    return SDL_GetTicks();
+}
+#else
 ULONG GetMilliseconds()
 {
 	struct timeval endTime;
@@ -145,9 +182,19 @@ ULONG GetMilliseconds()
 
 	return endTime.tv_secs * 1000 + endTime.tv_micro / 1000;
 }
+#endif // USE_SDL
 
 bool CanGetCurrentFPS()
 {
+#ifdef USE_SDL
+    Uint32 endTime = GetMilliseconds();
+    if (endTime - startTimeFPS >= 1000)
+    {
+        startTimeFPS = GetMilliseconds();
+
+        return true;
+    }
+#else
     struct timeval endTime;
 
 	GetSysTime(&endTime);
@@ -159,6 +206,7 @@ bool CanGetCurrentFPS()
 
         return true;
     }
+#endif // USE_SDL
 
     return false;
 }

@@ -151,10 +151,12 @@ void score_objs(int o_num) {
             our_score = score_list[draw_last_cnt];
             if (our_score & PRT_MASK) {
                 int i = 0;
-                while (i < partition_cnt)
+                while (i < partition_cnt) {  // MORPHOS FIX: added braces and i++ to fix infinite loop
                     if (partition_loc[i] == draw_last_cnt) {
                         partition_loc[i] = o_num;
                         break;
+                    }
+                    i++;
                     }
                 if (i == partition_cnt)
                     WARN("%s: lost my partition", __FUNCTION__);

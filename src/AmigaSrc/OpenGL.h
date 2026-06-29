@@ -46,8 +46,9 @@ static bool use_opengl() { return false; }
 static void toggle_opengl() {}
 static void opengl_resize(int width, int height) {}
 static bool should_opengl_swap() { return false; }
-//GP
-//static void opengl_swap_and_restore(SDL_Surface *ui) {}
+#ifndef __AROS__
+static void opengl_swap_and_restore(SDL_Surface *ui) {}
+#endif
 static void opengl_change_palette() {}
 
 static void opengl_set_viewport(int x, int y, int width, int height) {}

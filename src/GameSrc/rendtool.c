@@ -203,9 +203,11 @@ uchar game_obj_block_home(void *vmptr, uchar *_sclip, int *loc) {
     Obj *cobj;
     ObjID cobjid;
     ObjRefID curORef;
+    int iter_count = 0;  // MORPHOS FIX: prevent infinite loop
+    const int MAX_ITER = 2000;
 
     curORef = mptr->objRef;
-    while (curORef != OBJ_REF_NULL) {
+    while (curORef != OBJ_REF_NULL && iter_count++ < MAX_ITER) {
         cobjid = objRefs[curORef].obj;
         if (ObjProps[OPNUM(cobjid)].flags & RENDER_BLOCK) { // if we are a block type object
             cobj = &objs[cobjid];
@@ -259,12 +261,14 @@ uchar game_obj_block(void *vmptr, uchar *_sclip, int *loc) {
     Obj *cobj;
     ObjID cobjid;
     ObjRefID curORef;
+    int iter_count = 0;  // MORPHOS FIX: prevent infinite loop
+    const int MAX_ITER = 2000;
 
     if ((home_ptr == mptr) || (((loc[0] >> 16) == _fr_x_cen) || ((loc[1] >> 16) == _fr_y_cen)))
         return game_obj_block_home(vmptr, _sclip, loc);
 
     curORef = mptr->objRef;
-    while (curORef != OBJ_REF_NULL) {
+    while (curORef != OBJ_REF_NULL && iter_count++ < MAX_ITER) {
         cobjid = objRefs[curORef].obj;
         if (ObjProps[OPNUM(cobjid)].flags & RENDER_BLOCK) { // if we are a block type object
             cobj = &objs[cobjid];

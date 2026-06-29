@@ -1828,7 +1828,11 @@ static fix _tfunc_nrm[3], _tfunc_rpts[3];
 static int _tfunc_flg;
 
 int do_fc_trans(fix *xy, fix *sc, fix *vals) {
-    int rm = fix_div(fix_1, sc[0]);
+    // MORPHOS FIX: Protect against division by zero when normal Z component is zero
+    // This can happen with extreme camera angles
+    fix divisor = sc[0];
+    if (divisor == 0) divisor = 1;  // Prevent crash, use minimal value
+    int rm = fix_div(fix_1, divisor);
     vals[0] = fix_mul(xy[0], sc[0]) + fix_mul(xy[1], -sc[1]);
     vals[1] = fix_mul(xy[0], sc[1]) + fix_mul(xy[1], sc[0]);
     //   mprintf("dft: from %x %x and %x %x stores %x %x, rm %x\n",xy[0],xy[1],sc[0],sc[1],vals[0],vals[1],rm);

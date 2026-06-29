@@ -1,5 +1,4 @@
 #include "MusicDevice.h"
-#ifndef AMIGA
 #include <stdlib.h>
 #include <string.h>
 #ifdef WIN32
@@ -21,8 +20,11 @@
 #endif
 #ifdef __APPLE__
 #include <SDL.h>
+#elifdef __AROS__
+#ifdef USE_SDL
+#include <SDL/SDL.h>
 #endif
-#endif // AMIGA
+#endif
 
 //------------------------------------------------------------------------------
 // Dummy MIDI player
@@ -190,16 +192,17 @@ static int AdlMidiInit(MusicDevice *dev, const unsigned int outputIndex, unsigne
 {
     AdlMidiDevice *adev = (AdlMidiDevice *)dev;
     if (!adev || adev->dev.isOpen) return 0;
-    //GP
-    /*struct ADL_MIDIPlayer *adl = adl_init(samplerate);
+
+#ifdef USE_SDL
+    struct ADL_MIDIPlayer *adl = adl_init(samplerate);
 
     adl_switchEmulator(adl, ADLMIDI_EMU_NUKED_174);
     adl_setNumChips(adl, 1);
     adl_setVolumeRangeModel(adl, ADLMIDI_VolumeModel_AUTO);
     adl_setRunAtPcmRate(adl, 1);
 
-    adev->adl = adl;*/
-
+    adev->adl = adl;
+#endif
     adev->dev.isOpen = 1;
     adev->dev.outputIndex = outputIndex;
 
@@ -210,111 +213,122 @@ static void AdlMidiDestroy(MusicDevice *dev)
 {
     AdlMidiDevice *adev = (AdlMidiDevice *)dev;
     if (!adev) return;
+#ifdef USE_SDL
     if (adev->dev.isOpen)
     {
-        //GP
-        //adl_close(adev->adl);
+        adl_close(adev->adl);
     }
+#endif
     free(adev);
 }
 
 static void AdlMidiSetupMode(MusicDevice *dev, MusicMode mode)
 {
+#ifdef USE_SDL
     AdlMidiDevice *adev = (AdlMidiDevice *)dev;
     if (!adev || !adev->dev.isOpen) return;
 
     //Use sound bank 45 for res/sound/sblaster, 0 for res/sound/genmidi
-    //GP
-    //adl_setBank(adev->adl, (mode == Music_SoundBlaster) ? 45 : 0);
+    adl_setBank(adev->adl, (mode == Music_SoundBlaster) ? 45 : 0);
+#endif
 }
 
 static void AdlMidiReset(MusicDevice *dev)
 {
+#ifdef USE_SDL
     AdlMidiDevice *adev = (AdlMidiDevice *)dev;
     if (!adev || !adev->dev.isOpen) return;
 
-    //GP
-    //adl_reset(adev->adl);
+    adl_reset(adev->adl);
+#endif
 }
 
 static void AdlMidiGenerate(MusicDevice *dev, short *samples, int numframes)
 {
+#ifdef USE_SDL
     AdlMidiDevice *adev = (AdlMidiDevice *)dev;
     if (!adev || !adev->dev.isOpen) return;
 
     const int numSamples = numframes * 2;
-    //GP
-    //adl_generate(adev->adl, numSamples, samples);
+    adl_generate(adev->adl, numSamples, samples);
     // ugly hack: libadlmidi has quiet output, so double all values
     short *sample = samples;
     for (int i = 0; i < numSamples; ++i, ++sample)
     {
         *sample *= 2;
     }
+#endif
 }
 
 static void AdlMidiSendNoteOff(MusicDevice *dev, int channel, int note, int vel)
 {
+#ifdef USE_SDL
     AdlMidiDevice *adev = (AdlMidiDevice *)dev;
     if (!adev || !adev->dev.isOpen) return;
 
-    //GP
-    //adl_rt_noteOff(adev->adl, channel, note);
+    adl_rt_noteOff(adev->adl, channel, note);
     (void)vel;
+#endif
 }
 
 static void AdlMidiSendNoteOn(MusicDevice *dev, int channel, int note, int vel)
 {
+#ifdef USE_SDL
     AdlMidiDevice *adev = (AdlMidiDevice *)dev;
     if (!adev || !adev->dev.isOpen) return;
 
-    //GP
-    //adl_rt_noteOn(adev->adl, channel, note, vel);
+    adl_rt_noteOn(adev->adl, channel, note, vel);
+#endif
 }
 
 static void AdlMidiSendNoteAfterTouch(MusicDevice *dev, int channel, int note, int touch)
 {
+#ifdef USE_SDL
     AdlMidiDevice *adev = (AdlMidiDevice *)dev;
     if (!adev || !adev->dev.isOpen) return;
 
-    //GP
-    //adl_rt_noteAfterTouch(adev->adl, channel, note, touch);
+    adl_rt_noteAfterTouch(adev->adl, channel, note, touch);
+#endif
 }
 
 static void AdlMidiSendControllerChange(MusicDevice *dev, int channel, int ctl, int val)
 {
+#ifdef USE_SDL
     AdlMidiDevice *adev = (AdlMidiDevice *)dev;
     if (!adev || !adev->dev.isOpen) return;
 
-    //GP
-    //adl_rt_controllerChange(adev->adl, channel, ctl, val);
+    adl_rt_controllerChange(adev->adl, channel, ctl, val);
+#endif
 }
 
 static void AdlMidiSendProgramChange(MusicDevice *dev, int channel, int pgm)
 {
+#ifdef USE_SDL
     AdlMidiDevice *adev = (AdlMidiDevice *)dev;
     if (!adev || !adev->dev.isOpen) return;
 
-    //GP
-    //adl_rt_patchChange(adev->adl, channel, pgm);
+    adl_rt_patchChange(adev->adl, channel, pgm);
+#endif
 }
 
 static void AdlMidiSendChannelAfterTouch(MusicDevice *dev, int channel, int touch)
 {
+#ifdef USE_SDL
     AdlMidiDevice *adev = (AdlMidiDevice *)dev;
     if (!adev || !adev->dev.isOpen) return;
 
-    //GP
-    //adl_rt_channelAfterTouch(adev->adl, channel, touch);
+    adl_rt_channelAfterTouch(adev->adl, channel, touch);
+#endif
 }
 
 static void AdlMidiSendPitchBendML(MusicDevice *dev, int channel, int msb, int lsb)
 {
+#ifdef USE_SDL
     AdlMidiDevice *adev = (AdlMidiDevice *)dev;
     if (!adev || !adev->dev.isOpen) return;
 
-    //GP
-    //adl_rt_pitchBendML(adev->adl, channel, msb, lsb);
+    adl_rt_pitchBendML(adev->adl, channel, msb, lsb);
+#endif
 }
 
 static unsigned int AdlMidiGetOutputCount(MusicDevice *dev)

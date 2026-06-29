@@ -29,11 +29,11 @@ language.
 #ifndef __FIXPP_H
 #define __FIXPP_H
 
-#ifndef AMIGA
+#ifndef __AROS__
 #include <istream>
+#include <cstdlib>
 #endif
 #include <cstdio>
-#include <cstdlib>
 
 extern "C" {
 //#include "mprintf.h"
@@ -220,7 +220,9 @@ class Fixpoint {
     static void report_on(void) { click_bool = 1; }
     static void report_off(void) { click_bool = 0; }
 
+#ifndef __AROS__
     static void report(std::ostream &);
+#endif
     static void report(void);
     static void reset_report(void);
 
@@ -562,7 +564,7 @@ inline Fixpoint operator*=(double d, Fixpoint fp) { return Fixpoint(d) *= fp; }
 //
 // ======================================
 
-#ifndef AMIGA
+#ifndef __AROS__
 inline std::ostream &operator<<(std::ostream &os, const Fixpoint &fp) {
     os << fp.to_double();
 
@@ -692,7 +694,18 @@ inline void fsincos(Fixpoint ang, Fixpoint *sn, Fixpoint *cs) {
 inline Fixpoint abs(Fixpoint fp) {
     Fixpoint ans;
 
+#ifdef __AROS__
+    if (fp.val < 0)
+    {
+        ans.val = -fp.val;
+    }
+    else
+    {
+        ans.val = fp.val;
+    }
+#else
     ans.val = labs(fp.val);
+#endif
 
     return ans;
 }

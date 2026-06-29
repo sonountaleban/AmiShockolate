@@ -649,10 +649,12 @@ uint32_t mouse_get_time(void) {
 // For Mac version:  Use Mac routines to get mouse position and state.
 
 static void ReadMouseState(mouse_state *pMouseState) {
-#ifdef AMIGA
+#ifdef __AROS__
+
     pMouseState->x = 0;
     pMouseState->y = 0;
     pMouseState->butts = 0;
+
 #else
     int mouse_x;
     int mouse_y;
@@ -675,7 +677,7 @@ static void ReadMouseState(mouse_state *pMouseState) {
             pMouseState->x = regs.w.cx;
             pMouseState->y = regs.w.dx;
             pMouseState->butts = regs.w.bx; */
-#endif // AMIGA
+#endif
 }
 
 /*
@@ -760,3 +762,39 @@ errtype mouse_get_velocity(int* x, int* y)
    return OK;
 }
 */
+
+// GP: On AROS better don't use the relative mouse: while on narive AROS it works (at least using SDL 1.2),
+// on hosted AROS and AXRT it doesn't
+#ifdef __AROS__
+#ifdef USE_SDL
+bool SDL_GetRelativeMouseMode()
+{
+    // 1. Check if the mouse cursor is hidden
+    int cursor_state = SDL_ShowCursor(SDL_QUERY);
+
+    // 2. Check if the mouse input is grabbed by the window
+    SDL_GrabMode grab_state = SDL_WM_GrabInput(SDL_GRAB_QUERY);
+
+    // If it is both hidden and grabbed, relative mode is essentially ON
+    return (cursor_state == SDL_DISABLE && grab_state == SDL_GRAB_ON);
+}
+
+void SDL_SetRelativeMouseMode(bool enabled)
+{
+    if (enabled)
+    {
+        // Hide the mouse cursor
+        SDL_ShowCursor(SDL_DISABLE);
+        // Trap the mouse inside the application window boundaries
+        SDL_WM_GrabInput(SDL_GRAB_ON);
+    }
+    else
+    {
+        // Restore normal mouse behavior
+        SDL_ShowCursor(SDL_ENABLE);
+        // Release the mouse from the window boundaries
+        SDL_WM_GrabInput(SDL_GRAB_OFF);
+    }
+}
+#endif
+#endif

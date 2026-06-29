@@ -28,11 +28,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef __LGSNDX_H
 #define __LGSNDX_H
 
-#ifdef AMIGA
-
+#ifdef __AROS__
+#ifdef USE_SDL
+#include <SDL/SDL_mixer.h>
+#endif
 #else
 #include <SDL_mixer.h>
-#endif // AMIGA
+#endif
 
 //#include <QuickTimeComponents.h>
 //#include <Sound.h>

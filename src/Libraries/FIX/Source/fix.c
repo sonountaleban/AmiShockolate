@@ -105,7 +105,11 @@ fix fix_mul_3_16_20(fix a, fix b) { return (fix)(((int64_t)(a) * (int64_t)(b)) >
 
 fix fix_mul_16_32_20(fix a, fix b) { return (fix)(((int64_t)(a) * (int64_t)(b)) >> 4); }
 
-fix fix_div_16_16_3(fix a, fix b) { return (fix)(((int64_t)a << 29) / (int64_t)b); }
+fix fix_div_16_16_3(fix a, fix b) {
+    // MORPHOS FIX: Protect against division by zero
+    if (b == 0) return (a >= 0) ? 0x7FFFFFFF : -0x7FFFFFFF;
+    return (fix)(((int64_t)a << 29) / (int64_t)b);
+}
 
 int gOVResult;
 
@@ -160,6 +164,8 @@ fix fix_div(fix a, fix b) {
 //    return (fix)(((int64_t)(a) << 16) / (int64_t)(b));
 //}
 fix fix_div_int(fix a, fix b) {
+    // MORPHOS FIX: Protect against division by zero
+    if (b == 0) return (a >= 0) ? 0x7FFFFFFF : -0x7FFFFFFF;
     int64_t r64 = ((int64_t)(a) << 16) / (int64_t)(b);
     int32_t r32 = (int32_t)((r64 >> 16) & 0xFFFFFFFF);
     return r32;
@@ -170,6 +176,8 @@ fix fix_div_int(fix a, fix b) {
 //    return (fix)(((int64_t)(a) << 16) / (int64_t)(b));
 //}
 fix fix_div_safe_cint(fix a, fix b) {
+    // MORPHOS FIX: Protect against division by zero
+    if (b == 0) return (a >= 0) ? 0x7FFFFFFF : -0x7FFFFFFF;
     int64_t r64 = ((int64_t)(a) << 16) / (int64_t)(b);
     int32_t r32 = (int32_t)((r64 >> 16) & 0xFFFFFFFF);
     if ((r64 & 0xFFFF) != 0) {

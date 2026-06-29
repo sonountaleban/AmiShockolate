@@ -73,9 +73,9 @@ size_t DG_strlcat(char *dst, const char *src, size_t dstsize) {
 #ifndef _WIN32
 
 #include <dirent.h>
-#ifndef AMIGA
+#ifndef __AROS__
 #include <unistd.h>
-#endif // AMIGA
+#endif
 
 static int check_and_append_pathelem(char dirbuf[PATH_MAX], const char *elem) {
     DIR *basedir = opendir(dirbuf);

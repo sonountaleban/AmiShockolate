@@ -253,15 +253,19 @@ int do_tmap_tile(g3s_phandle upperleft, g3s_vector *u_vec, g3s_vector *v_vec, in
         fix blah3;
 
         tempHand = *(src++);
-        a = fix_div(tempHand->gX, tempHand->gZ);
-        b = fix_div(tempHand->gY, tempHand->gZ);
+        // MORPHOS FIX: Protect against division by zero
+        fix safe_gZ = (tempHand->gZ == 0) ? 1 : tempHand->gZ;
+        a = fix_div(tempHand->gX, safe_gZ);
+        b = fix_div(tempHand->gY, safe_gZ);
 
         blah1 = fix_mul(warp[0], a) + fix_mul(warp[1], b) + warp[2];
         blah2 = fix_mul(warp[3], a) + fix_mul(warp[4], b) + warp[5];
         blah3 = fix_mul(warp[6], a) + fix_mul(warp[7], b) + warp[8];
 
-        tempHand->uv.u = fix_div(blah1, blah3) >> 8;
-        tempHand->uv.v = fix_div(blah2, blah3) >> 8;
+        // MORPHOS FIX: Protect against division by zero
+        fix safe_blah3 = (blah3 == 0) ? 1 : blah3;
+        tempHand->uv.u = fix_div(blah1, safe_blah3) >> 8;
+        tempHand->uv.v = fix_div(blah2, safe_blah3) >> 8;
         tempHand->p3_flags |= PF_U | PF_V;
     }
 
@@ -588,6 +592,8 @@ int draw_tmap_common(int n, g3s_phandle *vp, grs_bitmap *bm) {
         if (!branch_to_copy) // fix Z
         {
             temp = temphand->gZ;
+            // MORPHOS FIX: Protect against division by zero
+            if (temp == 0) temp = 1;
             cur_vert->w = fix_div(0x010000, temp); // 1/Z
         }
     }

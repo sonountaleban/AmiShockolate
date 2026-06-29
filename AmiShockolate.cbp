@@ -6,19 +6,21 @@
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
-			<Target title="Debug">
-				<Option output="bin/Debug/AmiShockolate" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/Debug/" />
+			<Target title="Debug_AxRT">
+				<Option output="bin/Debug_AxRT/AmiShockolate" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug_AxRT/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Option parameters="SHOWFPS" />
+				<Option projectCompilerOptionsRelation="2" />
 				<Compiler>
 					<Add option="-std=c99" />
 					<Add option="-fPIC" />
 					<Add option="-m64" />
 					<Add option="-g" />
 					<Add option="-specs=/usr/lib/x86_64-linux-gnu/axrt-4.0/axrt.specs" />
-					<Add option="-DDEBUG" />
+					<Add option="-D_DEBUG" />
+					<Add option="-D__AROS__" />
 					<Add directory="/usr/include/axrt-4.0" />
 				</Compiler>
 				<Linker>
@@ -29,17 +31,19 @@
 					<Add directory="/usr/lib/x86_64-linux-gnu/axrt-4.0" />
 				</Linker>
 			</Target>
-			<Target title="Release">
-				<Option output="bin/Release/AmiShockolate" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/Release/" />
+			<Target title="Release_AxRT">
+				<Option output="bin/Release_AxRT/AmiShockolate" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release_AxRT/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
+				<Option projectCompilerOptionsRelation="2" />
 				<Compiler>
-					<Add option="-O1" />
+					<Add option="-O" />
 					<Add option="-std=c99" />
 					<Add option="-fPIC" />
 					<Add option="-m64" />
 					<Add option="-specs=/usr/lib/x86_64-linux-gnu/axrt-4.0/axrt.specs" />
+					<Add option="-D__AROS__" />
 					<Add directory="/usr/include/axrt-4.0" />
 				</Compiler>
 				<Linker>
@@ -56,22 +60,51 @@
 				<Option object_output="obj/Debug_AROS/" />
 				<Option type="1" />
 				<Option compiler="aros_gnu_gcc_compiler" />
-				<Option projectCompilerOptionsRelation="0" />
+				<Option projectCompilerOptionsRelation="2" />
 				<Compiler>
+					<Add option="-std=c++11" />
+					<Add option="-std=c99" />
 					<Add option="-g" />
-					<Add option="-DDEBUG" />
+					<Add option="-D_DEBUG" />
+					<Add option="-DUSE_SDL" />
+					<Add option="-DUSE_SDL_MIXER" />
+					<Add option="-DSVGA_SUPPORT" />
+					<Add option="-D__AROS__" />
 				</Compiler>
+				<Linker>
+					<Add option="-lSDL" />
+					<Add option="-lSDL_mixer" />
+					<Add option="-lmikmod" />
+					<Add option="-lvorbisfile" />
+					<Add option="-lvorbis" />
+					<Add option="-lvorbisenc" />
+					<Add option="-logg" />
+				</Linker>
 			</Target>
 			<Target title="Release_AROS">
 				<Option output="bin/Release_AROS/AmiShockolate" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release_AROS/" />
 				<Option type="1" />
 				<Option compiler="aros_gnu_gcc_compiler" />
+				<Option projectCompilerOptionsRelation="2" />
 				<Compiler>
-					<Add option="-O1" />
+					<Add option="-O" />
+					<Add option="-std=c++11" />
+					<Add option="-std=c99" />
+					<Add option="-DUSE_SDL" />
+					<Add option="-DUSE_SDL_MIXER" />
+					<Add option="-DSVGA_SUPPORT" />
+					<Add option="-D__AROS__" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
+					<Add option="-lSDL" />
+					<Add option="-lSDL_mixer" />
+					<Add option="-lmikmod" />
+					<Add option="-lvorbisfile" />
+					<Add option="-lvorbis" />
+					<Add option="-lvorbisenc" />
+					<Add option="-logg" />
 				</Linker>
 			</Target>
 		</Build>
@@ -79,9 +112,11 @@
 			<Add option="-Wall" />
 			<Add option="-fsigned-char" />
 			<Add option="-fno-strict-aliasing" />
+			<Add option="-Wno-unused-function" />
+			<Add option="-Wno-unused-variable" />
+			<Add option="-Wno-unused-but-set-variable" />
 			<Add option="-D__TIMER_STDLIBBASE__" />
 			<Add option="-D__STDC_LIMIT_MACROS" />
-			<Add option="-DAMIGA" />
 			<Add directory="src/Libraries/3D/Source" />
 			<Add directory="src/Libraries/INPUT/Source" />
 			<Add directory="src/Libraries/AFILE/Source" />
@@ -120,6 +155,15 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/AmigaSrc/AmigaTune.h" />
+		<Unit filename="src/AmigaSrc/CustomAudioStream.c">
+			<Option compilerVar="CC" />
+			<Option target="Debug_AROS" />
+			<Option target="Release_AROS" />
+		</Unit>
+		<Unit filename="src/AmigaSrc/CustomAudioStream.h">
+			<Option target="Debug_AROS" />
+			<Option target="Release_AROS" />
+		</Unit>
 		<Unit filename="src/AmigaSrc/InitAmiga.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -1382,6 +1426,10 @@
 		<Unit filename="src/Libraries/H/lg_types.h">
 			<Option compile="1" />
 		</Unit>
+		<Unit filename="src/Libraries/H/sdl_atomic.h">
+			<Option target="Debug_AROS" />
+			<Option target="Release_AROS" />
+		</Unit>
 		<Unit filename="src/Libraries/INPUT/Source/amiga_events.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -1405,6 +1453,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/Libraries/LG/Source/memall.h" />
+		<Unit filename="src/Libraries/LG/Source/memtracker.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="src/Libraries/LG/Source/stack.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -1498,6 +1549,153 @@
 		</Unit>
 		<Unit filename="src/Libraries/VOX/Source/voxinit.c">
 			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Libraries/adlmidi/adldata.cpp">
+			<Option target="Debug_AROS" />
+			<Option target="Release_AROS" />
+		</Unit>
+		<Unit filename="src/Libraries/adlmidi/adldata.hh">
+			<Option target="Debug_AROS" />
+			<Option target="Release_AROS" />
+		</Unit>
+		<Unit filename="src/Libraries/adlmidi/adlmidi.cpp">
+			<Option target="Debug_AROS" />
+			<Option target="Release_AROS" />
+		</Unit>
+		<Unit filename="src/Libraries/adlmidi/adlmidi_bankmap.h">
+			<Option target="Debug_AROS" />
+			<Option target="Release_AROS" />
+		</Unit>
+		<Unit filename="src/Libraries/adlmidi/adlmidi_load.cpp">
+			<Option target="Debug_AROS" />
+			<Option target="Release_AROS" />
+		</Unit>
+		<Unit filename="src/Libraries/adlmidi/adlmidi_midiplay.cpp">
+			<Option target="Debug_AROS" />
+			<Option target="Release_AROS" />
+		</Unit>
+		<Unit filename="src/Libraries/adlmidi/adlmidi_opl3.cpp">
+			<Option target="Debug_AROS" />
+			<Option target="Release_AROS" />
+		</Unit>
+		<Unit filename="src/Libraries/adlmidi/adlmidi_private.cpp">
+			<Option target="Debug_AROS" />
+			<Option target="Release_AROS" />
+		</Unit>
+		<Unit filename="src/Libraries/adlmidi/adlmidi_private.hpp">
+			<Option target="Debug_AROS" />
+			<Option target="Release_AROS" />
+		</Unit>
+		<Unit filename="src/Libraries/adlmidi/adlmidi_ptr.hpp">
+			<Option target="Debug_AROS" />
+			<Option target="Release_AROS" />
+		</Unit>
+		<Unit filename="src/Libraries/adlmidi/adlmidi_sequencer.cpp">
+			<Option target="Debug_AROS" />
+			<Option target="Release_AROS" />
+		</Unit>
+		<Unit filename="src/Libraries/adlmidi/adlmidi_xmi2mid.hpp">
+			<Option target="Debug_AROS" />
+			<Option target="Release_AROS" />
+		</Unit>
+		<Unit filename="src/Libraries/adlmidi/chips/dosbox/dbopl.cpp">
+			<Option target="Debug_AROS" />
+			<Option target="Release_AROS" />
+		</Unit>
+		<Unit filename="src/Libraries/adlmidi/chips/dosbox/dbopl.h">
+			<Option target="Debug_AROS" />
+			<Option target="Release_AROS" />
+		</Unit>
+		<Unit filename="src/Libraries/adlmidi/chips/dosbox_opl3.cpp">
+			<Option target="Debug_AROS" />
+			<Option target="Release_AROS" />
+		</Unit>
+		<Unit filename="src/Libraries/adlmidi/chips/dosbox_opl3.h">
+			<Option target="Debug_AROS" />
+			<Option target="Release_AROS" />
+		</Unit>
+		<Unit filename="src/Libraries/adlmidi/chips/nuked/nukedopl3.c">
+			<Option compilerVar="CC" />
+			<Option target="Debug_AROS" />
+			<Option target="Release_AROS" />
+		</Unit>
+		<Unit filename="src/Libraries/adlmidi/chips/nuked/nukedopl3.h">
+			<Option target="Debug_AROS" />
+			<Option target="Release_AROS" />
+		</Unit>
+		<Unit filename="src/Libraries/adlmidi/chips/nuked/nukedopl3_174.c">
+			<Option compilerVar="CC" />
+			<Option target="Debug_AROS" />
+			<Option target="Release_AROS" />
+		</Unit>
+		<Unit filename="src/Libraries/adlmidi/chips/nuked/nukedopl3_174.h">
+			<Option target="Debug_AROS" />
+			<Option target="Release_AROS" />
+		</Unit>
+		<Unit filename="src/Libraries/adlmidi/chips/nuked_opl3.cpp">
+			<Option target="Debug_AROS" />
+			<Option target="Release_AROS" />
+		</Unit>
+		<Unit filename="src/Libraries/adlmidi/chips/nuked_opl3.h">
+			<Option target="Debug_AROS" />
+			<Option target="Release_AROS" />
+		</Unit>
+		<Unit filename="src/Libraries/adlmidi/chips/nuked_opl3_v174.cpp">
+			<Option target="Debug_AROS" />
+			<Option target="Release_AROS" />
+		</Unit>
+		<Unit filename="src/Libraries/adlmidi/chips/nuked_opl3_v174.h">
+			<Option target="Debug_AROS" />
+			<Option target="Release_AROS" />
+		</Unit>
+		<Unit filename="src/Libraries/adlmidi/chips/opl_chip_base.h">
+			<Option target="Debug_AROS" />
+			<Option target="Release_AROS" />
+		</Unit>
+		<Unit filename="src/Libraries/adlmidi/cvt_mus2mid.hpp">
+			<Option target="Debug_AROS" />
+			<Option target="Release_AROS" />
+		</Unit>
+		<Unit filename="src/Libraries/adlmidi/cvt_xmi2mid.hpp">
+			<Option target="Debug_AROS" />
+			<Option target="Release_AROS" />
+		</Unit>
+		<Unit filename="src/Libraries/adlmidi/file_reader.hpp">
+			<Option target="Debug_AROS" />
+			<Option target="Release_AROS" />
+		</Unit>
+		<Unit filename="src/Libraries/adlmidi/fraction.hpp">
+			<Option target="Debug_AROS" />
+			<Option target="Release_AROS" />
+		</Unit>
+		<Unit filename="src/Libraries/adlmidi/include/adlmidi.h">
+			<Option target="Debug_AROS" />
+			<Option target="Release_AROS" />
+		</Unit>
+		<Unit filename="src/Libraries/adlmidi/include/adlmidi.hpp">
+			<Option target="Debug_AROS" />
+			<Option target="Release_AROS" />
+		</Unit>
+		<Unit filename="src/Libraries/adlmidi/midi_sequencer.h">
+			<Option target="Debug_AROS" />
+			<Option target="Release_AROS" />
+		</Unit>
+		<Unit filename="src/Libraries/adlmidi/midi_sequencer.hpp">
+			<Option target="Debug_AROS" />
+			<Option target="Release_AROS" />
+		</Unit>
+		<Unit filename="src/Libraries/adlmidi/midi_sequencer_impl.hpp">
+			<Option target="Debug_AROS" />
+			<Option target="Release_AROS" />
+		</Unit>
+		<Unit filename="src/Libraries/adlmidi/wopl/wopl_file.c">
+			<Option compilerVar="CC" />
+			<Option target="Debug_AROS" />
+			<Option target="Release_AROS" />
+		</Unit>
+		<Unit filename="src/Libraries/adlmidi/wopl/wopl_file.h">
+			<Option target="Debug_AROS" />
+			<Option target="Release_AROS" />
 		</Unit>
 		<Unit filename="src/MusicSrc/MusicDevice.c">
 			<Option compilerVar="CC" />

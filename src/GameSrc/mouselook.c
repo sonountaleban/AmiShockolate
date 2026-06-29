@@ -35,8 +35,12 @@ extern uchar game_paused;
 extern short mouseInstantX, mouseInstantY;
 extern int32_t eye_mods[3];
 
+#ifdef USE_SDL
+extern struct SDL_Surface *pMainScreen;
+#else
 extern bool GetRelativeMouseMode();
 extern void SetRelativeMouseMode(bool set);
+#endif
 
 void middleize_mouse(void);
 void get_mouselook_vel(int *vx, int *vy);
@@ -77,51 +81,78 @@ void mouse_look_physics() {
 
 bool TriggerRelMouseMode = FALSE;
 
-void mouse_look_toggle(void) {
+void mouse_look_toggle(void)
+{
     mlook_enabled = !mlook_enabled;
 
-    if (mlook_enabled) {
-        //GP
-        //SDL_SetRelativeMouseMode(SDL_TRUE);
+    // GP: On AROS better don't use the relative mouse: while on narive AROS it works (at least using SDL 1.2),
+    // on hosted AROS and AXRT it doesn't
+#ifdef USE_SDL
+    if (mlook_enabled)
+    {
+        //SDL_SetRelativeMouseMode(TRUE);
+
+        // throw away this first relative mouse reading
+        int mvelx, mvely;
+        get_mouselook_vel(&mvelx, &mvely);
+    }
+    else
+    {
+        SDL_SetRelativeMouseMode(FALSE);
+
+        /*Uint16 centerX = (Uint16)(pMainScreen->w / 2);
+        Uint16 centerY = (Uint16)(pMainScreen->h / 2);
+        SDL_WarpMouse(centerX, centerY);*/
+
+        TriggerRelMouseMode = TRUE;
+    }
+#else
+    if (mlook_enabled)
+    {
         SetRelativeMouseMode(TRUE);
 
         // throw away this first relative mouse reading
         int mvelx, mvely;
         get_mouselook_vel(&mvelx, &mvely);
-    } else {
-        //GP
-        /*SDL_SetRelativeMouseMode(SDL_FALSE);
-
-        int w, h;
-        SDL_GetWindowSize(window, &w, &h);
-        SDL_WarpMouseInWindow(window, w / 2, h / 2);*/
+    }
+    else
+    {
         SetRelativeMouseMode(FALSE);
 
         TriggerRelMouseMode = TRUE;
     }
+#endif // USE_SDL
 }
 
-void mouse_look_off(void) {
-    if (mlook_enabled) {
+void mouse_look_off(void)
+{
+    if (mlook_enabled)
+    {
         mlook_enabled = FALSE;
 
-        //GP
-        /*SDL_SetRelativeMouseMode(SDL_FALSE);
+#ifdef USE_SDL
+        SDL_SetRelativeMouseMode(FALSE);
 
-        int w, h;
-        SDL_GetWindowSize(window, &w, &h);
-        SDL_WarpMouseInWindow(window, w / 2, h / 2);*/
+        /*Uint16 centerX = (Uint16)(pMainScreen->w / 2);
+        Uint16 centerY = (Uint16)(pMainScreen->h / 2);
+        SDL_WarpMouse(centerX, centerY);*/
+#else
         SetRelativeMouseMode(FALSE);
+#endif // USE_SDL
 
         TriggerRelMouseMode = TRUE;
     }
 }
 
-void mouse_look_unpause(void) {
-    if (mlook_enabled) {
-        //GP
-        //SDL_SetRelativeMouseMode(SDL_TRUE);
+void mouse_look_unpause(void)
+{
+    if (mlook_enabled)
+    {
+#ifdef USE_SDL
+        //SDL_SetRelativeMouseMode(TRUE);
+#else
         SetRelativeMouseMode(TRUE);
+#endif // USE_SDL
 
         // throw away this first relative mouse reading
         int mvelx, mvely;

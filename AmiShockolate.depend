@@ -9,7 +9,8 @@
 	"lg_types.h"
 	"mlimbs.h"
 
-1767031276 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/H/lg_types.h
+1782341602 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/H/lg_types.h
+	<SDL/SDL.h>
 	<stdbool.h>
 	<proto/intuition.h>
 	<proto/gadtools.h>
@@ -59,7 +60,7 @@
 	"vmouse.h"
 	"vox.h"
 
-1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/2D/Source//2d.h
+1780873593 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/2D/Source//2d.h
 	"fix.h"
 	"GR/grs.h"
 	"plytyp.h"
@@ -112,7 +113,7 @@
 
 1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/DSTRUCT/Source/slist.h
 
-1764543562 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/EDMS/Source/edms.h
+1780874828 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/EDMS/Source/edms.h
 	<stdbool.h>
 	"fix.h"
 	"physhand.h"
@@ -126,7 +127,7 @@
 	"../RES/Source/res.h"
 	"../DSTRUCT/Source/rect.h"
 
-1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/2D/Source/2d.h
+1780873593 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/2D/Source/2d.h
 	"fix.h"
 	"GR/grs.h"
 	"plytyp.h"
@@ -175,7 +176,8 @@
 	"lg_types.h"
 	"fix.h"
 
-1764541203 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/SND/Source/lgsndx.h
+1782341601 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/SND/Source/lgsndx.h
+	<SDL/SDL_mixer.h>
 	<SDL_mixer.h>
 	"lg.h"
 
@@ -207,7 +209,7 @@
 	"error.h"
 	"array.h"
 
-1764543563 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/INPUT/Source/mouse.h
+1782644630 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/INPUT/Source/mouse.h
 	"lg.h"
 	"error.h"
 	<stdbool.h>
@@ -233,9 +235,11 @@
 
 1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/Headers/miscqvar.h
 
-1764543274 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/AmigaSrc/Xmi.h
+1781738522 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/AmigaSrc/Xmi.h
+	"sdl_atomic.h"
 
-1769636235 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/AmigaSrc/InitAmiga.c
+1782684693 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/AmigaSrc/InitAmiga.c
+	<SDL/SDL.h>
 	<graphics/gfx.h>
 	<graphics/gfxmacros.h>
 	<proto/graphics.h>
@@ -244,8 +248,9 @@
 	"ShockBitmap.h"
 	"shockolate_version.h"
 
-1769636222 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/AmigaSrc/InitAmiga.h
+1781556176 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/AmigaSrc/InitAmiga.h
 	<stdbool.h>
+	<SDL/SDL.h>
 	<time.h>
 	<proto/intuition.h>
 	<proto/gadtools.h>
@@ -259,16 +264,17 @@
 	<devices/timer.h>
 	"lg_types.h"
 
-1769556249 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/AmigaSrc/Shock.h
+1781906016 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/AmigaSrc/Shock.h
 	<stdbool.h>
 	"precompiled.h"
+	<SDL/SDL.h>
 
-1769558481 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/AmigaSrc/ShockBitmap.h
+1781388334 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/AmigaSrc/ShockBitmap.h
 	"lg_types.h"
 
-1769034245 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/Headers/shockolate_version.h
+1781997746 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/Headers/shockolate_version.h
 
-1764457656 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/AmigaSrc/Modding.c
+1780872248 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/AmigaSrc/Modding.c
 	"Modding.h"
 	"precompiled.h"
 	<stdio.h>
@@ -303,7 +309,7 @@
 	<map>
 	<sstream>
 
-1764545621 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/AmigaSrc/OpenGL.h
+1782341601 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/AmigaSrc/OpenGL.h
 	<3d.h>
 
 1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/Headers/mainloop.h
@@ -394,7 +400,7 @@
 1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/Headers/wares.h
 	"gamesys.h"
 
-1769641337 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/AmigaSrc/Prefs.c
+1782771021 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/AmigaSrc/Prefs.c
 	"Shock.h"
 	"Prefs.h"
 	"popups.h"
@@ -408,7 +414,7 @@
 1764456259 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/Headers/popups.h
 	"precompiled.h"
 
-1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/Headers/olhext.h
+1771538884 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/Headers/olhext.h
 
 1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/Headers/input.h
 	"frtypesx.h"
@@ -419,15 +425,18 @@
 1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/Headers/mfdext.h
 	"player.h"
 
-1764893166 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/AmigaSrc/SDLSound.c
+1782647511 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/AmigaSrc/SDLSound.c
 	"Xmi.h"
 	"MusicDevice.h"
 	"precompiled.h"
+	<SDL/SDL.h>
+	<SDL/SDL_mixer.h>
+	"CustomAudioStream.h"
 	<SDL_mixer.h>
 
-1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/MusicSrc/MusicDevice.h
+1781997009 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/MusicSrc/MusicDevice.h
 
-1769637063 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/AmigaSrc/Shock.c
+1782677078 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/AmigaSrc/Shock.c
 	<math.h>
 	"InitAmiga.h"
 	"Modding.h"
@@ -443,6 +452,7 @@
 	"shockolate_version.h"
 	"status.h"
 	"version.h"
+	"mouse.h"
 
 1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/Headers/amaploop.h
 	"amap.h"
@@ -464,20 +474,20 @@
 
 1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/Headers/version.h
 
-1769558498 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/AmigaSrc/ShockBitmap.c
+1782683991 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/AmigaSrc/ShockBitmap.c
 	"InitAmiga.h"
 	"Shock.h"
 	"ShockBitmap.h"
 	"2d.h"
 	"shockolate_version.h"
 
-1764893508 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/AmigaSrc/Xmi.c
+1782259276 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/AmigaSrc/Xmi.c
 	"precompiled.h"
 	"Xmi.h"
 	"MusicDevice.h"
 	"Prefs.h"
 
-1764632694 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/ai.c
+1769949131 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/ai.c
 	"ai.h"
 	"aiflags.h"
 	"objects.h"
@@ -550,7 +560,7 @@
 1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/Headers/objstuff.h
 	"objclass.h"
 
-1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/Headers/objgame.h
+1780872475 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/Headers/objgame.h
 	"objclass.h"
 
 1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/Headers/objbit.h
@@ -564,8 +574,10 @@
 
 1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/Headers/treasure.h
 
-1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/Headers/fullscrn.h
+1781997564 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/Headers/fullscrn.h
 	"frtypesx.h"
+	"error.h"
+	"region.h"
 
 1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/Headers/sfxlist.h
 
@@ -635,7 +647,7 @@
 
 1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/Headers/fredge.h
 
-1769556297 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/amaploop.c
+1782341600 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/amaploop.c
 	<string.h>
 	"ShockBitmap.h"
 	"amaploop.h"
@@ -693,7 +705,7 @@
 	"objwpn.h"
 	"player.h"
 
-1765036404 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/anim.c
+1780872463 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/anim.c
 	"Shock.h"
 	"anim.h"
 	"gr2ss.h"
@@ -709,7 +721,7 @@
 
 1765036404 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/INPUT/Source/amiga_events.h
 
-1759335765 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/archiveformat.c
+1780872480 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/archiveformat.c
 	"archiveformat.h"
 	"effect.h"
 	"lvldata.h"
@@ -745,7 +757,7 @@
 1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/Headers/trigger.h
 	"objects.h"
 
-1764545972 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/audiolog.c
+1782416332 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/audiolog.c
 	<stdio.h>
 	"AmigaTune.h"
 	"afile.h"
@@ -757,6 +769,7 @@
 	"mainloop.h"
 	"bark.h"
 	"miscqvar.h"
+	"CustomAudioStream.h"
 
 1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/AFILE/Source/afile.h
 	<stdio.h>
@@ -828,7 +841,7 @@
 	"objects.h"
 	"cybstrng.h"
 
-1759335765 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/biohelp.c
+1780872493 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/biohelp.c
 	"mfdint.h"
 	"mfdext.h"
 	"mfddims.h"
@@ -868,7 +881,7 @@
 	"cybstrng.h"
 	"gr2ss.h"
 
-1765050538 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/citres.c
+1780872513 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/citres.c
 	<string.h>
 	"citres.h"
 	"criterr.h"
@@ -883,7 +896,7 @@
 	"map.h"
 	"objprop.h"
 
-1759335765 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/combat.c
+1771535045 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/combat.c
 	"combat.h"
 	"objsim.h"
 	"objprop.h"
@@ -907,7 +920,7 @@
 
 1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/Headers/physunit.h
 
-1764890902 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/cone.c
+1771535276 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/cone.c
 	<string.h>
 	"cone.h"
 	"map.h"
@@ -933,7 +946,7 @@
 	"InitAmiga.h"
 	"criterr.h"
 
-1764893414 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/cutsloop.c
+1782416426 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/cutsloop.c
 	"Shock.h"
 	"cutsloop.h"
 	"mainloop.h"
@@ -946,6 +959,7 @@
 	"gr2ss.h"
 	"afile.h"
 	"movie.h"
+	"CustomAudioStream.h"
 
 1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/Headers/cutsloop.h
 
@@ -1007,7 +1021,7 @@
 	"fullscrn.h"
 	"gr2ss.h"
 
-1759335765 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/cybmem.c
+1780872699 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/cybmem.c
 	"cybmem.h"
 	"tools.h"
 	"textmaps.h"
@@ -1117,7 +1131,7 @@
 
 1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/Headers/fatigue.h
 
-1764890904 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/effect.c
+1780872719 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/effect.c
 	<string.h>
 	"grenades.h"
 	"objgame.h"
@@ -1253,7 +1267,7 @@
 	"frcamera.h"
 	"objects.h"
 
-1764890902 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/frclip.c
+1780872754 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/frclip.c
 	<string.h>
 	"frintern.h"
 	"frspans.h"
@@ -1283,7 +1297,7 @@
 	"frflags.h"
 	"gr2ss.h"
 
-1765307392 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/frobj.c
+1771536045 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/frobj.c
 	"map.h"
 	"objects.h"
 	"refstuf.h"
@@ -1309,7 +1323,7 @@
 
 1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/Headers/fauxrint.h
 
-1765307566 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/frpipe.c
+1771536184 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/frpipe.c
 	<string.h>
 	"map.h"
 	"mapflags.h"
@@ -1324,14 +1338,14 @@
 	"refstuf.h"
 	"OpenGL.h"
 
-1764890902 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/frpts.c
+1780872818 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/frpts.c
 	<string.h>
 	"map.h"
 	"frintern.h"
 	"frparams.h"
 	"frflags.h"
 
-1766355032 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/frsetup.c
+1780872831 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/frsetup.c
 	"frcamera.h"
 	"fr3d.h"
 	"frtypes.h"
@@ -1356,7 +1370,7 @@
 	"frtables.h"
 	"tilename.h"
 
-1765228215 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/frterr.c
+1771536374 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/frterr.c
 	<string.h>
 	"map.h"
 	"mapflags.h"
@@ -1400,7 +1414,7 @@
 	"amaploop.h"
 	"lvldata.h"
 
-1769556331 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/fullscrn.c
+1782341602 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/fullscrn.c
 	"ShockBitmap.h"
 	"Prefs.h"
 	"amap.h"
@@ -1487,7 +1501,7 @@
 1764456163 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/Headers/gametime.h
 	"precompiled.h"
 
-1764890904 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/gameobj.c
+1771536623 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/gameobj.c
 	<string.h>
 	"effect.h"
 	"gameobj.h"
@@ -1569,7 +1583,7 @@
 1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/Headers/hand.h
 	"objwpn.h"
 
-1764632694 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/gamesort.c
+1771536780 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/gamesort.c
 	"map.h"
 	"objects.h"
 	"objsim.h"
@@ -1659,7 +1673,7 @@
 
 1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/Headers/framer8.h
 
-1764890902 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/gamewrap.c
+1771536876 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/gamewrap.c
 	<string.h>
 	"Shock.h"
 	"amap.h"
@@ -1958,7 +1972,7 @@
 
 1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/Headers/citmat.h
 
-1766844448 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/input.c
+1780872932 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/input.c
 	<stdio.h>
 	<string.h>
 	<limits.h>
@@ -2021,7 +2035,7 @@
 
 1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/Headers/svgacurs.h
 
-1764890904 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/invent.c
+1780872943 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/invent.c
 	<string.h>
 	"email.h"
 	"invent.h"
@@ -2101,12 +2115,12 @@
 
 1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/Headers/fullamap.h
 
-1759335765 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/map.c
+1780872997 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/map.c
 	"map.h"
 	"schedule.h"
 	"statics.h"
 
-1764890901 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/mfdfunc.c
+1780873067 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/mfdfunc.c
 	<string.h>
 	"ammomfd.h"
 	"bark.h"
@@ -2190,7 +2204,7 @@
 
 1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/Headers/mfdgames.h
 
-1764632802 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/mfdgadg.c
+1780873075 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/mfdgadg.c
 	"gr2ss.h"
 	"mfdgadg.h"
 
@@ -2272,11 +2286,11 @@
 	<string.h>
 	"minimax.h"
 
-1764890902 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/mlimbs.c
+1781904921 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/mlimbs.c
 	<string.h>
 	"mlimbs.h"
 
-1765147344 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/mouselook.c
+1782677382 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/mouselook.c
 	"leanmetr.h"
 	"mouselook.h"
 	"mouse.h"
@@ -2313,7 +2327,7 @@
 	<stddef.h>
 	<stdint.h>
 
-1764632802 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/newai.c
+1780873081 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/newai.c
 	"ai.h"
 	"cyber.h"
 	"player.h"
@@ -2342,7 +2356,7 @@
 	"diffq.h"
 	"visible.h"
 
-1764890903 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/newmfd.c
+1780873153 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/newmfd.c
 	<stdlib.h>
 	<string.h>
 	"game_screen.h"
@@ -2378,12 +2392,12 @@
 	"objprop.h"
 	"map.h"
 
-1764890903 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/objects.c
+1771537512 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/objects.c
 	<string.h>
 	"objects.h"
 	"map.h"
 
-1764890903 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/objload.c
+1780873164 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/objload.c
 	<string.h>
 	"Shock.h"
 	"criterr.h"
@@ -2404,7 +2418,7 @@
 	"objclass.h"
 	"objprop.h"
 
-1764890904 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/objsim.c
+1780873183 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/objsim.c
 	<string.h>
 	"Shock.h"
 	"amap.h"
@@ -2594,7 +2608,7 @@
 	"cybmem.h"
 	"doorparm.h"
 
-1766840498 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/physics.c
+1771538060 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/physics.c
 	<string.h>
 	"ai.h"
 	"combat.h"
@@ -2673,7 +2687,7 @@
 	"shodan.h"
 	"trigger.h"
 
-1764890902 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/popups.c
+1780873296 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/popups.c
 	<string.h>
 	"popups.h"
 	"citres.h"
@@ -2691,7 +2705,7 @@
 
 1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/UI/Source/curtyp.h
 
-1765140443 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/render.c
+1780873310 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/render.c
 	<string.h>
 	"gamerend.h"
 	"render.h"
@@ -2713,7 +2727,7 @@
 	"wares.h"
 	"gr2ss.h"
 
-1759335765 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/rendtool.c
+1771538098 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/rendtool.c
 	"map.h"
 	"frintern.h"
 	"fullscrn.h"
@@ -2749,7 +2763,7 @@
 
 1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/Headers/tilecam.h
 
-1764893166 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/saveload.c
+1780873324 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/saveload.c
 	<assert.h>
 	<string.h>
 	"AmigaTune.h"
@@ -2831,7 +2845,7 @@
 	"frflags.h"
 	"frprotox.h"
 
-1764890903 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/screen.c
+1780873335 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/screen.c
 	"fullscrn.h"
 	"frcursors.h"
 	"game_screen.h"
@@ -2860,7 +2874,7 @@
 1764456276 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/Headers/frcursors.h
 	"precompiled.h"
 
-1765309198 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/setup.c
+1782341601 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/setup.c
 	<string.h>
 	<unistd.h>
 	"fullscrn.h"
@@ -2917,7 +2931,7 @@
 	"hud.h"
 	"faketime.h"
 
-1764890903 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/sideicon.c
+1780873388 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/sideicon.c
 	<string.h>
 	"sideicon.h"
 	"sideart.h"
@@ -2949,7 +2963,7 @@
 1764456306 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/Headers/digifx.h
 	"precompiled.h"
 
-1764632898 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/star.c
+1780873464 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/star.c
 	"star.h"
 	"OpenGL.h"
 
@@ -2981,7 +2995,7 @@
 
 1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/Headers/biotrax.h
 
-1764890904 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/target.c
+1780873470 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/target.c
 	<stdio.h>
 	<string.h>
 	"target.h"
@@ -3010,7 +3024,7 @@
 	"cit2d.h"
 	"gr2ss.h"
 
-1764890904 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/textmaps.c
+1780873501 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/textmaps.c
 	<string.h>
 	"textmaps.h"
 	"gettmaps.h"
@@ -3025,7 +3039,7 @@
 	"statics.h"
 	"OpenGL.h"
 
-1764890901 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/tfdirect.c
+1771538474 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/tfdirect.c
 	<string.h>
 	"tfdirect.h"
 	"ss_flet.h"
@@ -3039,14 +3053,14 @@
 	"objprop.h"
 	"render.h"
 
-1764890902 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/tfutil.c
+1771538498 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/tfutil.c
 	<string.h>
 	"tfdirect.h"
 
-1766703995 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/tickcount.c
+1782341601 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/tickcount.c
 	"tickcount.h"
 
-1765304318 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/tools.c
+1771538573 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/tools.c
 	<string.h>
 	<ctype.h>
 	"criterr.h"
@@ -3068,7 +3082,7 @@
 	"OpenGL.h"
 	"Shock.h"
 
-1764890902 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/trigger.c
+1780873524 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/trigger.c
 	<string.h>
 	"Prefs.h"
 	"ai.h"
@@ -3168,7 +3182,7 @@
 	"mfdart.h"
 	"miscqvar.h"
 
-1759335765 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/vitals.c
+1780873529 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/vitals.c
 	"player.h"
 	"status.h"
 	"tools.h"
@@ -3237,7 +3251,7 @@
 	"cyber.h"
 	"damage.h"
 
-1765036404 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/weapons.c
+1771538697 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/GameSrc/weapons.c
 	<string.h>
 	"weapons.h"
 	"damage.h"
@@ -3318,7 +3332,7 @@
 1759335765 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/2D/Source/bit.c
 	"lg.h"
 
-1764890903 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/2D/Source/bitmap.c
+1780873631 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/2D/Source/bitmap.c
 	<string.h>
 	"lg.h"
 	"GR/grs.h"
@@ -3336,7 +3350,7 @@
 
 1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/2D/Source//tabdat.h
 
-1759335765 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/2D/Source/blend.c
+1780873640 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/2D/Source/blend.c
 	"grs.h"
 	"blncon.h"
 	"rgb.h"
@@ -3350,7 +3364,7 @@
 1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/2D/Source/scrdat.h
 	"grs.h"
 
-1765050531 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/2D/Source/canvas.c
+1780873707 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/2D/Source/canvas.c
 	"grs.h"
 	"bitmap.h"
 	"chain.h"
@@ -3997,13 +4011,13 @@
 	"tluctab.h"
 	<string.h>
 
-1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/2D/Source//tluctab.h
+1780873753 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/2D/Source//tluctab.h
 	"fix.h"
 	"grs.h"
 	"grmalloc.h"
 	"tlucdat.h"
 
-1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/2D/Source/GR/grmalloc.h
+1780873619 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/2D/Source/GR/grmalloc.h
 
 1759335765 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/2D/Source/Flat8/fl8tpl.c
 	"cnvdat.h"
@@ -4352,7 +4366,7 @@
 	"ctxmac.h"
 	"grlin.h"
 
-1764633000 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/2D/Source/GR/grmalloc.c
+1780873613 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/2D/Source/GR/grmalloc.c
 	<stdlib.h>
 
 1759335765 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/2D/Source/GR/grnull.c
@@ -4460,7 +4474,7 @@
 1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/2D/Source/pertol.h
 	"fix.h"
 
-1759335765 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/2D/Source/rgb.c
+1780873733 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/2D/Source/rgb.c
 	"grs.h"
 	"grmalloc.h"
 	"rgb.h"
@@ -4479,7 +4493,7 @@
 	"grs.h"
 	<stdbool.h>
 
-1765228933 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/2D/Source/screen.c
+1780873744 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/2D/Source/screen.c
 	"grs.h"
 	"grd.h"
 	"bitmap.h"
@@ -4605,7 +4619,7 @@
 	"grs.h"
 	"buffer.h"
 
-1759335765 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/3D/Source/alloc.c
+1780873809 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/3D/Source/alloc.c
 	"3d.h"
 	"GlobalV.h"
 	"lg.h"
@@ -4621,7 +4635,7 @@
 	"OpenGL.h"
 	<stdbool.h>
 
-1764890903 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/3D/Source/clip.c
+1771540415 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/3D/Source/clip.c
 	<string.h>
 	"2d.h"
 	"3d.h"
@@ -4645,7 +4659,7 @@
 	"GlobalV.h"
 	"lg.h"
 
-1759335765 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/3D/Source/interp.c
+1771543236 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/3D/Source/interp.c
 	"3d.h"
 	"GlobalV.h"
 	"lg.h"
@@ -4655,7 +4669,7 @@
 	"GlobalV.h"
 	"lg.h"
 
-1765072432 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/3D/Source/matrix.c
+1771540649 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/3D/Source/matrix.c
 	"3d.h"
 	"GlobalV.h"
 	"lg.h"
@@ -4676,19 +4690,19 @@
 	"GlobalV.h"
 	"lg.h"
 
-1759335765 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/3D/Source/tmap.c
+1771540692 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/3D/Source/tmap.c
 	"3d.h"
 	"GlobalV.h"
 	"lg.h"
 
-1759335765 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/3D/Source/vector.c
+1771540719 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/3D/Source/vector.c
 	<math.h>
 	"3d.h"
 	"GlobalV.h"
 	"fix.h"
 	"lg.h"
 
-1764890903 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/AFILE/Source/afile.c
+1780873871 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/AFILE/Source/afile.c
 	<string.h>
 	"afile.h"
 	"compose.h"
@@ -4697,7 +4711,7 @@
 1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/AFILE/Source/compose.h
 	"2d.h"
 
-1764890904 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/AFILE/Source/amov.c
+1780873976 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/AFILE/Source/amov.c
 	<string.h>
 	"lg.h"
 	"afile.h"
@@ -4710,7 +4724,7 @@
 
 1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/AFILE/Source/huff.h
 
-1764890902 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/AFILE/Source/compose.c
+1780874071 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/AFILE/Source/compose.c
 	<stdio.h>
 	<string.h>
 	"compose.h"
@@ -4725,21 +4739,21 @@
 	"lg.h"
 	"huff.h"
 
-1764634720 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/AFILE/Source/movie.c
+1780874434 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/AFILE/Source/movie.c
 	"afile.h"
 	"res.h"
 	"lg_types.h"
 
-1764890903 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/DSTRUCT/Source/array.c
+1780874451 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/DSTRUCT/Source/array.c
 	<string.h>
 	"lg.h"
 	"array.h"
 
-1764890901 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/DSTRUCT/Source/hash.c
+1780874514 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/DSTRUCT/Source/hash.c
 	<string.h>
 	"hash.h"
 
-1764890903 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/DSTRUCT/Source/pqueue.c
+1780874613 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/DSTRUCT/Source/pqueue.c
 	<stdlib.h>
 	<string.h>
 	"pqueue.h"
@@ -4749,7 +4763,7 @@
 	<stdbool.h>
 	"rect.h"
 
-1759335765 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/EDMS/Source/collide.cc
+1780874818 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/EDMS/Source/collide.cc
 	"edms_int.h"
 	"idof.h"
 	"lg.h"
@@ -4760,10 +4774,10 @@
 	"ss_flet.h"
 	"externs.h"
 
-1767032980 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/FIXPP/Source/fixpp.h
+1782341600 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/FIXPP/Source/fixpp.h
 	<istream>
-	<cstdio>
 	<cstdlib>
+	<cstdio>
 	"fix.h"
 
 1764543562 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/EDMS/Source/externs.h
@@ -4774,7 +4788,7 @@
 1759335765 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/EDMS/Source/globals.cc
 	"fixpp.h"
 
-1759335765 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/EDMS/Source/interfac.cc
+1780874921 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/EDMS/Source/interfac.cc
 	"fixpp.h"
 	"edms_int.h"
 	"idof.h"
@@ -4783,7 +4797,7 @@
 
 1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/EDMS/Source/MODELS/robot.h
 
-1759335765 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/EDMS/Source/intrsect.cc
+1780874925 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/EDMS/Source/intrsect.cc
 	"edms_int.h"
 	"idof.h"
 
@@ -4810,13 +4824,13 @@
 	"idof.h"
 	"ss_flet.h"
 
-1759335765 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/EDMS/Source/MODELS/ftl.cc
+1780874623 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/EDMS/Source/MODELS/ftl.cc
 	"edms_int.h"
 	"idof.h"
 	"physhand.h"
 	"ss_flet.h"
 
-1759335765 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/EDMS/Source/MODELS/ftlface.cc
+1771541046 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/EDMS/Source/MODELS/ftlface.cc
 	"fixpp.h"
 	"edms_int.h"
 	"ftl.h"
@@ -4824,7 +4838,7 @@
 
 1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/EDMS/Source/MODELS/ftl.h
 
-1759335765 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/EDMS/Source/MODELS/pelface.cc
+1780874696 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/EDMS/Source/MODELS/pelface.cc
 	"fixpp.h"
 	"edms_int.h"
 	"idof.h"
@@ -4833,26 +4847,26 @@
 
 1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/EDMS/Source/MODELS/pelvis.h
 
-1767033020 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/EDMS/Source/MODELS/pelvis.cc
+1782341601 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/EDMS/Source/MODELS/pelvis.cc
 	<iostream>
 	"edms_int.h"
 	"idof.h"
 	"ss_flet.h"
 
-1767033043 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/EDMS/Source/MODELS/robot.cc
+1782341601 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/EDMS/Source/MODELS/robot.cc
 	<iostream>
 	"edms_int.h"
 	"idof.h"
 	"edms_chk.h"
 	"ss_flet.h"
 
-1767032980 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/EDMS/Source/phy_tool.cc
+1782341600 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/EDMS/Source/phy_tool.cc
 	<iostream>
 	"edms_int.h"
 	"idof.h"
 	"physhand.h"
 
-1759335765 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/EDMS/Source/soliton.cc
+1780874929 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/EDMS/Source/soliton.cc
 	"edms_int.h"
 	"idof.h"
 	"physhand.h"
@@ -4864,7 +4878,7 @@
 
 1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/FIX/Source/trigtab.h
 
-1764633115 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/FIX/Source/fix.c
+1771541791 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/FIX/Source/fix.c
 	"fix.h"
 	"lg.h"
 	"trigtab.h"
@@ -4878,7 +4892,7 @@
 	"fix.h"
 	"trigtab.h"
 
-1759335765 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/FIXPP/Source/fixpp.cpp
+1782341601 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/FIXPP/Source/fixpp.cpp
 	"fixpp.h"
 	<iostream>
 
@@ -4891,7 +4905,8 @@
 
 1759335765 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/H/keydefs.h
 
-1767031276 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/H/lg_types.h
+1782341602 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/H/lg_types.h
+	<SDL/SDL.h>
 	<stdbool.h>
 	<proto/intuition.h>
 	<proto/gadtools.h>
@@ -4904,20 +4919,21 @@
 	<intuition/intuition.h>
 	<devices/timer.h>
 
-1769558481 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/INPUT/Source/amiga_events.c
+1782685480 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/INPUT/Source/amiga_events.c
 	"lg.h"
 	"kb.h"
 	"mouse.h"
+	<SDL/SDL.h>
 	<stdlib.h>
 	<SDL.h>
 	<OpenGL.h>
 
-1765036404 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/INPUT/Source/kbcook.c
+1771541871 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/INPUT/Source/kbcook.c
 	"lg.h"
 	"kbcook.h"
 	"keydefs.h"
 
-1766534057 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/INPUT/Source/mouse.c
+1782682520 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/INPUT/Source/mouse.c
 	"lg_types.h"
 	"error.h"
 	"mouse.h"
@@ -4930,7 +4946,7 @@
 	<time.h>
 	"log.h"
 
-1764891345 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/LG/Source/memall.c
+1772240395 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/LG/Source/memall.c
 	"memall.h"
 	<stdlib.h>
 	"lg_types.h"
@@ -4939,16 +4955,16 @@
 	"lg.h"
 	"memall.h"
 
-1759335765 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/LG/Source/tmpalloc.c
+1780874992 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/LG/Source/tmpalloc.c
 	"lg.h"
 	"memall.h"
 	"tmpalloc.h"
 
-1764891457 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/PALETTE/Source/palette.c
+1780875396 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/PALETTE/Source/palette.c
 	<stdlib.h>
 	"palette.h"
 
-1765309198 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/RES/Source/caseless.c
+1782341602 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/RES/Source/caseless.c
 	<assert.h>
 	<string.h>
 	<stdio.h>
@@ -4957,13 +4973,13 @@
 	<dirent.h>
 	<unistd.h>
 
-1764890904 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/RES/Source/lzw.c
+1780875400 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/RES/Source/lzw.c
 	<stdbool.h>
 	<stdio.h>
 	<string.h>
 	"lzw.h"
 
-1764890902 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/RES/Source/refacc.c
+1780875410 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/RES/Source/refacc.c
 	<assert.h>
 	"lzw.h"
 	"res.h"
@@ -4972,20 +4988,20 @@
 1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/RES/Source/res_.h
 	"res.h"
 
-1764890902 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/RES/Source/res.c
+1780875413 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/RES/Source/res.c
 	<string.h>
 	<lg.h>
 	"lzw.h"
 	"res.h"
 
-1764890903 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/RES/Source/resacc.c
+1780875423 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/RES/Source/resacc.c
 	"res.h"
 	"res_.h"
 	"lg.h"
 	<assert.h>
 	<string.h>
 
-1765309198 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/RES/Source/resbuild.c
+1782341602 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/RES/Source/resbuild.c
 	<assert.h>
 	<string.h>
 	<windows.h>
@@ -4995,7 +5011,7 @@
 	"res.h"
 	"res_.h"
 
-1764890904 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/RES/Source/resfile.c
+1780875449 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/RES/Source/resfile.c
 	<assert.h>
 	<string.h>
 	"lg.h"
@@ -5007,7 +5023,7 @@
 	"2dres.h"
 	"grs.h"
 
-1764633539 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/RES/Source/resload.c
+1780875452 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/RES/Source/resload.c
 	<assert.h>
 	"lzw.h"
 	"res.h"
@@ -5021,7 +5037,7 @@
 1759335765 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/RES/Source/restypes.c
 	"res.h"
 
-1764891527 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/RND/Source/rnd.c
+1780875457 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/RND/Source/rnd.c
 	<stdlib.h>
 	"lg.h"
 	"rnd.h"
@@ -5033,7 +5049,7 @@
 	"curdat.h"
 	<string.h>
 
-1764890904 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/UI/Source/cursors.c
+1780875513 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/UI/Source/cursors.c
 	<string.h>
 	"lg.h"
 	"2d.h"
@@ -5042,7 +5058,7 @@
 	"vmouse.h"
 	<stdio.h>
 
-1766845808 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/UI/Source/event.c
+1782646743 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/UI/Source/event.c
 	<string.h>
 	"lg.h"
 	"mouse.h"
@@ -5059,7 +5075,7 @@
 	"hash.h"
 	<string.h>
 
-1764633631 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/UI/Source/region.c
+1780875560 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/UI/Source/region.c
 	"cursors.h"
 	"region.h"
 	"slist.h"
@@ -5083,11 +5099,11 @@
 	"fix.h"
 	"3d.h"
 
-1764633631 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/VOX/Source/voxinit.c
+1780875568 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/VOX/Source/voxinit.c
 	"lg.h"
 	"vox.h"
 
-1764892514 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/MusicSrc/MusicDevice.c
+1782341601 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/MusicSrc/MusicDevice.c
 	"MusicDevice.h"
 	<stdlib.h>
 	<string.h>
@@ -5097,6 +5113,7 @@
 	<sys/types.h>
 	<dirent.h>
 	<SDL.h>
+	<SDL/SDL.h>
 	"adlmidi.h"
 	<fluidsynth.h>
 
@@ -6571,7 +6588,7 @@
 1648372320 /usr/include/axrt-4.0/string.h
 	"/usr/include/string.h"
 
-1758120942 /usr/include/string.h
+1769761674 /usr/include/string.h
 	<bits/libc-header-start.h>
 	<stddef.h>
 	<bits/types/locale_t.h>
@@ -6581,4 +6598,239 @@
 1648372320 /usr/include/axrt-4.0/graphics/gfxmacros.h
 	<exec/types.h>
 	<graphics/rastport.h>
+
+1782341600 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/LG/Source/memtracker.c
+	<stdlib.h>
+	<stdio.h>
+	"lg_types.h"
+
+1782419087 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/H/sdl_atomic.h
+	<atomic>
+
+1759335765 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/adlmidi/adldata.cpp
+	"adldata.hh"
+
+1764543759 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/adlmidi/adldata.hh
+	<string.h>
+	<stdint.h>
+	<cstring>
+
+1759335765 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/adlmidi/adlmidi.cpp
+	"adlmidi_private.hpp"
+
+1781823029 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/adlmidi/adlmidi_private.hpp
+	<stdint.h>
+	<windows.h>
+	<conio.h>
+	<pc.h>
+	<dpmi.h>
+	<go32.h>
+	<sys/farptr.h>
+	<dos.h>
+	<vector>
+	<list>
+	<string>
+	<map>
+	<set>
+	<cstdlib>
+	<cstring>
+	<cmath>
+	<cstdarg>
+	<cstdio>
+	<cassert>
+	<vector>
+	<deque>
+	<cmath>
+	<math.h>
+	<inttypes.h>
+	<stdio.h>
+	<stdlib.h>
+	<limits>
+	<errno.h>
+	<deque>
+	<algorithm>
+	"file_reader.hpp"
+	"midi_sequencer.hpp"
+	"chips/opl_chip_base.h"
+	"adldata.hh"
+	"adlmidi.h"
+	"adlmidi.hpp"
+	"adlmidi_ptr.hpp"
+	"adlmidi_bankmap.h"
+
+1781823029 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/adlmidi/file_reader.hpp
+	<string>
+	<cstdio>
+	<stdint.h>
+	<stddef.h>
+	<cstring>
+	<windows.h>
+
+1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/adlmidi/midi_sequencer.hpp
+	<list>
+	<vector>
+	"fraction.hpp"
+	"file_reader.hpp"
+	"midi_sequencer.h"
+
+1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/adlmidi/fraction.hpp
+	<cmath>
+	<limits>
+
+1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/adlmidi/midi_sequencer.h
+	<stddef.h>
+	<stdint.h>
+
+1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/adlmidi/chips/opl_chip_base.h
+	<stdint.h>
+	<stddef.h>
+	"opl_chip_base.tcc"
+
+1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/adlmidi/chips/opl_chip_base.tcc
+	"opl_chip_base.h"
+	<cmath>
+	<zita-resampler/vresampler.h>
+
+1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/adlmidi/include/adlmidi.hpp
+
+1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/adlmidi/adlmidi_ptr.hpp
+	<algorithm>
+	<stddef.h>
+	<stdlib.h>
+
+1764543759 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/adlmidi/adlmidi_bankmap.h
+	<list>
+	<utility>
+	<stdint.h>
+	<stddef.h>
+	"adlmidi_ptr.hpp"
+	"adlmidi_bankmap.tcc"
+
+1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/adlmidi/adlmidi_bankmap.tcc
+	"adlmidi_bankmap.h"
+	<cassert>
+
+1759335765 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/adlmidi/adlmidi_load.cpp
+	"adlmidi_private.hpp"
+	"wopl/wopl_file.h"
+
+1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/adlmidi/wopl/wopl_file.h
+	<stdint.h>
+	<stddef.h>
+
+1759335765 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/adlmidi/adlmidi_midiplay.cpp
+	"adlmidi_private.hpp"
+
+1759335765 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/adlmidi/adlmidi_opl3.cpp
+	"adlmidi_private.hpp"
+	"chips/nuked_opl3.h"
+	"chips/nuked_opl3_v174.h"
+	"chips/dosbox_opl3.h"
+
+1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/adlmidi/chips/nuked_opl3.h
+	"opl_chip_base.h"
+
+1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/adlmidi/chips/nuked_opl3_v174.h
+	"opl_chip_base.h"
+
+1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/adlmidi/chips/dosbox_opl3.h
+	"opl_chip_base.h"
+
+1759335765 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/adlmidi/adlmidi_private.cpp
+	"adlmidi_private.hpp"
+
+1759335765 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/adlmidi/chips/dosbox/dbopl.cpp
+	<math.h>
+	<stdlib.h>
+	<string.h>
+	"dbopl.h"
+
+1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/adlmidi/chips/dosbox/dbopl.h
+	<inttypes.h>
+	<stdint.h>
+	<sys/types.h>
+
+1759335765 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/adlmidi/chips/dosbox_opl3.cpp
+	"dosbox_opl3.h"
+	"dosbox/dbopl.h"
+	<new>
+	<cstdlib>
+	<assert.h>
+
+1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/2D/Source//string
+
+1759335765 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/adlmidi/chips/nuked/nukedopl3.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"nukedopl3.h"
+
+1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/adlmidi/chips/nuked/nukedopl3.h
+	<inttypes.h>
+
+1759335765 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/adlmidi/chips/nuked/nukedopl3_174.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"nukedopl3_174.h"
+
+1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/adlmidi/chips/nuked/nukedopl3_174.h
+	<inttypes.h>
+	<stdint.h>
+
+1759335765 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/adlmidi/chips/nuked_opl3.cpp
+	"nuked_opl3.h"
+	"nuked/nukedopl3.h"
+	<cstring>
+
+1759335765 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/adlmidi/chips/nuked_opl3_v174.cpp
+	"nuked_opl3_v174.h"
+	"nuked/nukedopl3_174.h"
+	<cstring>
+
+1759335765 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/adlmidi/wopl/wopl_file.c
+	"wopl_file.h"
+	<string.h>
+	<stdlib.h>
+
+1759335765 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/adlmidi/adlmidi_sequencer.cpp
+	"midi_sequencer_impl.hpp"
+	"adlmidi_private.hpp"
+
+1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/adlmidi/midi_sequencer_impl.hpp
+	"midi_sequencer.hpp"
+	<stdio.h>
+	<memory>
+	<cstring>
+	<cerrno>
+	<iterator>
+	<algorithm>
+	<set>
+	<assert.h>
+	"cvt_mus2mid.hpp"
+	"cvt_xmi2mid.hpp"
+
+1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/adlmidi/cvt_mus2mid.hpp
+	<stddef.h>
+	<stdlib.h>
+	<string.h>
+	<stdint.h>
+
+1759335765 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/Libraries/adlmidi/cvt_xmi2mid.hpp
+	<stddef.h>
+	<stdint.h>
+	<string.h>
+	<stdlib.h>
+	<stdint.h>
+	<stdio.h>
+
+1781912607 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/AmigaSrc/CustomAudioStream.cpp
+	"CustomAudioStream.h"
+	<cstring>
+
+1782341601 /mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/AmigaSrc/CustomAudioStream.h
+	<SDL/SDL.h>
+
+1782346215 source:/mnt/myoldhd/home/peppe/Documents/Programmi_C/AmiShockolate/src/AmigaSrc/CustomAudioStream.c
+	"CustomAudioStream.h"
 

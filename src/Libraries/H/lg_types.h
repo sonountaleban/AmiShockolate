@@ -36,7 +36,27 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef __TYPES_H
 #define __TYPES_H
 
-#ifdef AMIGA
+#ifdef __AROS__
+#ifdef USE_SDL
+#include <SDL/SDL.h>
+
+#ifndef F_OK
+#define F_OK 0
+#endif
+
+#ifndef _H2INC		//don't redefine byte in assembly header
+/* this is a signed byte */
+typedef signed char byte;
+#endif /* !_H2INC */
+
+/* these are convenience typedefs so we don't always have to keep typing
+   `unsigned.' */
+typedef unsigned char uchar;
+typedef unsigned short ushort;
+typedef unsigned int uint;
+typedef unsigned long ulong;
+typedef unsigned char ubyte;
+#else
 #include <stdbool.h>
 #include <proto/intuition.h>
 #include <proto/gadtools.h>
@@ -53,6 +73,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define F_OK 0
 #endif
 
+#define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
+
+//#define gr_malloc(sizeMemoryBlock)  addEntry(__FILENAME__, __LINE__, sizeMemoryBlock)
+//#define gr_free(pMemoryBlock)       removeEntry(pMemoryBlock)
+
 typedef UBYTE uchar;
 typedef UBYTE Uint8;
 typedef UBYTE uint8_t;
@@ -63,13 +88,29 @@ typedef UWORD uint16_t;
 typedef UWORD ushort;
 typedef ULONG uint32_t;
 typedef ULONG uint;
-#define ulong UQUAD
+typedef ULONG ulong;
 typedef ULONG Uint32;
 typedef LONG int32_t;
 typedef SIPTR intptr_t;
 typedef IPTR uintptr_t;
 typedef QUAD int64_t;
 typedef UQUAD uint64_t;
+
+/*struct Entry
+{
+    struct Entry *pPreviousEntry;
+    struct Entry *pNextEntry;
+    char fileNameLineNumber[50];
+    int sizeMemoryBlock;
+    char *pMemoryBlock;
+};
+
+extern struct Entry *searchEntry(const char *pMemoryBlock);
+extern char *addEntry(const char *pFileName, int lineNumber, int sizeMemoryBlock);
+extern void removeEntry(const char *pMemoryBlock);
+extern void printEntries();
+extern void saveEntries(const char *pFileName);*/
+#endif
 #else
 #ifndef _H2INC		//don't redefine byte in assembly header
 /* this is a signed byte */

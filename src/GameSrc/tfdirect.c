@@ -246,6 +246,8 @@ fix _tf_border_check_2d(void) {
             _1d_pt[0] = fix_mul(tf_norm_2d[i][1], c_pt[0]) - fix_mul(tf_norm_2d[i][0], c_pt[1]);
             _1d_endpt[0] = fix_mul(tf_norm_2d[i][1], tf_norm_2d[i][1]) + fix_mul(tf_norm_2d[i][0], tf_norm_2d[i][0]);
             nfac = fix_sqrt(_1d_endpt[0]); // well, its all true, sadly, need to normalize
+            // MORPHOS FIX: Protect against division by zero
+            if (nfac == 0) nfac = 1;
             _1d_pt[1] = fix_div(_1d_pt[1], nfac);
             if (_1d_pt[1] < -tf_cur_rad)
                 continue; // too far away
@@ -531,7 +533,8 @@ uchar tf_solve_remetriced_face(fix pt[3], fix walls[4][2], int flags, fix norm[3
     {
         att = tf_solve_2d_case(flags);
         if (att > 0) {
-            fix cdist = fix_div(pt[2], metric);
+            // MORPHOS FIX: Protect against division by zero
+            fix cdist = fix_div(pt[2], (metric == 0) ? 1 : metric);
             if (flags & SS_BCD_TYPE_WALL)
                 flags = _stair_check(walls, flags);
             _tf_set_flet(flags, att, cdist, norm);
@@ -567,9 +570,12 @@ uchar tf_solve_cylinder(fix pt[3], fix irad, fix height) {
             {
                 LG_memset(nrm, 0, 3 * 4); //            _memset32l(nrm,0,3);
 
-                if (r_dist > (rad >> 1))
-                    att = fix_div(r_dist - (urad >> 1), (urad >> 1));
-                else
+                if (r_dist > (rad >> 1)) {
+                    // MORPHOS FIX: Protect against division by zero
+                    fix half_urad = (urad >> 1);
+                    if (half_urad == 0) half_urad = 1;
+                    att = fix_div(r_dist - (urad >> 1), half_urad);
+                } else
                     att = fix_1;
                 if (irad > 0) {
                     if (pt[2] < 0) {
@@ -590,8 +596,10 @@ uchar tf_solve_cylinder(fix pt[3], fix irad, fix height) {
             }
             if (!slv) // unitize normal, call us done
             {
-                nrm[0] = fix_div(pt[0], r_dist);
-                nrm[1] = fix_div(pt[1], r_dist);
+                // MORPHOS FIX: Protect against division by zero
+                fix safe_r_dist = (r_dist == 0) ? 1 : r_dist;
+                nrm[0] = fix_div(pt[0], safe_r_dist);
+                nrm[1] = fix_div(pt[1], safe_r_dist);
                 nrm[2] = 0;
                 if (r_dist > urad - tf_cur_rad) {
                     _tf_set_flet(SS_BCD_PRIM_MULTI | SS_BCD_TYPE_WALL, att, urad - r_dist, nrm);

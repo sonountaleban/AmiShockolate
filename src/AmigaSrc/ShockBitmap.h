@@ -23,11 +23,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "lg_types.h"
 
 // Globals
+#ifdef USE_SDL
+extern SDL_Surface *pPrimarySurface;
+extern SDL_Surface *pSecondarySurface;
+#else
 extern UBYTE *pPrimaryFrameBuffer;
 extern UBYTE *pSecondaryFrameBuffer;
 extern struct RastPort *pPrimaryFrameBufferRastPort;
+#endif // USE_SDL
 
 // Types
+#ifndef USE_SDL
 typedef struct
 {
     Uint8 r;
@@ -35,6 +41,7 @@ typedef struct
     Uint8 b;
     Uint8 a;
 } AmigaColour;
+#endif
 
 // Prototypes
 
@@ -47,6 +54,7 @@ void SetupWindowScreenBitmaps(int width, int height);
 void CleanupScreenAndWindow();
 void CleanupFrameBuffers();
 
+#ifndef USE_SDL
 struct RastPort *CreateRastPort(int width, int height, struct BitMap *pFriendBitmap, BOOL displayable);
 void FreeRastPort(struct RastPort *rp);
-
+#endif

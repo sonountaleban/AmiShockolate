@@ -1,3 +1,7 @@
+#ifdef USE_SDL
+#include "sdl_atomic.h"
+#endif
+
 #define NUM_THREADS 8
 
 #define THREAD_INIT 0
@@ -45,14 +49,13 @@ extern unsigned short *TrackUsedChannels;
 extern MIDI_EVENT *ThreadEventList[NUM_THREADS];
 extern int ThreadTiming[NUM_THREADS];
 extern char ThreadChannelRemap[16 * NUM_THREADS];
-//GP
-//extern SDL_atomic_t DeviceChannelVolume[16]; // only msb: 0-127
-//extern SDL_atomic_t ThreadPlaying[NUM_THREADS];
-//extern SDL_atomic_t ThreadCommand[NUM_THREADS];
-extern int DeviceChannelVolume[16]; // only msb: 0-127
-extern int ThreadPlaying[NUM_THREADS];
-extern int ThreadCommand[NUM_THREADS];
+#ifdef USE_SDL
+extern SDL_atomic_t DeviceChannelVolume[16]; // only msb: 0-127
+extern SDL_atomic_t ThreadPlaying[NUM_THREADS];
+extern SDL_atomic_t ThreadCommand[NUM_THREADS];
+#endif
 
 struct thread_data {
     int i; // thread index
 };
+

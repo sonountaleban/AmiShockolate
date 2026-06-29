@@ -23,6 +23,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef SHOCKOLATE_SRC_GAMESRC_HEADERS_SHOCOLATE_VERSION_H_
 #define SHOCKOLATE_SRC_GAMESRC_HEADERS_SHOCOLATE_VERSION_H_
 
-#define SHOCKOLATE_VERSION "AmiShockolate 0.3"
+#define SHOCKOLATE_VERSION "AmiShockolate 0.9"
 
 #endif // SHOCKOLATE_SRC_GAMESRC_HEADERS_SHOCOLATE_VERSION_H_

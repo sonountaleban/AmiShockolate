@@ -33,8 +33,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "afile.h"
 #include "movie.h"
 
-//GP
-//SDL_AudioStream *cutscene_audiostream = NULL;
+#ifdef __AROS__
+#ifdef USE_SDL
+#include "CustomAudioStream.h"
+
+CustomAudioStream *cutscene_audiostream = NULL;
+
+extern struct MusicDevice *MusicDev;
+
+extern void MusicCallback(void *userdata, Uint8 *stream, int len);
+#endif
+#else
+SDL_AudioStream *cutscene_audiostream = NULL;
+#endif
 
 static uint8_t *cutscene_audiobuffer = NULL;
 static uint8_t *cutscene_audiobuffer_pos = NULL;
@@ -83,20 +94,32 @@ extern char EngSubtitle[256];
 extern char FrnSubtitle[256];
 extern char GerSubtitle[256];
 
-//GP
-//extern SDL_AudioDeviceID device;
-
+#ifndef __AROS__
+extern SDL_AudioDeviceID device;
+#endif
 
 void AudioStreamCallback(void *userdata, unsigned char *stream, int len)
 {
-    //GP
-  /*SDL_AudioStream *as = *(SDL_AudioStream **)userdata;
+#ifdef __AROS__
+#ifdef USE_SDL
+    CustomAudioStream *as = *(CustomAudioStream **)userdata;
 
-  if (as != NULL && SDL_AudioStreamAvailable(as) > 0)
-    SDL_AudioStreamGet(as, stream, len);*/
+    // Pull decoded data out of our stream buffer to feed the sound card
+    int read_bytes = AudioStreamGet(as, stream, len);
+
+    // If our stream runs empty, pad out the rest with silence to avoid static popping
+    if (read_bytes < len)
+    {
+        memset(stream + read_bytes, 0, len - read_bytes);
+    }
+#endif
+#else
+    SDL_AudioStream *as = *(SDL_AudioStream **)userdata;
+
+    if (as != NULL && SDL_AudioStreamAvailable(as) > 0)
+        SDL_AudioStreamGet(as, stream, len);
+#endif
 }
-
-
 
 uchar cutscene_key_handler(uiEvent *ev, LGRegion *r, intptr_t user_data)
 {
@@ -153,21 +176,42 @@ void cutscene_exit(void)
 {
   DEBUG("Cutscene exit");
 
-  //GP
-  /*if (cutscene_audiostream != NULL)
-  {
-    SDL_PauseAudioDevice(device, 1);
-    SDL_Delay(1);
-
-    SDL_FreeAudioStream(cutscene_audiostream);
-    cutscene_audiostream = NULL;
-
-    if (cutscene_audiobuffer)
+#ifdef __AROS__
+#ifdef USE_SDL
+    if (cutscene_audiostream != NULL)
     {
-      free(cutscene_audiobuffer);
-      cutscene_audiobuffer = NULL;
+        Mix_HookMusic(NULL, NULL);
+
+        SDL_Delay(1);
+
+        Mix_HookMusic(MusicCallback, (void *)&MusicDev);
+
+        DestroyAudioStream(cutscene_audiostream);
+        cutscene_audiostream = NULL;
+
+        if (cutscene_audiobuffer)
+        {
+            free(cutscene_audiobuffer);
+            cutscene_audiobuffer = NULL;
+        }
     }
-  }*/
+#endif
+#else
+    if (cutscene_audiostream != NULL)
+    {
+        SDL_PauseAudioDevice(device, 1);
+        SDL_Delay(1);
+
+        SDL_FreeAudioStream(cutscene_audiostream);
+        cutscene_audiostream = NULL;
+
+        if (cutscene_audiobuffer)
+        {
+            free(cutscene_audiobuffer);
+            cutscene_audiobuffer = NULL;
+        }
+    }
+#endif
 
   if (cutscene_filehandle > 0) {ResCloseFile(cutscene_filehandle); cutscene_filehandle = 0;}
 
@@ -185,20 +229,39 @@ void cutscene_loop(void)
 
   static uint8_t palette[3*256];
 
-  //GP
-  /*if (cutscene_audiostream)
-  {
-    SDL_PauseAudioDevice(device, 0);
-
-    if (cutscene_audiobuffer_size > 0)
+#ifdef __AROS__
+#ifdef USE_SDL
+    if (cutscene_audiostream)
     {
-      // === adjust volume in buffer here ===
+        if (cutscene_audiobuffer_size > 0)
+        {
+            int available_space = cutscene_audiostream->capacity - AudioStreamAvailable(cutscene_audiostream);
+            if (available_space >= 65536)
+            {
+                // === adjust volume in buffer here ===
 
-      SDL_AudioStreamPut(cutscene_audiostream, cutscene_audiobuffer_pos, MOVIE_DEFAULT_BLOCKLEN);
-      cutscene_audiobuffer_pos += MOVIE_DEFAULT_BLOCKLEN;
-      cutscene_audiobuffer_size--;
+                AudioStreamPut(cutscene_audiostream, cutscene_audiobuffer_pos, MOVIE_DEFAULT_BLOCKLEN);
+                cutscene_audiobuffer_pos += MOVIE_DEFAULT_BLOCKLEN;
+                cutscene_audiobuffer_size--;
+            }
+        }
     }
-  }*/
+#endif
+#else
+    if (cutscene_audiostream)
+    {
+        SDL_PauseAudioDevice(device, 0);
+
+        if (cutscene_audiobuffer_size > 0)
+        {
+            // === adjust volume in buffer here ===
+
+            SDL_AudioStreamPut(cutscene_audiostream, cutscene_audiobuffer_pos, MOVIE_DEFAULT_BLOCKLEN);
+            cutscene_audiobuffer_pos += MOVIE_DEFAULT_BLOCKLEN;
+            cutscene_audiobuffer_size--;
+        }
+    }
+#endif
 
   if (is_first_frame)
   {
@@ -329,11 +392,22 @@ short play_cutscene(int id, bool show_credits)
 
   if (sfx_on)
   {
-    //GP
-    /*SDL_PauseAudioDevice(device, 1);
+#ifdef __AROS__
+#ifdef USE_SDL
+    Mix_HookMusic(NULL, NULL);
+
     SDL_Delay(1);
 
-    cutscene_audiostream = SDL_NewAudioStream(AUDIO_U8, 1, fix_int(amovie->a.sampleRate), AUDIO_S16SYS, 2, 48000);*/
+    cutscene_audiostream = NewAudioStream(AUDIO_U8, 1, fix_int(amovie->a.sampleRate), AUDIO_S16SYS, 2, 48000);
+
+    Mix_HookMusic(AudioStreamCallback, (void *)&cutscene_audiostream);
+#endif
+#else
+    SDL_PauseAudioDevice(device, 1);
+    SDL_Delay(1);
+
+    cutscene_audiostream = SDL_NewAudioStream(AUDIO_U8, 1, fix_int(amovie->a.sampleRate), AUDIO_S16SYS, 2, 48000);
+#endif
 
     cutscene_audiobuffer_pos = cutscene_audiobuffer;
   }

@@ -260,13 +260,33 @@ int insert_viewer_position(int index, fix *new_pts, fix_point viewer_point) {
                 interx = vpoint.x;
                 intery = poly_line.start.y;
             } else {
-                slope = fix_div((poly_line.end.y - poly_line.start.y), (poly_line.end.x - poly_line.start.x));
+                fix dx = poly_line.end.x - poly_line.start.x;
+                fix dy = poly_line.end.y - poly_line.start.y;
+                // MORPHOS FIX: Protect against division by very small values
+                if (fix_abs(dx) < fix_make(0, 0x0100)) {
+                    interx = poly_line.start.x;
+                    intery = vpoint.y;
+                } else {
+                    slope = fix_div(dy, dx);
+                    // MORPHOS FIX: Protect against division by very small slope
+                    if (fix_abs(slope) < fix_make(0, 0x0100)) {
+                        interx = vpoint.x;
+                        intery = poly_line.start.y;
+                    } else {
                 inv_slope = -fix_div(fix_make(1, 0), slope);
                 inter = poly_line.end.y - fix_mul(poly_line.end.x, slope);
                 inv_inter = vpoint.y - fix_mul(vpoint.x, inv_slope);
+                        fix slope_diff = inv_slope - slope;
 
-                interx = fix_div((inter - inv_inter), (inv_slope - slope));
+                        if (fix_abs(slope_diff) < fix_make(0, 0x0100)) {
+                            interx = vpoint.x;
+                            intery = vpoint.y;
+                        } else {
+                            interx = fix_div((inter - inv_inter), slope_diff);
                 intery = fix_mul(slope, interx) + inter;
+                        }
+                    }
+                }
             }
 
             local_inside = (IN_BETWEEN(poly_line.start.x, interx, poly_line.end.x) &&
@@ -341,11 +361,18 @@ int radius_fix(int index, fix *new_pts, fix_point viewer) {
     for (i = 0; i < index; i++) {
         x = (new_pts[i * 2] - viewer.x);
         y = (new_pts[(i * 2) + 1] - viewer.y);
-        if (fix_abs(y) > fix_abs(x)) {
-            x = fix_div(x, fix_abs(y));
+        // MORPHOS FIX: Protect against division by zero when both x and y are very small
+        fix abs_x = fix_abs(x);
+        fix abs_y = fix_abs(y);
+        if (abs_x < fix_make(0, 0x0100) && abs_y < fix_make(0, 0x0100)) {
+            // Both are essentially zero - use arbitrary angle
+            x = fix_make(1, 0);
+            y = 0;
+        } else if (abs_y > abs_x) {
+            x = fix_div(x, abs_y);
             y = (y < FIX_ZERO) ? fix_make(-1, 0) : fix_make(1, 0);
         } else {
-            y = fix_div(y, fix_abs(x));
+            y = fix_div(y, abs_x);
             x = (x < FIX_ZERO) ? fix_make(-1, 0) : fix_make(1, 0);
         }
         pt_ang[i] = fix_atan2(y, x);
@@ -585,7 +612,31 @@ uchar find_view_area(fix *cone_list, fix floor_val, fix roof_val, int *count, fi
         index = 4;
         // Find all the "raw" values without clipping
         for (i = 0; i < 4; i++) {
-            ratioy = fix_div((height - viewer_position.gY), my_view[i].gY);
+            // MORPHOS FIX: Protect against division by very small values
+            // Use a larger minimum threshold to prevent extreme ratios
+            fix divisor = my_view[i].gY;
+            fix abs_divisor = fix_abs(divisor);
+            if (abs_divisor < fix_make(0, 0x1000)) {  // Increased from 0x0100 to 0x1000
+                divisor = (divisor >= 0) ? fix_make(0, 0x1000) : -fix_make(0, 0x1000);
+            }
+
+            // MORPHOS FIX: Calculate numerator safely and check for potential overflow
+            fix numerator = height - viewer_position.gY;
+
+            // Prevent overflow: if |numerator| is very large and |divisor| is small,
+            // the result will overflow. Clamp the ratio directly.
+            if (fix_abs(numerator) > fix_make(100, 0) && abs_divisor < fix_make(1, 0)) {
+                // This would produce a ratio > 100, which is excessive
+                ratioy = (numerator >= 0) ? fix_make(50, 0) : -fix_make(50, 0);
+            } else {
+                ratioy = fix_div(numerator, divisor);
+            }
+
+            // MORPHOS FIX: Clamp ratioy to prevent overflow in subsequent calculations
+            // Reduced from 1000 to 50 for more conservative clamping
+            if (ratioy > fix_make(50, 0)) ratioy = fix_make(50, 0);
+            if (ratioy < -fix_make(50, 0)) ratioy = -fix_make(50, 0);
+
             x_val = fix_mul(ratioy, my_view[i].gX);
             z_val = fix_mul(ratioy, my_view[i].gZ);
 
@@ -678,7 +729,17 @@ uchar find_view_area(fix *cone_list, fix floor_val, fix roof_val, int *count, fi
                 else if (ratiox > ratioz)
                     tz = viewer_position.gZ + fix_mul(ratiox, my_view[i].gZ);
             } else {
-                if (fix_abs(my_view[i].gX) > fix_abs(my_view[i].gZ)) {
+                // MORPHOS FIX: Protect against division by very small values
+                fix abs_gX = fix_abs(my_view[i].gX);
+                fix abs_gZ = fix_abs(my_view[i].gZ);
+
+                // If both are too small, skip this vertex
+                if (abs_gX < fix_make(0, 0x0100) && abs_gZ < fix_make(0, 0x0100)) {
+                    index--;
+                    continue;
+                }
+
+                if (abs_gX > abs_gZ) {
                     tx = (my_view[i].gX < 0) ? -radius : radius;
                     tz = fix_mul(fix_div(tx, my_view[i].gX), my_view[i].gZ);
                 } else {
@@ -687,6 +748,11 @@ uchar find_view_area(fix *cone_list, fix floor_val, fix roof_val, int *count, fi
                 }
 
                 len = fix_sqrt(fix_mul(tx, tx) + fix_mul(tz, tz));
+                // MORPHOS FIX: Protect against zero length
+                if (len < fix_make(0, 0x0100)) {
+                    index--;
+                    continue;
+                }
                 tx = viewer_position.gX + fix_mul(fix_div(radius, len), tx); // fix_div(fix_mul(tx, radius), len);
                 tz = viewer_position.gZ + fix_mul(fix_div(radius, len), tz); // fix_mul(tz, radius), len);
             }
@@ -748,10 +814,17 @@ void intersect_cone_sides(fix *vlist, int n, fix y_min, fix y_max, int v_left, i
         if (y_max == y) {
             v_left = v_right = v_max;
 
-            while (vlist[2 * ((v_left + n - 1) % n) + 1] == y_max)
+            // MORPHOS FIX: Add loop limits to prevent infinite loops when looking straight down
+            int loop_limit = 0;
+            while (vlist[2 * ((v_left + n - 1) % n) + 1] == y_max && loop_limit < n) {
                 v_left = (v_left + n - 1) % n;
-            while (vlist[2 * ((v_right + 1) % n) + 1] == y_max)
+                loop_limit++;
+            }
+            loop_limit = 0;
+            while (vlist[2 * ((v_right + 1) % n) + 1] == y_max && loop_limit < n) {
                 v_right = (v_right + 1) % n;
+                loop_limit++;
+            }
         }
         // do the left side
         span_lines[0] = vlist[2 * ((v_left + n - 1) % n)] - vlist[2 * v_left];
@@ -774,11 +847,18 @@ void intersect_cone_sides(fix *vlist, int n, fix y_min, fix y_max, int v_left, i
         s_left = v_left;
         s_right = v_right;
 
-        while (vlist[2 * ((s_left + 1) % n) + 1] < (y - FIX_EPSILON))
+        // MORPHOS FIX: Add loop limit to prevent infinite loops
+        int loop_count = 0;
+        while (vlist[2 * ((s_left + 1) % n) + 1] < (y - FIX_EPSILON) && loop_count < n) {
             s_left = (s_left + 1) % n;
+            loop_count++;
+        }
 
-        while (vlist[2 * ((s_right + n - 1) % n) + 1] < (y - FIX_EPSILON))
+        loop_count = 0;
+        while (vlist[2 * ((s_right + n - 1) % n) + 1] < (y - FIX_EPSILON) && loop_count < n) {
             s_right = (s_right + n - 1) % n;
+            loop_count++;
+        }
 
         // first check if crossing is at upper point of vector
         if (y == vlist[2 * ((s_left + 1) % n) + 1]) {
@@ -800,7 +880,12 @@ void intersect_cone_sides(fix *vlist, int n, fix y_min, fix y_max, int v_left, i
             span_lines[3] = deltay;
             span_index[0] = s_left;
 
+            // MORPHOS FIX: Protect against division by zero
+            if (fix_abs(deltay) < fix_make(0, 0x0100)) {
+                span_intersect[0] = vlist[2 * s_left];
+            } else {
             span_intersect[0] = vlist[2 * s_left] + fix_mul(fix_div((y - vlist[2 * s_left + 1]), deltay), deltax);
+            }
             // fix_div(fix_mul((y-vlist[2*s_left+1]), deltax), deltay);
             span_intersect[1] = y;
         }
@@ -825,7 +910,12 @@ void intersect_cone_sides(fix *vlist, int n, fix y_min, fix y_max, int v_left, i
             span_lines[7] = -deltay;
             span_index[1] = (s_right + n - 1) % n;
 
+            // MORPHOS FIX: Protect against division by zero
+            if (fix_abs(deltay) < fix_make(0, 0x0100)) {
+                span_intersect[2] = vlist[2 * s_right];
+            } else {
             span_intersect[2] = vlist[2 * s_right] + fix_mul(fix_div((y - vlist[2 * s_right + 1]), deltay), deltax);
+            }
             // fix_div(fix_mul((y - vlist[2*s_right+1]), deltax), deltay);
             span_intersect[3] = y;
         }
@@ -901,6 +991,15 @@ void simple_cone_clip_pass(void) {
     // printf("y_min: %f, y_max: %f\n", fix_float(y_min), fix_float(y_max));
 
     /* check if this is a horizontal line. */
+    // Also check for excessive iteration count which would cause freeze
+    if (y_min >= y_max || y_min < 0 || y_max < 0 ||
+        fix_int(y_min) < 0 || fix_int(y_max) > MAP_YSIZE + 10 ||
+        (fix_int(y_max) - fix_int(y_min)) > MAP_YSIZE + 10) {
+        // Degenerate cone - just return without processing
+        return;
+    }
+
+    /* check if this is a horizontal line. */
     if (fix_int(y_min) == fix_int(y_max)) {
         cone_span_set(fix_int(y_min), fix_int(x_min), fix_int(x_max));
         return;
@@ -911,10 +1010,19 @@ void simple_cone_clip_pass(void) {
        edge at y = y_min, they will be different. */
 
     v_left = v_right = v_min;
-    while (view_cone_list[2 * ((v_left + 1) % n) + 1] == y_min)
+    // MORPHOS FIX: Add loop limits to prevent infinite loops
+    {
+        int loop_limit = 0;
+        while (view_cone_list[2 * ((v_left + 1) % n) + 1] == y_min && loop_limit < n) {
         v_left = (v_left + 1) % n;
-    while (view_cone_list[2 * ((v_right + n - 1) % n) + 1] == y_min)
+            loop_limit++;
+        }
+        loop_limit = 0;
+        while (view_cone_list[2 * ((v_right + n - 1) % n) + 1] == y_min && loop_limit < n) {
         v_right = (v_right + n - 1) % n;
+            loop_limit++;
+        }
+    }
 
     // printf("v_left: %i, v_right: %i\n", fix_float(v_left), fix_float(v_right));
 
@@ -926,11 +1034,17 @@ void simple_cone_clip_pass(void) {
         y_top = MAP_YSIZE - 1;
 
     /* draw each span, starting at y_min. */
-    for (y = fix_int(y_min); y < y_top; y++) {
+    // MORPHOS FIX: Add hard limit to prevent infinite loop
+    int max_iterations = MAP_YSIZE + 20;  // Should never need more than this
+    int iteration_count = 0;
+    for (y = fix_int(y_min); y < y_top && iteration_count < max_iterations; y++, iteration_count++) {
+        int inner_loop_limit;  // MORPHOS FIX: loop limit variable
         /* process completed left edge(s). */
         left_line = left_repeat = FALSE;
         x_outer_left = fix_make(-1, 0);
-        while (fix_int(view_cone_list[2 * v_left + 1]) == y) {
+        inner_loop_limit = 0;
+        while (fix_int(view_cone_list[2 * v_left + 1]) == y && inner_loop_limit < n) {
+            inner_loop_limit++;
             m_prev = m_left;
             x_left = view_cone_list[2 * v_left];
             y_left = view_cone_list[2 * v_left + 1];
@@ -952,7 +1066,12 @@ void simple_cone_clip_pass(void) {
 
             // if the next point is above the current - calculate the slope
             if (fix_int(view_cone_list[2 * v_left + 1]) > fix_int(y_left)) {
+                // MORPHOS FIX: Protect against division by very small d
+                if (fix_abs(d) < fix_make(0, 0x0100)) {
+                    m_left = 0;
+                } else {
                 m_left = fix_div(view_cone_list[2 * v_left] - x_left, d);
+                }
 
                 x_shift = 0;
 
@@ -973,7 +1092,9 @@ void simple_cone_clip_pass(void) {
         x_outer_right = fix_make(-1, 0);
 
         /* process completed right edge(s). */
-        while (fix_int(view_cone_list[2 * v_right + 1]) == y) {
+        inner_loop_limit = 0;  // MORPHOS FIX: reset loop limit
+        while (fix_int(view_cone_list[2 * v_right + 1]) == y && inner_loop_limit < n) {
+            inner_loop_limit++;
             m_prev = m_right;
             x_right = view_cone_list[2 * v_right];
             y_right = view_cone_list[2 * v_right + 1];
@@ -994,7 +1115,12 @@ void simple_cone_clip_pass(void) {
 
             // if the next point is above the current - calculate the slope
             if (fix_int(view_cone_list[2 * v_right + 1]) > fix_int(y_right)) {
+                // MORPHOS FIX: Protect against division by very small d
+                if (fix_abs(d) < fix_make(0, 0x0100)) {
+                    m_right = 0;
+                } else {
                 m_right = fix_div(view_cone_list[2 * v_right] - x_right, d);
+                }
 
                 d = (m_right > 0) ? (fix_make(1, 0) - fix_frac(y_right)) : fix_frac(y_right);
                 x_shift = fix_abs(fix_mul(d, m_right));

@@ -64,7 +64,12 @@ physics_handle EDMS_beam_weapon(fix X[3], fix D[3], fix kick, fix knock, fix siz
 
     Q Kick, Knock, Size, Range;
 
-    Q *XX = (Q *)&X[0];
+    // Don't cast fix* to Q* - undefined behavior due to strict aliasing
+    // Copy values explicitly instead
+    Q XX[3];
+    XX[0].fix_to(X[0]);
+    XX[1].fix_to(X[1]);
+    XX[2].fix_to(X[2]);
 
     DD[0].fix_to(D[0]);
     DD[1].fix_to(D[1]);

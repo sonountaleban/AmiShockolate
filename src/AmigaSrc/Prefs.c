@@ -119,7 +119,11 @@ void SetDefaultPrefs(void) {
     gShockPrefs.soSfxVolume = 100;
     gShockPrefs.soAudioLogVolume = 100;
     gShockPrefs.doVideoMode = 3;
+#ifdef USE_SDL
     gShockPrefs.doFullScreen = true;
+#else
+    gShockPrefs.doFullScreen = false;
+#endif
     gShockPrefs.doResolution = 0; // High-res.
     gShockPrefs.doDetail = 3;     // Max detail.
     gShockPrefs.doUseOpenGL = false;
@@ -140,11 +144,13 @@ static char *GetPrefsPathFilename(void) {
         fclose(f);
         strcpy(filename, PREFS_FILENAME);
     } else {
-        //GP
-        /*char *p = SDL_GetPrefPath("Interrupt", "SystemShock");
-        snprintf(filename, sizeof(filename), "%s%s", p, PREFS_FILENAME);
-        SDL_free(p);*/
+#ifdef __AROS__
         snprintf(filename, sizeof(filename), "%s", PREFS_FILENAME);
+#else
+        char *p = SDL_GetPrefPath("Interrupt", "SystemShock");
+        snprintf(filename, sizeof(filename), "%s%s", p, PREFS_FILENAME);
+        SDL_free(p);
+#endif
     }
 
     return filename;
@@ -614,11 +620,13 @@ static char *GetKeybindsPathFilename(void) {
         fclose(f);
         strcpy(filename, KEYBINDS_FILENAME);
     } else {
-        //GP
-        /*char *p = SDL_GetPrefPath("Interrupt", "SystemShock");
-        snprintf(filename, sizeof(filename), "%s%s", p, KEYBINDS_FILENAME);
-        SDL_free(p);*/
+#ifdef __AROS__
         snprintf(filename, sizeof(filename), "%s", KEYBINDS_FILENAME);
+#else
+        char *p = SDL_GetPrefPath("Interrupt", "SystemShock");
+        snprintf(filename, sizeof(filename), "%s%s", p, KEYBINDS_FILENAME);
+        SDL_free(p);
+#endif
     }
 
     return filename;

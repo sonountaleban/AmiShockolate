@@ -47,6 +47,8 @@ uchar pick_best_ref(ObjRefID cRef);
 uchar pick_best_ref(ObjRefID cRef) {
     int bdist, cdist, ldist;
     ObjRefID curLRef, BRef;
+    int iter_count = 0;  // MORPHOS FIX: prevent infinite loop
+    const int MAX_ITER = 2000;
 
     // really, need to sort so SCOOC should do it once we are done with clip + pipe
     if ((me_subclip(_fdt_mptr) != SUBCLIP_OUT_OF_CONE) && (me_tiletype(_fdt_mptr) != TILE_SOLID)) {
@@ -56,7 +58,8 @@ uchar pick_best_ref(ObjRefID cRef) {
     } else
         bdist = cdist = 0xffff;
     curLRef = objRefs[cRef].nextref; // init the examine others loop
-    while (curLRef != cRef) {        // this should know to check the map for not actually seen
+    while (curLRef != cRef && iter_count < MAX_ITER) {  // MORPHOS FIX: added iteration limit
+        iter_count++;
         int x, y;
         MapElem *mp;
 
@@ -78,6 +81,9 @@ uchar pick_best_ref(ObjRefID cRef) {
         }
         curLRef = objRefs[curLRef].nextref; /* we are us */
     }
+    if (iter_count >= MAX_ITER) {
+        printf("WARN: pick_best_ref hit MAX_ITER!\n");
+    }
     if (bdist != 0xffff) {
         CitrefSetDealt(BRef);
         return (BRef == cRef);
@@ -93,9 +99,11 @@ void render_parse_obj(void) {
 #ifndef __RENDTEST__
     ObjRefID curORef;
     ObjID cobjid;
+    int iter_count = 0;  // MORPHOS FIX: prevent infinite loop
+    const int MAX_ITER = 2000;
 
     curORef = _fdt_mptr->objRef;
-    while (curORef != OBJ_REF_NULL) {
+    while (curORef != OBJ_REF_NULL && iter_count++ < MAX_ITER) {  // MORPHOS FIX: added iteration limit
         uchar show_here;
         cobjid = objRefs[curORef].obj;
         if (!ObjCheckDealt(cobjid)) {
@@ -112,6 +120,9 @@ void render_parse_obj(void) {
         //         mprintf("not rend %d @ %d %d\n",curORef,_fdt_x,_fdt_y);
         curORef = objRefs[curORef].next;
     }
+    if (iter_count >= MAX_ITER) {
+        printf("WARN: render_parse_obj hit MAX_ITER!\n");
+    }
     render_sorted_objs();
 #else
     ushort curORef;
@@ -125,9 +136,11 @@ void facelet_parse_obj(void) {
 #ifndef __RENDTEST__
     ObjRefID curORef;
     ObjID cobjid;
+    int iter_count = 0;  // MORPHOS FIX: prevent infinite loop
+    const int MAX_ITER = 2000;
 
     curORef = _fdt_mptr->objRef;
-    while (curORef != OBJ_REF_NULL) {
+    while (curORef != OBJ_REF_NULL && iter_count++ < MAX_ITER) {  // MORPHOS FIX: added iteration limit
         cobjid = objRefs[curORef].obj;
         if (!ObjCheckDealt(cobjid)) {
             facelet_obj(cobjid);

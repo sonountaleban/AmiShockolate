@@ -26,7 +26,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifdef FIXDEBUG
 
 #include "fixpp.h"
+#ifndef __AROS__
 #include <iostream>
+#endif
 
 // =========================================================
 // touch() is a function that does nothing except cause the
@@ -67,8 +69,49 @@ uint32_t Fixpoint::unary_minus = 0, Fixpoint::unary_plus = 0;
 uint32_t Fixpoint::cond_l = 0, Fixpoint::cond_g = 0, Fixpoint::cond_le = 0, Fixpoint::cond_ge = 0,
     Fixpoint::cond_eq = 0, Fixpoint::cond_neq = 0;
 
-void Fixpoint::report(void) { report(std::cout); }
+void Fixpoint::report(void)
+{
+#ifdef __AROS__
+    printf("Constructor     void: %d\n", constructor_void);
+    printf("Constructor Fixpoint: %d\n", constructor_Fixpoint);
+    printf("Constructor      int: %d\n", constructor_int);
+    printf("Constructor     lint: %d\n", constructor_lint);
+    printf("Constructor     uint: %d\n", constructor_uint);
+    printf("Constructor    ulint: %d\n", constructor_ulint);
+    printf("Constructor   double: %d\n", constructor_double);
 
+    printf("Assign to Fixpoint:   %d\n", ass_Fixpoint);
+    printf("Assign to int:        %d\n", ass_int);
+    printf("Assign to uint:       %d\n", ass_uint);
+    printf("Assign to lint:       %d\n", ass_lint);
+    printf("Assign to ulint:      %d\n", ass_ulint);
+    printf("Assign to double:     %d\n", ass_double);
+
+    printf("Binary Add:           %d\n", binary_add);
+    printf("Binary Sub:           %d\n", binary_sub);
+    printf("Binary Div:           %d\n", binary_div);
+    printf("Binary Mul:           %d\n", binary_mul);
+
+    printf("Add-equals            %d\n", add_eq);
+    printf("Sub-equals            %d\n", sub_eq);
+    printf("Mul-equals            %d\n", mul_eq);
+    printf("Div-equals            %d\n", div_eq);
+
+    printf("Unary minus           %d\n", unary_minus);
+    printf("Unary  plus           %d\n", unary_plus);
+
+    printf("<                     %d\n", cond_l);
+    printf(">                     %d\n", cond_g);
+    printf("<=                    %d\n", cond_le);
+    printf(">=                    %d\n", cond_ge);
+    printf("==                    %d\n", cond_eq);
+    printf("!=                    %d\n", cond_neq);
+#else
+    report(std::cout);
+#endif
+}
+
+#ifndef __AROS__
 void Fixpoint::report(std::ostream &os) {
     os << "Constructor     void: " << constructor_void << '\n';
     os << "Constructor Fixpoint: " << constructor_Fixpoint << '\n';
@@ -105,6 +148,7 @@ void Fixpoint::report(std::ostream &os) {
     os << "==                    " << cond_eq << '\n';
     os << "!=                    " << cond_neq << '\n';
 }
+#endif
 
 void Fixpoint::reset_report(void) {
     constructor_void = constructor_Fixpoint = constructor_int = constructor_uint = constructor_lint =

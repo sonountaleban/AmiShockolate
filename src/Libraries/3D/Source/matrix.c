@@ -467,22 +467,32 @@ void get_pyr_vector(g3s_vector *corners) {
     int64_t den_y = cross(d23, d79, d13, d89);
     int64_t den_z = cross(d13, d56, d23, d46);
 
+    // Prevent division by zero - if denominator is too small after shifting,
+    // use a minimum value to avoid crash
+    int64_t div_x = den_x >> 16;
+    int64_t div_y = den_y >> 16;
+    int64_t div_z = den_z >> 16;
+    if (div_x == 0) div_x = (den_x >= 0) ? 1 : -1;
+    if (div_y == 0) div_y = (den_y >= 0) ? 1 : -1;
+    if (div_z == 0) div_z = (den_z >= 0) ? 1 : -1;
+
     if (llabs(den_x) >= llabs(den_y) && llabs(den_x) >= llabs(den_z)) {
         corners->gX = f1_0;
-        corners->gY = den_y / (den_x >> 16);
-        corners->gZ = den_z / (den_x >> 16);
+        corners->gY = den_y / div_x;
+        corners->gZ = den_z / div_x;
     } else if (llabs(den_y) >= llabs(den_x) && llabs(den_y) >= llabs(den_z)) {
-        corners->gX = den_x / (den_y >> 16);
+        corners->gX = den_x / div_y;
         corners->gY = f1_0;
-        corners->gZ = den_z / (den_y >> 16);
+        corners->gZ = den_z / div_y;
     } else {
-        corners->gX = den_x / (den_z >> 16);
-        corners->gY = den_y / (den_z >> 16);
+        corners->gX = den_x / div_z;
+        corners->gY = den_y / div_z;
         corners->gZ = f1_0;
     }
 
     // got_vector
     g3_vec_normalize(corners);
+
 
     // make sure vector points right way
     r = fix64_mul(corners->gX, vm3) + fix64_mul(corners->gY, vm6) + fix64_mul(corners->gZ, vm9);

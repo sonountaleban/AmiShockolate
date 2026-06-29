@@ -43,8 +43,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define ALOG_MUSIC_DUCK 0.7
 
-//GP
-//extern SDL_AudioStream *cutscene_audiostream; // see cutsloop.c
+#ifdef __AROS__
+#ifdef USE_SDL
+#include "CustomAudioStream.h"
+
+extern CustomAudioStream *cutscene_audiostream; // see cutsloop.c
+extern struct MusicDevice *MusicDev;
+
+extern void AudioStreamCallback(void *userdata, unsigned char *stream, int len);
+extern void MusicCallback(void *userdata, Uint8 *stream, int len);
+#endif
+#else
+extern SDL_AudioStream *cutscene_audiostream; // see cutsloop.c
+#endif
 
 static uint8_t *audiolog_audiobuffer = NULL;
 static uint8_t *audiolog_audiobuffer_pos = NULL;
@@ -62,8 +73,9 @@ extern uchar curr_vol_lev;
 extern uchar curr_alog_vol;
 extern char which_lang;
 
-//GP
-//extern SDL_AudioDeviceID device;
+#ifndef __AROS__
+extern SDL_AudioDeviceID device;
+#endif
 
 errtype audiolog_init(void) { return OK; }
 
@@ -114,13 +126,24 @@ errtype audiolog_play(int email_id) {
     audiolog_audiobuffer = (uint8_t *)malloc(audiolog_audiobuffer_size * MOVIE_DEFAULT_BLOCKLEN);
     AfileGetAudio(palog, audiolog_audiobuffer);
 
-    DEBUG("%s: Playing email", __FUNCTION__);
+    DEBUG("%s: Playing email, %d blocks", __FUNCTION__, audiolog_audiobuffer_size);
 
-    //GP
-    /*SDL_PauseAudioDevice(device, 1);
+#ifdef __AROS__
+#ifdef USE_SDL
+    Mix_HookMusic(NULL, NULL);
+
     SDL_Delay(1);
 
-    cutscene_audiostream = SDL_NewAudioStream(AUDIO_U8, 1, fix_int(palog->a.sampleRate), AUDIO_S16SYS, 2, 48000);*/
+    cutscene_audiostream = NewAudioStream(AUDIO_U8, 1, fix_int(palog->a.sampleRate), AUDIO_S16SYS, 2, 48000);
+
+    Mix_HookMusic(AudioStreamCallback, (void *)&cutscene_audiostream);
+#endif
+#else
+    SDL_PauseAudioDevice(device, 1);
+    SDL_Delay(1);
+
+    cutscene_audiostream = SDL_NewAudioStream(AUDIO_U8, 1, fix_int(palog->a.sampleRate), AUDIO_S16SYS, 2, 48000);
+#endif
 
     audiolog_audiobuffer_pos = audiolog_audiobuffer;
 
@@ -152,8 +175,28 @@ void audiolog_stop(void) {
         AmigaTuneUpdateVolume();
     }
 
-    //GP
-    /*if (cutscene_audiostream != NULL) {
+#ifdef __AROS__
+#ifdef USE_SDL
+    if (cutscene_audiostream != NULL)
+    {
+        Mix_HookMusic(NULL, NULL);
+
+        SDL_Delay(1);
+
+        Mix_HookMusic(MusicCallback, (void *)&MusicDev);
+
+        DestroyAudioStream(cutscene_audiostream);
+        cutscene_audiostream = NULL;
+
+        if (audiolog_audiobuffer)
+        {
+            free(audiolog_audiobuffer);
+            audiolog_audiobuffer = NULL;
+        }
+    }
+#endif
+#else
+    if (cutscene_audiostream != NULL) {
         SDL_PauseAudioDevice(device, 1);
         SDL_Delay(1);
 
@@ -164,7 +207,9 @@ void audiolog_stop(void) {
             free(audiolog_audiobuffer);
             audiolog_audiobuffer = NULL;
         }
-    }*/
+    }
+#endif
+
 
     curr_alog = -1;
 
@@ -180,8 +225,34 @@ void audiolog_stop(void) {
 }
 
 errtype audiolog_loop_callback(void) {
-    //GP
-    /*if (cutscene_audiostream) {
+#ifdef __AROS__
+#ifdef USE_SDL
+    if (cutscene_audiostream)
+    {
+        if (audiolog_audiobuffer_size > 0)
+        {
+            int available_space = cutscene_audiostream->capacity - AudioStreamAvailable(cutscene_audiostream);
+            if (available_space >= 65536)
+            {
+                int i, vol = curr_alog_vol * 127 / 100; // convert from 0-100 to 0-127
+
+                for (i = 0; i < MOVIE_DEFAULT_BLOCKLEN; i++)
+                    audiolog_audiobuffer_pos[i] = 128 + ((int)audiolog_audiobuffer_pos[i] - 128) * vol / 128;
+
+                AudioStreamPut(cutscene_audiostream, audiolog_audiobuffer_pos, MOVIE_DEFAULT_BLOCKLEN);
+                audiolog_audiobuffer_pos += MOVIE_DEFAULT_BLOCKLEN;
+                audiolog_audiobuffer_size--;
+            }
+        }
+
+        if (AudioStreamAvailable(cutscene_audiostream) == 0)
+        {
+            audiolog_stop();
+        }
+    }
+#endif
+#else
+    if (cutscene_audiostream) {
         SDL_PauseAudioDevice(device, 0);
 
         if (audiolog_audiobuffer_size > 0) {
@@ -197,7 +268,8 @@ errtype audiolog_loop_callback(void) {
 
         if (SDL_AudioStreamAvailable(cutscene_audiostream) == 0)
             audiolog_stop();
-    }*/
+    }
+#endif
 
     return OK;
 }

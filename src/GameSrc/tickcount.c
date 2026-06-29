@@ -25,9 +25,9 @@ extern ULONG GetMilliseconds();
 // number of ticks since system start (1 Tick is about 1/60 second)
 uint32_t TickCount(void)
 {
-#ifdef AMIGA
+#ifdef __AROS__
     return GetMilliseconds() * 100 / 357;
 #else
     return ((SDL_GetTicks() * 100) / 357); // 280 per second;
-#endif // AMIGA
+#endif
 }

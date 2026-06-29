@@ -35,7 +35,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <string.h>
 #if defined(_MSC_VER)
 #include <windows.h>  // SetFilePointer / SetEndOfFile
-#elifndef AMIGA
+#elifndef __AROS__
 #include <unistd.h>   // ftruncate
 #endif
 

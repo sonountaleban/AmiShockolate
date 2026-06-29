@@ -989,6 +989,7 @@ uchar fire_player_weapon(LGPoint *pos, LGRegion *r, uchar pull) {
 
     deltax = mouse_attack_x = realpos.x;
     deltay = mouse_attack_y = realpos.y;
+
     switch (player_struct.weapons[w].type) {
     case (GUN_SUBCLASS_PISTOL):
         handart_ok = player_fire_projectile(&realpos, r, w, gun_triple);

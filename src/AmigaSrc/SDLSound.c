@@ -6,11 +6,21 @@ static snd_digi_parms digi_parms_by_channel[SND_MAX_SAMPLES];
 
 #ifdef USE_SDL_MIXER
 
+#ifdef __AROS__
+#include <SDL/SDL.h>
+#include <SDL/SDL_mixer.h>
+#include "CustomAudioStream.h"
+#else
 #include <SDL_mixer.h>
+#endif
 
 static Mix_Chunk *samples_by_channel[SND_MAX_SAMPLES];
 
+#ifdef __AROS__
+extern CustomAudioStream *cutscene_audiostream;
+#else
 extern SDL_AudioStream *cutscene_audiostream;
+#endif
 extern struct MusicDevice *MusicDev;
 
 extern void AudioStreamCallback(void *userdata, unsigned char *stream, int len);
@@ -20,6 +30,25 @@ int snd_start_digital(void) {
 
     // Startup the sound system
 
+#ifdef __AROS__
+    //GP: Using SDL 1.2 we can't have music and digital voice dialogs at the same time...
+    /*SDL_AudioSpec spec, obtained;
+    spec.freq = 48000;
+    spec.format = AUDIO_S16SYS;
+    spec.channels = 2;
+    spec.samples = 2048;
+    spec.callback = AudioStreamCallback;
+    spec.userdata = (void *)&cutscene_audiostream;
+    if (SDL_OpenAudio(&spec, &obtained))
+    {
+        ERROR("Could not open SDL audio: %s", SDL_GetError());
+    }
+    else
+    {
+        INFO("Opened Music Stream, freq %d, size %d, format %d, channels %d, samples %d",
+             obtained.freq, obtained.size, obtained.format, obtained.channels, obtained.samples);
+    }*/
+#else
     SDL_AudioSpec spec, obtained;
     spec.freq = 48000;
     spec.format = AUDIO_S16SYS;
@@ -37,6 +66,7 @@ int snd_start_digital(void) {
         INFO("Opened Music Stream, deviceID %d, freq %d, size %d, format %d, channels %d, samples %d", device,
              obtained.freq, obtained.size, obtained.format, obtained.channels, obtained.samples);
     }
+#endif
 
     if (Mix_Init(MIX_INIT_MP3) < 0) {
         ERROR("%s: Init failed", __FUNCTION__);
@@ -63,7 +93,11 @@ int snd_sample_play(int snd_ref, int len, uchar *smp, struct snd_digi_parms *dpr
 
     // Play one of the VOC format sounds
 
+#ifdef __AROS__
+    Mix_Chunk *sample = Mix_LoadWAV_RW(SDL_RWFromMem(smp, len), 1);
+#else
     Mix_Chunk *sample = Mix_LoadWAV_RW(SDL_RWFromConstMem(smp, len), 1);
+#endif
     if (sample == NULL) {
         DEBUG("%s: Failed to load sample", __FUNCTION__);
         return ERR_NOEFFECT;
@@ -106,8 +140,13 @@ void snd_kill_all_samples(void) {
 
     // assume we want these too
     //    StopTheMusic(); // no, don't stop the music
+#ifdef __AROS__
+    if (cutscene_audiostream != NULL)
+        AudioStreamClear(cutscene_audiostream);
+#else
     if (cutscene_audiostream != NULL)
         SDL_AudioStreamClear(cutscene_audiostream);
+#endif
 }
 
 void snd_sample_reload_parms(snd_digi_parms *sdp) {
@@ -129,7 +168,7 @@ void snd_sample_reload_parms(snd_digi_parms *sdp) {
 
 int is_playing = 0;
 
-int MacTuneLoadTheme(char *theme_base, int themeID) {
+int AmigaTuneLoadTheme(char *theme_base, int themeID) {
     char filename[40];
     FILE *f;
     int i;
@@ -174,7 +213,7 @@ int MacTuneLoadTheme(char *theme_base, int themeID) {
     return OK;
 }
 
-void MacTuneKillCurrentTheme(void) { StopTheMusic(); }
+void AmigaTuneKillCurrentTheme(void) { StopTheMusic(); }
 
 #else
 

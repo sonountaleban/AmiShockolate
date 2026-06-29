@@ -250,13 +250,15 @@ int g3_clip_line(g3s_point *src[], g3s_point *dest[]) {
 
         if (_tmp->p3_flags & PF_CLIPPNT) {
             // do x
+            fix safe_gZ = (_tmp->gZ == 0) ? 1 : _tmp->gZ;
+            // do x
             if ((_tmp->codes & CC_OFF_X) == 0 || (_tmp->codes & CC_OFF_Y) != 0)
-                _tmp->sx = fix_mul(_scrw, (FIX_UNIT + fix_div(_tmp->gX, _tmp->gZ)));
+                _tmp->sx = fix_mul(_scrw, (FIX_UNIT + fix_div(_tmp->gX, safe_gZ)));
             else
                 _tmp->sx = (_tmp->gX > 0) ? fix_make(grd_bm.w, 0) : 0;
             // do y
             if ((_tmp->codes & CC_OFF_Y) == 0 || (_tmp->codes & CC_OFF_X) != 0)
-                _tmp->sy = fix_mul(_scrh, (FIX_UNIT - fix_div(_tmp->gY, _tmp->gZ)));
+                _tmp->sy = fix_mul(_scrh, (FIX_UNIT - fix_div(_tmp->gY, safe_gZ)));
             else
                 _tmp->sy = (_tmp->gY < 0) ? fix_make(grd_bm.h, 0) : 0;
         }
@@ -441,14 +443,16 @@ int g3_clip_polygon(int n, g3s_point *src[], g3s_point *dest[]) {
         _tmp = dest[i];
 
         if (_tmp->p3_flags & PF_CLIPPNT) {
+            // MORPHOS FIX: Protect against division by zero when Z is 0
+            fix safe_gZ = (_tmp->gZ == 0) ? 1 : _tmp->gZ;
             // do x
             if ((_tmp->codes & CC_OFF_X) == 0 || (_tmp->codes & CC_OFF_Y) != 0)
-                _tmp->sx = fix_mul(_scrw, (FIX_UNIT + fix_div(_tmp->gX, _tmp->gZ)));
+                _tmp->sx = fix_mul(_scrw, (FIX_UNIT + fix_div(_tmp->gX, safe_gZ)));
             else
                 _tmp->sx = (_tmp->gX > 0) ? fix_make(grd_bm.w, 0) : 0;
             // do y
-            if ((_tmp->codes & CC_OFF_Y) == 0 && (_tmp->codes & CC_OFF_X) != 0)
-                _tmp->sy = fix_mul(_scrh, (FIX_UNIT - fix_div(_tmp->gY, _tmp->gZ)));
+            if ((_tmp->codes & CC_OFF_Y) == 0 || (_tmp->codes & CC_OFF_X) != 0)
+                _tmp->sy = fix_mul(_scrh, (FIX_UNIT - fix_div(_tmp->gY, safe_gZ)));
             else
                 _tmp->sy = (_tmp->gY < 0) ? fix_make(grd_bm.h, 0) : 0;
         }

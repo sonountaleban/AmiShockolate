@@ -119,12 +119,15 @@ errtype copy_file(char *src_fname, char *dest_fname) {
 
     fdst = fopen_caseless(dest_fname, "wb");
     if (fdst == NULL) {
+        fclose(fsrc);
         return ERR_FOPEN;
     }
 
-    int b;
-    while ((b = fgetc(fsrc)) != EOF) {
-        fputc(b, fdst);
+    // Use buffered copy for much better performance
+    char buffer[8192];
+    size_t bytes_read;
+    while ((bytes_read = fread(buffer, 1, sizeof(buffer), fsrc)) > 0) {
+        fwrite(buffer, 1, bytes_read, fdst);
     }
 
     fclose(fsrc);

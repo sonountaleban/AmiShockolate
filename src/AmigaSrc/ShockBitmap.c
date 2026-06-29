@@ -35,11 +35,16 @@ extern bool fullscreenActive;
 //--------------------
 //  Globals
 //--------------------
+#ifdef USE_SDL
+SDL_Surface *pPrimarySurface = NULL;
+SDL_Surface *pSecondarySurface = NULL;
+#else
 UBYTE *pPrimaryFrameBuffer = NULL;
 UBYTE *pSecondaryFrameBuffer = NULL;
 ULONG primaryFrameBufferSize = 0;
 ULONG secondaryFrameBufferSize = 0;
 struct RastPort *pPrimaryFrameBufferRastPort = NULL;
+#endif // USE_SDL
 
 void ChangeScreenSize(int width, int height)
 {
@@ -52,15 +57,6 @@ void ChangeScreenSize(int width, int height)
     }
 
     INFO("ChangeScreenSize");
-
-    //GP
-    //SDL_RenderClear(renderer);
-    //SDL_SetWindowFullscreen(window, fullscreenActive ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0);
-    //SDL_SetWindowSize(window, width, height);
-    //SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
-    //SDL_RenderSetLogicalSize(renderer, width, height);
-
-    //SizeWindow(pMainWindow, deltaWidth, deltaHeight);
 
     SetupWindowScreenBitmaps(width, height);
 }
@@ -79,6 +75,18 @@ void SetupWindowScreenBitmaps(int width, int height)
 
     if (fullscreenActive)
     {
+#ifdef USE_SDL
+        pMainScreen = SDL_SetVideoMode(width, height, 0, SDL_SWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
+        if (!pMainScreen)
+        {
+            ERROR("Failed to create the main screen");
+
+            exit(1);
+        }
+
+        gPhysicalWidth = pMainScreen->w;
+        gPhysicalHeight = pMainScreen->h;
+#else
         pMainScreen = OpenScreenTags(NULL,
                                      SA_Left, 0, SA_Top, 0, SA_Width, width, SA_Height, height, SA_Depth, 8,
                                      SA_Type, CUSTOMSCREEN,
@@ -104,12 +112,27 @@ void SetupWindowScreenBitmaps(int width, int height)
                                      WA_RMBTrap, TRUE,
                                      WA_CustomScreen, pMainScreen,
                                      TAG_DONE);
+#endif // USE_SDL
 
         gLogicalWidth = width;
         gLogicalHeight = height;
     }
     else
     {
+#ifdef USE_SDL
+        pMainScreen = SDL_SetVideoMode(width, height, 0, SDL_SWSURFACE | SDL_ANYFORMAT);
+        if (!pMainScreen)
+        {
+            ERROR("Failed to create the main screen");
+
+            exit(1);
+        }
+
+        SDL_WM_SetCaption(windowTitle, NULL);
+
+        gLogicalWidth = gPhysicalWidth = pMainScreen->w;
+        gLogicalHeight = gPhysicalHeight = pMainScreen->h;
+#else
         pMainScreen = LockPubScreen("Workbench");
         if (!pMainScreen)
         {
@@ -131,8 +154,10 @@ void SetupWindowScreenBitmaps(int width, int height)
 
         gPhysicalWidth = gLogicalWidth = width;
         gPhysicalHeight = gLogicalHeight = height;
+#endif // USE_SDL
     }
 
+#ifndef USE_SDL
     if (!pMainWindow)
     {
         ERROR("Failed to create the main window");
@@ -141,9 +166,30 @@ void SetupWindowScreenBitmaps(int width, int height)
     }
 
     pMainWindowRastPort = pMainWindow->RPort;
+#endif // USE_SDL
 
     CleanupFrameBuffers();
 
+#ifdef USE_SDL
+    pPrimarySurface = SDL_CreateRGBSurface(SDL_SWSURFACE, gLogicalWidth, gLogicalHeight, 8, 0, 0, 0, 0);
+    if (!pPrimarySurface)
+    {
+        ERROR("Failed to create the SDL primary surface");
+
+        exit(1);
+    }
+
+    pSecondarySurface = SDL_CreateRGBSurface(SDL_SWSURFACE, gLogicalWidth, gLogicalHeight, 8, 0, 0, 0, 0);
+    if (!pSecondarySurface)
+    {
+        ERROR("Failed to create the SDL secondary surface");
+
+        exit(1);
+    }
+
+    gScreenRowbytes = pPrimarySurface->pitch;
+    gScreenAddress = pPrimarySurface->pixels;
+#else
     primaryFrameBufferSize = gLogicalWidth * gLogicalHeight;
     pPrimaryFrameBuffer = AllocMem(primaryFrameBufferSize, MEMF_ANY);
     if (!pPrimaryFrameBuffer)
@@ -173,12 +219,16 @@ void SetupWindowScreenBitmaps(int width, int height)
     // Point the renderer at the screen bytes
     gScreenRowbytes = gLogicalWidth;
     gScreenAddress = pPrimaryFrameBuffer;
+#endif // USE_SDL
 
     grd_mode_cap.vbase = gScreenAddress;
 }
 
 void CleanupScreenAndWindow()
 {
+#ifdef USE_SDL
+    pMainScreen = NULL;
+#else
     if (pMainWindow)
     {
         CloseWindow(pMainWindow);
@@ -190,10 +240,24 @@ void CleanupScreenAndWindow()
         CloseScreen(pMainScreen);
         pMainScreen = NULL;
     }
+#endif // USE_SDL
 }
 
 void CleanupFrameBuffers()
 {
+#ifdef USE_SDL
+    if (pPrimarySurface)
+    {
+        SDL_FreeSurface(pPrimarySurface);
+        pPrimarySurface = NULL;
+    }
+
+    if (pSecondarySurface)
+    {
+        SDL_FreeSurface(pSecondarySurface);
+        pSecondarySurface = NULL;
+    }
+#else
     if (pPrimaryFrameBufferRastPort)
     {
         FreeRastPort(pPrimaryFrameBufferRastPort);
@@ -211,8 +275,10 @@ void CleanupFrameBuffers()
         FreeMem(pSecondaryFrameBuffer, secondaryFrameBufferSize);
         pSecondaryFrameBuffer = NULL;
     }
+#endif // USE_SDL
 }
 
+#ifndef USE_SDL
 struct RastPort *CreateRastPort(int width, int height, struct BitMap *pFriendBitmap, BOOL displayable)
 {
     struct RastPort *rp = AllocMem(sizeof(*rp), MEMF_ANY);
@@ -244,3 +310,4 @@ void FreeRastPort(struct RastPort *rp)
         FreeMem(rp, sizeof(struct RastPort));
     }
 }
+#endif

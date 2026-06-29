@@ -98,6 +98,14 @@ void g3_vec_normalize(g3s_vector *v) {
 
     temp = g3_vec_mag(v);
 
+    // MORPHOS FIX: Protect against zero or very small magnitude
+    if (temp < 0x100) {  // If magnitude is too small, set to unit vector along Z
+        v->gX = 0;
+        v->gY = 0;
+        v->gZ = fix_make(1, 0);
+        return;
+    }
+
     v->gX = fix_div(v->gX, temp);
     v->gY = fix_div(v->gY, temp);
     v->gZ = fix_div(v->gZ, temp);

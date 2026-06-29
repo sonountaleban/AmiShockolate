@@ -1376,8 +1376,15 @@ static ObjID ObjRefLinkDel(ObjRefID ref) {
         // run around the circular list until we reach ourselves
         // and splice ourselves out
         curref = ref;
-        while (objRefs[curref].nextref != ref)
+        int iter_count = 0;  // MORPHOS FIX: prevent infinite loop
+        const int MAX_ITER = 2000;
+        while (objRefs[curref].nextref != ref && iter_count++ < MAX_ITER)
             curref = objRefs[curref].nextref;
+        if (iter_count >= MAX_ITER) {
+            // List is broken, just mark as null
+            objs[obj].ref = OBJ_REF_NULL;
+            return obj;
+        }
         objRefs[curref].nextref = objRefs[ref].nextref;
         objs[obj].ref = curref; // easier than checking objs[obj].ref
     }

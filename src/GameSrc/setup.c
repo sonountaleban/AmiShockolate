@@ -32,7 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef F_OK
 #define F_OK 0
 #endif
-#elifndef AMIGA
+#elifndef __AROS__
 #include <unistd.h>
 #endif
 

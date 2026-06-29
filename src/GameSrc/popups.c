@@ -58,6 +58,9 @@ void init_popups(void) {
     for (int i = 0; i < NUM_POPUPS; i++) {
         Ref id = MKREF(RES_popups, i);
         FrameDesc *f = RefGet(id);
+        if (f == NULL) {
+            continue;
+        }
         popup_rects[i] = f->anchorArea;
         if (load_res_bitmap(&popup_bitmaps[i], id, TRUE) != OK)
             critical_error(CRITERR_RES | 0xA);

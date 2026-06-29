@@ -55,7 +55,8 @@ volatile ulong mlimbs_counter = 0;
 volatile long mlimbs_error;
 volatile uchar mlimbs_semaphore = FALSE;
 
-int master_volume = 100;
+//GP
+//int master_volume = 100;
 
 char curr_play_list[10];
 char loop_list[10];

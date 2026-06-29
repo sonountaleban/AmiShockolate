@@ -148,6 +148,8 @@ void facelet_send(void) {
                 } else // grind through reality, ick
                 {
                     lmag = g3_vec_mag((g3s_vector *)&cur_cmp->nrm);
+                    // MORPHOS FIX: Protect against division by zero
+                    if (lmag == 0) lmag = 1;
                     cvec = &cur_cmp->nrm[0];
                     recip = fix_div(cur_cmp->bval, lmag); // look, make unitvector*bval all in one happy step
                     nrm[0] += fix_mul(*cvec, recip);
@@ -162,7 +164,8 @@ void facelet_send(void) {
                 nrm[2] += cur_cmp->nrm[2];
             }
             cvec = nrm;
-            recip = fix_div(fix_1, mag);
+            // MORPHOS FIX: Protect against division by zero
+            recip = fix_div(fix_1, (mag == 0) ? 1 : mag);
             *cvec = fix_mul(*cvec, recip);
             cvec++;
             *cvec = fix_mul(*cvec, recip);
@@ -181,6 +184,8 @@ void facelet_send(void) {
                 else // grind through reality, ick
                 {
                     lmag = g3_vec_mag((g3s_vector *)&cur_cmp->nrm);
+                    // MORPHOS FIX: Protect against division by zero
+                    if (lmag == 0) lmag = 1;
                     cvec = nrm;
                     recip = fix_div(cur_cmp->bval, lmag); // look, make unitvector*bval all in one happy step
                     nrm[0] += fix_mul(*cvec, recip);

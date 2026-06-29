@@ -159,4 +159,11 @@ errtype mouse_constrain_xy(short xl, short yl, short xh, short yh);
 // Sets mouse handedness (true for left-handed)
 // errtype mouse_set_lefty(uchar lefty);
 
+#ifdef __AROS__
+#ifdef USE_SDL
+extern bool SDL_GetRelativeMouseMode();
+extern void SDL_SetRelativeMouseMode(bool enabled);
+#endif
+#endif
+
 #endif // _MOUSE_H

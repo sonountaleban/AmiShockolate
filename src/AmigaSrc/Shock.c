@@ -46,21 +46,32 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "status.h"
 #include "version.h"
 
+#ifdef USE_SDL
+#include "mouse.h"
+#endif // USE_SDL
+
 //--------------------
 //  Globals
 //--------------------
 bool gPlayingGame;
 
 grs_screen *cit_screen;
+#ifdef USE_SDL
+struct SDL_Surface *pMainScreen = NULL;
+#else
 struct Screen *pMainScreen = NULL;
 struct Window *pMainWindow = NULL;
 struct RastPort *pMainWindowRastPort = NULL;
+#endif // USE_SDL
 
-//GP
-//SDL_AudioDeviceID device;
+#ifndef __AROS__
+SDL_AudioDeviceID device;
+#endif
 
+#ifndef USE_SDL
 bool showFPS;
 bool dontWaitTOF;
+#endif
 int num_args;
 int frames = 0;
 int fps = 0;
@@ -90,21 +101,26 @@ extern void LoadMoveKeybinds(void);
 //------------------------------------------------------------------------------------
 //		Main function.
 //------------------------------------------------------------------------------------
-int main(int argc, char **argv) {
+int main(int argc, char **argv)
+{
     // Save the arguments for later
-
     num_args = argc;
     arg_values = argv;
 
     // FIXME externalize this
     log_set_quiet(0);
+#ifdef _DEBUG
+    log_set_level(LOG_DEBUG);
+#else
     log_set_level(LOG_INFO);
+#endif
 
     INFO("Logger initialized");
 
     // init Amiga stuff
     atexit(CleanupAndExit);
     atexit(ShowRecapFPS);
+
     InitAmiga();
 
     // Initialize the preferences file.
@@ -119,8 +135,10 @@ int main(int argc, char **argv) {
 
     // Process some startup arguments
     bool showSplash = !CheckArgument("NOSPLASH");
+#ifndef USE_SDL
     showFPS = CheckArgument("SHOWFPS");
     dontWaitTOF = CheckArgument("DONTWAITTOF");
+#endif
 
     // CC: Modding support! This is so exciting.
     ProcessModArgs(argc, argv);
@@ -183,25 +201,16 @@ void InitScreen()
 
     gr_alloc_ipal();
 
-    //GP
-    /*SDL_ShowCursor(SDL_DISABLE);
-
-    SDL_RaiseWindow(window);
-
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC);
-    SDL_RenderSetLogicalSize(renderer, grd_cap->w, grd_cap->h);*/
+#ifdef USE_SDL
+    SDL_ShowCursor(SDL_DISABLE);
+#else
     ShowCursor(FALSE);
-
-    // Startup OpenGL
-    //GP
-    //init_opengl();
+#endif // USE_SDL
 
     ScreenDraw();
-
-    //GP
-    //SDL_ShowWindow(window);
 }
 
+#ifndef USE_SDL
 long GUN8TO32(long col)
 {
 	col = col | (col << 8);
@@ -209,8 +218,13 @@ long GUN8TO32(long col)
 
 	return col;
 }
+#endif
 
+#ifdef USE_SDL
+SDL_Color gamePalette[256];
+#else
 AmigaColour gamePalette[256];
+#endif // USE_SDL
 bool UseCutscenePalette = FALSE; // see cutsloop.c
 void SetPalette(int index, int count, uchar *pal) {
     static bool gammalut_init = 0;
@@ -238,11 +252,14 @@ void SetPalette(int index, int count, uchar *pal) {
         gam = 100;
     gam -= 10;
 
-    for (int i = index; i < index + count; i++) {
+    for (int i = index; i < index + count; i++)
+    {
         gamePalette[i].r = gammalut[gam][*pal++];
         gamePalette[i].g = gammalut[gam][*pal++];
         gamePalette[i].b = gammalut[gam][*pal++];
+#ifndef __AROS__
         gamePalette[i].a = 0xff;
+#endif
     }
 
     if (!UseCutscenePalette) {
@@ -250,19 +267,24 @@ void SetPalette(int index, int count, uchar *pal) {
         gamePalette[255].r = 0x0;
         gamePalette[255].g = 0x0;
         gamePalette[255].b = 0x0;
+#ifndef __AROS__
         gamePalette[255].a = 0xff;
+#endif
     }
 
+#ifdef USE_SDL
+    //SDL_SetColors(pMainScreen, gamePalette, 0, 256);
+    SDL_SetColors(pPrimarySurface, gamePalette, 0, 256);
+    SDL_SetColors(pSecondarySurface, gamePalette, 0, 256);
+#else
     for (int i = 0; i < 256; i ++)
     {
         SetRGB32(&(pMainScreen->ViewPort), i, GUN8TO32(gamePalette[i].r), GUN8TO32(gamePalette[i].g), GUN8TO32(gamePalette[i].b));
     }
-
-    //GP
-    /*if (should_opengl_swap())
-        opengl_change_palette();*/
+#endif // USE_SDL
 }
 
+#ifndef USE_SDL
 ULONG savedPalette[256 * 3];
 
 void SavePalette()
@@ -277,23 +299,13 @@ void ResetPalette()
         SetRGB32(&(pMainScreen->ViewPort), i, savedPalette[i * 3], savedPalette[i * 3 + 1], savedPalette[i * 3 + 2]);
     }
 }
+#endif
 
 void ScreenDraw()
 {
-    //GP
-    /*if (should_opengl_swap()) {
-        // We want the UI background to be transparent!
-        sdlPalette->colors[255].a = 0x00;
-
-        // Draw the OpenGL view
-        opengl_swap_and_restore(drawSurface);
-
-        // Set the palette back, and we are done
-        sdlPalette->colors[255].a = 0xff;
-        return;
-    }*/
-    char fpsText[16];
-
+#ifdef USE_SDL
+    SDL_BlitSurface(pPrimarySurface, NULL, pMainScreen, NULL);
+#else
     // On AROS this pointer doesn't exist
     if (true/*GfxBase->ChunkyToPlanarPtr*/)
     {
@@ -358,7 +370,25 @@ void ScreenDraw()
     {
         BltBitMapRastPort(pPrimaryFrameBufferRastPort->BitMap, 0, 0, pMainWindowRastPort, pMainWindow->BorderLeft, pMainWindow->BorderTop, gLogicalWidth, gLogicalHeight, 0xc0);
     }
+#endif // USE_SDL
 
+#ifdef USE_SDL
+    frames ++;
+
+    if (CanGetCurrentFPS())
+    {
+        fps = frames;
+        frames = 0;
+
+        if (fps > maxFPS)
+        {
+            maxFPS = fps;
+        }
+
+        averageFPS = (averageFPS + fps) / 2.0f;
+    }
+#else
+    char fpsText[16];
     if (showFPS)
     {
         frames ++;
@@ -377,30 +407,71 @@ void ScreenDraw()
         }
 
         sprintf(fpsText, "%d FPS", fps);
+
         SetAPen(pMainWindowRastPort, 2);
         Move(pMainWindowRastPort, pMainWindow->BorderLeft + pMainWindowRastPort->TxWidth, pMainWindow->BorderTop + pMainWindowRastPort->TxHeight);
         Text(pMainWindowRastPort, fpsText, strlen(fpsText));
     }
+#endif // USE_SDL
 
+#ifdef USE_SDL
+    /*if (dontWaitTOF)
+    {
+        SDL_UpdateRect(pMainScreen, 0, 0, 0, 0);            // there needs to remove SDL_DOUBLEBUF flag
+    }
+    else*/
+    {
+        SDL_Flip(pMainScreen);
+    }
+#else
     if (!dontWaitTOF)
     {
         WaitTOF();
     }
+#endif // USE_SDL
 }
 
 void ShowRecapFPS()
 {
+#ifdef USE_SDL
+    printf("Max FPS: %d, average FPS: %f\n\n", maxFPS, averageFPS);
+#else
     if (showFPS)
     {
         printf("Max FPS: %d, average FPS: %f\n\n", maxFPS, averageFPS);
     }
+#endif // USE_SDL
 }
 
+extern int mlook_enabled;
+
 bool MouseCaptured = FALSE;
+
+// GP: On AROS better don't use the relative mouse: while on narive AROS it works (at least using SDL 1.2),
+// on hosted AROS and AXRT it doesn't
+#ifdef __AROS__
+#ifdef USE_SDL
+void CaptureMouse(bool capture)
+{
+    MouseCaptured = (capture && gShockPrefs.goCaptureMouse);
+
+    if (!MouseCaptured && mlook_enabled && SDL_GetRelativeMouseMode())
+    {
+        SDL_SetRelativeMouseMode(FALSE);
+
+        /*Uint16 centerX = (Uint16)(pMainScreen->w / 2);
+        Uint16 centerY = (Uint16)(pMainScreen->h / 2);
+        SDL_WarpMouse(centerX, centerY);*/
+    }
+    else
+    {
+        //SDL_SetRelativeMouseMode(MouseCaptured ? SDL_TRUE : SDL_FALSE);
+        SDL_SetRelativeMouseMode(FALSE);
+    }
+}
+#else
 bool RelativeMouseModeEnabled = FALSE;
 bool PointerEnabled = TRUE;
-
-extern int mlook_enabled;
 
 bool GetRelativeMouseMode()
 {
@@ -409,16 +480,7 @@ bool GetRelativeMouseMode()
 
 void SetRelativeMouseMode(bool set)
 {
-    // GP: at the moment no relative mouse position
-    /*RelativeMouseModeEnabled = set;
-    if (set)
-    {
-        ModifyIDCMP(pMainWindow, IDCMP_CLOSEWINDOW | IDCMP_REFRESHWINDOW | IDCMP_MOUSEBUTTONS | IDCMP_MOUSEMOVE | IDCMP_CLOSEWINDOW | IDCMP_VANILLAKEY | IDCMP_RAWKEY | IDCMP_DELTAMOVE);
-    }
-    else
-    {
-        ModifyIDCMP(pMainWindow, IDCMP_CLOSEWINDOW | IDCMP_REFRESHWINDOW | IDCMP_MOUSEBUTTONS | IDCMP_MOUSEMOVE | IDCMP_CLOSEWINDOW | IDCMP_VANILLAKEY | IDCMP_RAWKEY);
-    }*/
+    //RelativeMouseModeEnabled = set;
 }
 
 bool QueryShowCursor()
@@ -435,21 +497,14 @@ void CaptureMouse(bool capture)
 {
     MouseCaptured = (capture && gShockPrefs.goCaptureMouse);
 
-    //GP
     if (!MouseCaptured && mlook_enabled && /*SDL_GetRelativeMouseMode() == SDL_TRUE*/GetRelativeMouseMode())
     {
-        //GP
-        /*SDL_SetRelativeMouseMode(SDL_FALSE);
-
-        int w, h;
-        SDL_GetWindowSize(window, &w, &h);
-        SDL_WarpMouseInWindow(window, w / 2, h / 2);*/
         SetRelativeMouseMode(FALSE);
     }
     else
     {
-        //GP
-        //SDL_SetRelativeMouseMode(MouseCaptured ? SDL_TRUE : SDL_FALSE);
         SetRelativeMouseMode(MouseCaptured);
     }
 }
+#endif
+#endif

@@ -14,37 +14,38 @@ unsigned short *TrackUsedChannels;
 MIDI_EVENT *ThreadEventList[NUM_THREADS];
 int ThreadTiming[NUM_THREADS];
 char ThreadChannelRemap[16 * NUM_THREADS];
-//GP
-//SDL_atomic_t DeviceChannelVolume[16]; // only msb: 0-127
-//SDL_atomic_t ThreadPlaying[NUM_THREADS];
-//SDL_atomic_t ThreadCommand[NUM_THREADS];
-int DeviceChannelVolume[16]; // only msb: 0-127
-int ThreadPlaying[NUM_THREADS];
-int ThreadCommand[NUM_THREADS];
+#ifdef USE_SDL
+SDL_atomic_t DeviceChannelVolume[16]; // only msb: 0-127
+SDL_atomic_t ThreadPlaying[NUM_THREADS];
+SDL_atomic_t ThreadCommand[NUM_THREADS];
+#endif
 
 MusicDevice *MusicDev;
-//GP
-//static SDL_mutex *MyMutex;
+#ifdef USE_SDL
+static SDL_mutex *MyMutex;
+#endif
 
 void MusicCallback(void *userdata, Uint8 *stream, int len) {
+#ifdef USE_SDL
     MusicDevice *dev;
 
-    //GP
-    //SDL_LockMutex(MyMutex);
+    SDL_LockMutex(MyMutex);
+
     dev = *(MusicDevice **)userdata;
     if (!dev || !dev->isOpen) {
-        //GP
-        //SDL_UnlockMutex(MyMutex);
+        SDL_UnlockMutex(MyMutex);
+
         return;
     }
 
-    //GP
-    /*SDL_memset(stream, 0, (size_t)len); // in case we don't get anything
+    SDL_memset(stream, 0, (size_t)len); // in case we don't get anything
     dev->generate(dev, (short *)((void *)stream), len / (int)(2 * sizeof(short)));
-    SDL_UnlockMutex(MyMutex);*/
+    SDL_UnlockMutex(MyMutex);
+#endif
 }
 
 void FreeXMI(void) {
+#ifdef USE_SDL
     unsigned int track;
     MIDI_EVENT *event, *next;
 
@@ -73,9 +74,11 @@ void FreeXMI(void) {
     }
 
     NumTracks = 0;
+#endif
 }
 
 MIDI_EVENT *NewMIDIEvent(MIDI_EVENT **eventlist, MIDI_EVENT *curevent, int time) {
+#ifdef USE_SDL
     if (*eventlist == 0) {
         *eventlist = curevent = (MIDI_EVENT *)malloc(sizeof(MIDI_EVENT));
 
@@ -135,9 +138,13 @@ MIDI_EVENT *NewMIDIEvent(MIDI_EVENT **eventlist, MIDI_EVENT *curevent, int time)
     curevent->len = 0;
 
     return curevent;
+#else
+    return NULL;
+#endif
 }
 
 int ReadXMI(const char *filename) {
+#ifdef USE_SDL
     FILE *f;
     int size, start, begin, pos, time, end, tempo, tempo_set;
     unsigned int i, count, len, chunk_len, quant, status, delta, b0, b1, b2, b3;
@@ -435,13 +442,15 @@ int ReadXMI(const char *filename) {
     // Setup a sound bank for res/sound/sblaster, or res/sound/genmidi
     if (strstr(filename, "sblaster") != NULL)
         mode = Music_SoundBlaster;
-    //GP
-    //SDL_LockMutex(MyMutex);
+
+    SDL_LockMutex(MyMutex);
+
     if (MusicDev) {
         MusicDev->setupMode(MusicDev, mode);
     }
-    //GP
-    //SDL_UnlockMutex(MyMutex);
+
+    SDL_UnlockMutex(MyMutex);
+
     switch (mode) {
     case Music_GeneralMidi:
         INFO("Set General MIDI mode");
@@ -450,11 +459,12 @@ int ReadXMI(const char *filename) {
         INFO("Set Sound Blaster mode");
         break;
     }
-
+#endif
     return 1; // success
 }
 
 int MyThread(void *arg) {
+#ifdef USE_SDL
     int i;
 
     MIDI_EVENT *event[NUM_THREADS];
@@ -476,17 +486,15 @@ int MyThread(void *arg) {
         last_time[i] = 0;
         start[i] = 0;
 
-        //GP
-        //SDL_AtomicSet(&ThreadPlaying[i], 0);
-        //SDL_AtomicSet(&ThreadCommand[i], THREAD_READY);
+        SDL_AtomicSet(&ThreadPlaying[i], 0);
+        SDL_AtomicSet(&ThreadCommand[i], THREAD_READY);
     }
 
     for (;;) {
         int delay = 1;
 
         for (i = 0; i < NUM_THREADS; i++) {
-            //GP
-            /*if (event[i] && SDL_AtomicGet(&ThreadCommand[i]) != THREAD_STOPTRACK) {
+            if (event[i] && SDL_AtomicGet(&ThreadCommand[i]) != THREAD_STOPTRACK) {
                 double aim = last_time[i] + (event[i]->time - last_tick[i]) * tick[i];
                 double diff = aim - ((GetMilliseconds() - start[i]) * 1000.0);
 
@@ -601,28 +609,29 @@ int MyThread(void *arg) {
             }
 
             if (SDL_AtomicGet(&ThreadCommand[i]) == THREAD_EXIT)
-                return 0;*/
+                return 0;
         }
 
-        //GP
-        //SDL_Delay(delay);
+        SDL_Delay(delay);
     }
+#endif // USE_SDL
 
     return 0;
 }
 
 int GetTrackNumChannels(unsigned int track) {
     int num = 0, channel;
-
+#ifdef USE_SDL
     // count channels used by track (could be zero if only percussion channel (9) is used)
     for (channel = 0; channel < 16; channel++)
         if (channel != 9 && (TrackUsedChannels[track] & (1 << channel)))
             num++;
-
+#endif
     return num;
 }
 
 void StartTrack(int thread, unsigned int track) {
+#ifdef USE_SDL
     int num, trackChannel, deviceChannel;
     char channel_remap[16];
 
@@ -631,9 +640,8 @@ void StartTrack(int thread, unsigned int track) {
 
     num = GetTrackNumChannels(track);
 
-    //GP
-    /*while (SDL_AtomicGet(&ThreadCommand[thread]) != THREAD_READY)
-        SDL_Delay(1);*/
+    while (SDL_AtomicGet(&ThreadCommand[thread]) != THREAD_READY)
+        SDL_Delay(1);
 
     // check if enough device channels free; 16 channels available except one (percussion)
     if (NumUsedChannels + num <= 16 - 1) {
@@ -653,8 +661,7 @@ void StartTrack(int thread, unsigned int track) {
                 channel_remap[trackChannel] = deviceChannel;
                 ChannelThread[deviceChannel] = thread;
                 // default to full volume
-                //GP
-                //SDL_AtomicSet(&DeviceChannelVolume[deviceChannel], 127);
+                SDL_AtomicSet(&DeviceChannelVolume[deviceChannel], 127);
             }
         }
 
@@ -662,17 +669,17 @@ void StartTrack(int thread, unsigned int track) {
         ThreadTiming[thread] = TrackTiming[track];
         memcpy(ThreadChannelRemap + 16 * thread, channel_remap, 16);
 
-        //GP
-        /*SDL_AtomicSet(&ThreadCommand[thread], THREAD_PLAYTRACK);
+        SDL_AtomicSet(&ThreadCommand[thread], THREAD_PLAYTRACK);
 
         while (SDL_AtomicGet(&ThreadCommand[thread]) != THREAD_READY)
-            SDL_Delay(1);*/
+            SDL_Delay(1);
     }
+#endif
 }
 
 void StopTrack(int i) {
-    //GP
-    /*if (!SDL_AtomicGet(&ThreadPlaying[i]))
+#ifdef USE_SDL
+    if (!SDL_AtomicGet(&ThreadPlaying[i]))
         return;
 
     while (SDL_AtomicGet(&ThreadCommand[i]) != THREAD_READY)
@@ -681,65 +688,69 @@ void StopTrack(int i) {
     SDL_AtomicSet(&ThreadCommand[i], THREAD_STOPTRACK);
 
     while (SDL_AtomicGet(&ThreadCommand[i]) != THREAD_READY)
-        SDL_Delay(1);*/
+        SDL_Delay(1);
+#endif
 }
 
 void StopTheMusic(void) {
+#ifdef USE_SDL
     int i;
 
     for (i = 0; i < NUM_THREADS; i++)
         StopTrack(i);
 
-    //GP
-    /*SDL_LockMutex(MyMutex);
+    SDL_LockMutex(MyMutex);
     if (MusicDev) {
         MusicDev->reset(MusicDev);
     }
-    SDL_UnlockMutex(MyMutex);*/
+    SDL_UnlockMutex(MyMutex);
+#endif
 }
 
 int IsPlaying(int i)
 {
-    //GP
-    //return SDL_AtomicGet(&ThreadPlaying[i]);
+#ifdef USE_SDL
+    return SDL_AtomicGet(&ThreadPlaying[i]);
+#else
     return 0;
+#endif
 }
 
 void InitReadXMI(void) {
+#ifdef USE_SDL
     int channel, i;
-    //GP
-    //SDL_Thread *thread;
+    SDL_Thread *thread;
 
     InitDecXMI();
 
-    //GP
-    //MyMutex = SDL_CreateMutex();
+    MyMutex = SDL_CreateMutex();
 
     for (channel = 0; channel < 16; channel++) {
         ChannelThread[channel] = -1;
-        //GP
-        //SDL_AtomicSet(&DeviceChannelVolume[channel], 0);
+        SDL_AtomicSet(&DeviceChannelVolume[channel], 0);
     }
 
-    //GP
-    /*for (i = 0; i < NUM_THREADS; i++) {
+    for (i = 0; i < NUM_THREADS; i++) {
         SDL_AtomicSet(&ThreadPlaying[i], 0);
         SDL_AtomicSet(&ThreadCommand[i], THREAD_INIT);
     }
 
-    thread = SDL_CreateThread(MyThread, "MyThread", NULL);
-    SDL_DetachThread(thread); // thread will go away on its own upon completion
+    thread = SDL_CreateThread(MyThread, NULL);
+    //GP: TO DO
+    //SDL_DetachThread(thread); // thread will go away on its own upon completion
 
     i = 0;
     while (SDL_AtomicGet(&ThreadCommand[i]) == THREAD_INIT)
         SDL_Delay(1);
-    */
+
     atexit(ShutdownReadXMI);
+#endif
 }
 
 void InitDecXMI(void) {
-    //GP
-    //SDL_LockMutex(MyMutex);
+#ifdef USE_SDL
+    SDL_LockMutex(MyMutex);
+
     if (MusicDev) {
         WARN("InitDecXMI(): *****WARNING***** Creating new music device, but one already exists!");
     }
@@ -790,18 +801,21 @@ void InitDecXMI(void) {
     }
 
     MusicDev = musicdev;
-    //GP
-    //SDL_UnlockMutex(MyMutex);
+
+    SDL_UnlockMutex(MyMutex);
+#endif
 }
 
 void ReloadDecXMI(void) {
+#ifdef USE_SDL
     int i;
 
     // determine whether a device type change is being requested, by comparing the
     //  current device type (if any) with current preferences setting
     short deviceTypeMatch = 0;
-    //GP
-    //SDL_LockMutex(MyMutex);
+
+    SDL_LockMutex(MyMutex);
+
     if (MusicDev) {
         switch (MusicDev->deviceType) {
         case Music_None:
@@ -827,96 +841,103 @@ void ReloadDecXMI(void) {
     // - device output change requested
     // this is needed to protect against reload spam generated by the UI slider
     if (MusicDev && (!MusicDev->isOpen || !deviceTypeMatch || MusicDev->outputIndex != gShockPrefs.soMidiOutput)) {
-        //GP
-        //SDL_UnlockMutex(MyMutex);
+        SDL_UnlockMutex(MyMutex);
+
         INFO("Closing MIDI driver due to reload");
 
         for (i = 0; i < NUM_THREADS; i++) {
             StopTrack(i);
         }
 
-        //GP
-        //SDL_LockMutex(MyMutex);
+
+        SDL_LockMutex(MyMutex);
+
         MusicDev->destroy(MusicDev);
         MusicDev = NULL;
     }
 
     // only init music device if it doesn't still exist
     if (!MusicDev) {
-        //GP
-        //SDL_UnlockMutex(MyMutex);
+        SDL_UnlockMutex(MyMutex);
+
         InitDecXMI();
     } else {
-        //GP
-        //SDL_UnlockMutex(MyMutex);
+        SDL_UnlockMutex(MyMutex);
     }
+#endif
 }
 
 void ShutdownReadXMI(void) {
+#ifdef USE_SDL
     int i;
 
     for (i = 0; i < NUM_THREADS; i++) {
         StopTrack(i);
         // don't set THREAD_EXIT yet, as this seems to cause deadlocks
     }
-    //GP
-    /*SDL_Delay(50);
+
+    SDL_Delay(50);
     for (i = 0; i < NUM_THREADS; i++) {
         SDL_AtomicSet(&ThreadCommand[i], THREAD_EXIT);
     }
     SDL_Delay(50); // wait a bit for thread to hopefully exit
-    */
 
     INFO("Closing MIDI driver due to shutdown");
-    //GP
-    //SDL_LockMutex(MyMutex);
+
+    SDL_LockMutex(MyMutex);
+
     if (MusicDev) {
         MusicDev->destroy(MusicDev);
         MusicDev = NULL;
     } else {
         WARN("ShutdownReadXMI(): Shutdown request received, but no music device exists!");
     }
-    //GP
-    //SDL_UnlockMutex(MyMutex);
+
+    SDL_UnlockMutex(MyMutex);
 
     FreeXMI();
 
-    //GP
-    //SDL_DestroyMutex(MyMutex);
+    SDL_DestroyMutex(MyMutex);
+#endif
 }
 
 unsigned int GetOutputCountXMI(void) {
     unsigned int outputCount = 0;
 
-    //GP
-    //SDL_LockMutex(MyMutex);
+#ifdef USE_SDL
+    SDL_LockMutex(MyMutex);
+
     if (MusicDev) {
         outputCount = MusicDev->getOutputCount(MusicDev);
     }
-    //GP
-    //SDL_UnlockMutex(MyMutex);
+
+    SDL_UnlockMutex(MyMutex);
+#endif
 
     return outputCount;
 }
 
 void GetOutputNameXMI(const unsigned int outputIndex, char *buffer, const unsigned int bufferSize) {
-    //GP
-    //SDL_LockMutex(MyMutex);
+#ifdef USE_SDL
+    SDL_LockMutex(MyMutex);
+
     if (MusicDev && buffer && bufferSize >= 1) {
         MusicDev->getOutputName(MusicDev, outputIndex, buffer, bufferSize);
     }
-    //GP
-    //SDL_UnlockMutex(MyMutex);
+
+    SDL_UnlockMutex(MyMutex);
+#endif
 }
 
 void UpdateVolumeXMI(void) {
+#ifdef USE_SDL
     // global volume has been changed
     extern uchar curr_vol_lev; // 0-100
     INFO("UpdateVolumeXMI(): Global music volume change to %d percent", curr_vol_lev);
 
     // tell the music driver
-    //GP
-    //SDL_LockMutex(MyMutex);
+    SDL_LockMutex(MyMutex);
+
     if (MusicDev && MusicDev->isOpen) {
         // send volume change controller (#7) for all channels
         for (int i = 0; i <= 15; ++i) {
@@ -924,11 +945,12 @@ void UpdateVolumeXMI(void) {
             if (i != 9 && ChannelThread[i] == -1)
                 continue;
             // scale new volume according to global music volume
-            //GP
-            /*const int scaledVolume = ((int)SDL_AtomicGet(&DeviceChannelVolume[i]) * (int)curr_vol_lev) / 100;
-            MusicDev->sendControllerChange(MusicDev, i, 7, scaledVolume);*/
+            const int scaledVolume = ((int)SDL_AtomicGet(&DeviceChannelVolume[i]) * (int)curr_vol_lev) / 100;
+            MusicDev->sendControllerChange(MusicDev, i, 7, scaledVolume);
         }
     }
-    //GP
-    //SDL_UnlockMutex(MyMutex);
+
+    SDL_UnlockMutex(MyMutex);
+#endif
 }
+

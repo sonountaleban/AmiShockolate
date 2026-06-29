@@ -191,7 +191,7 @@ errtype draw_res_bm(Ref id, int x, int y) { return (draw_res_bm_core(id, x, y, T
 // Note, does no mouse code!
 errtype draw_full_res_bm(Ref id, int x, int y, uchar fade_in) {
     FrameDesc *f;
-    short *temp_pall;
+    short *temp_pall = NULL;
     byte pal_id;
 
     f = RefLock(id);

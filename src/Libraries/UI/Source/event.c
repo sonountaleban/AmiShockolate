@@ -629,9 +629,11 @@ void ui_dispatch_mouse_event(uiEvent* mout)
    int i;
    uchar eaten = FALSE;
 
-   //GP
-   //bool altDown = (SDL_GetModState() & KMOD_ALT) != 0;
+#ifdef USE_SDL
+   bool altDown = (SDL_GetModState() & KMOD_ALT) != 0;
+#else
    bool altDown = FALSE;
+#endif // USE_SDL
 
 //   ui_mouse_do_conversion(&(mout->pos.x),&(mout->pos.y),TRUE);
    ui_flush_mouse_events(mout->mouse_data.tstamp, mout->pos);
@@ -992,7 +994,7 @@ uchar uiCheckInput(void)
 errtype uiInit(uiSlab* slab)
 {
    int i;
-   errtype err;
+   //errtype err;
 
    uiSetCurrentSlab(slab);
 //KLC - moved to main program   mouse_init(grd_cap->w,grd_cap->h);
@@ -1004,7 +1006,7 @@ errtype uiInit(uiSlab* slab)
    for (i = 0; i < NUM_MOUSE_BTNS; i++)
       last_down_events[i].type = UI_EVENT_NULL;
 //KLC - done in main program now.   err = ui_init_cursors();
-   if (err != OK) return err;
+   //if (err != OK) return err;
 //KLC -   AtExit(uiShutdown);
    return OK;
 }

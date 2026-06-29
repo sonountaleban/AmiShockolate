@@ -586,6 +586,9 @@ void _fr_draw_bitmap(grs_bitmap *draw_bm, int dist, int sc, int anch_x, int anch
     g3s_phandle anchor;
     grs_vertex **bitmap_verts;
 
+    if (draw_bm == NULL) {
+        return;
+    }
     _fr_p.gY += _o_rad;
     anchor = g3_transform_point(&_fr_p);
     _fr_p.gY -= _o_rad;

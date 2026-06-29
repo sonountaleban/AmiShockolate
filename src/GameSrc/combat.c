@@ -297,7 +297,18 @@ void find_fire_vector(LGPoint *pt, Combat_Pt *vector) {
     vector->z = y2 + (fix_mul((y1 - y2), fix_make(y, 0))) / ((fauxrend_context *)_current_fr_context)->ywid;
 
     dist = fix_sqrt(fix_mul(vector->x, vector->x) + fix_mul(vector->y, vector->y) + fix_mul(vector->z, vector->z));
+
+
+    // MORPHOS FIX: Protect against division by zero or very small values
+    if (dist < fix_make(0, 0x0100)) {  // Less than 1/256
+        // Default to shooting forward if vector calculation fails
+        vector->x = 0;
+        vector->y = fix_make(1, 0);  // Forward
+        vector->z = 0;
+    } else {
     vector->x = fix_div(vector->x, dist);
     vector->y = fix_div(vector->y, dist);
     vector->z = fix_div(vector->z, dist);
+    }
+
 }

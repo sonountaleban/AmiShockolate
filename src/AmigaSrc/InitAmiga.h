@@ -22,6 +22,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // InitAmiga.h - Initialize Amiga stuff and setup the application's globals.
 
 #include <stdbool.h>
+#ifdef USE_SDL
+#include <SDL/SDL.h>
+#else
 #include <time.h>
 #include <proto/intuition.h>
 #include <proto/gadtools.h>
@@ -33,6 +36,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <proto/timer.h>
 #include <intuition/intuition.h>
 #include <devices/timer.h>
+#endif // USE_SDL
 #include "lg_types.h"
 
 // How many tick passed since game startup
@@ -59,5 +63,9 @@ void CleanupAndExit();
 /// Startup the SystemShock timer.
 void InstallShockTimers();
 
+#ifdef USE_SDL
+Uint32 GetMilliseconds();
+#else
 ULONG GetMilliseconds();
+#endif // USE_SDL
 bool CanGetCurrentFPS();

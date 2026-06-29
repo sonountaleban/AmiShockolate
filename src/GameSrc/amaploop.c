@@ -185,9 +185,14 @@ void fsmap_startup(void) {
         oAMap(MFD_FULLSCR_MAP)->flags = f;
 
     // Get the graphics system setup for fullscreen drawing.
-#ifdef AMIGA
+#ifdef __AROS__
+#ifdef USE_SDL
+    full_map_context = fr_place_view(FR_NEWVIEW, FR_DEFCAM, pSecondarySurface->pixels, FR_DOUBLEB_MASK | FR_WINDOWD_MASK, 0, 0, 0,
+                                     0, grd_screen_canvas->bm.w, grd_screen_canvas->bm.h);
+#else
     full_map_context = fr_place_view(FR_NEWVIEW, FR_DEFCAM, pSecondaryFrameBuffer, FR_DOUBLEB_MASK | FR_WINDOWD_MASK, 0, 0, 0,
                                      0, grd_screen_canvas->bm.w, grd_screen_canvas->bm.h);
+#endif
 #else
     full_map_context = fr_place_view(FR_NEWVIEW, FR_DEFCAM, offscreenDrawSurface->pixels, FR_DOUBLEB_MASK | FR_WINDOWD_MASK, 0, 0, 0,
                                      0, grd_screen_canvas->bm.w, grd_screen_canvas->bm.h);

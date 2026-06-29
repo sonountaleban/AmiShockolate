@@ -178,6 +178,11 @@ void add_edms_delete(int ph) {
         bad = TRUE;
 
     if (!bad) {
+        ObjID oid = physics_handle_id[ph];
+        // NEVER delete the player's physics handle!
+        if (oid == PLAYER_OBJ) {
+            return;
+        }
         edms_delete_queue[curr_edms_del] = ph;
         curr_edms_del++;
         objs[physics_handle_id[ph]].info.ph = -1;
@@ -521,6 +526,14 @@ errtype physics_run(void) {
             int leanx = player_struct.leanx;
             leanx = lg_min(CONTROL_MAX_VAL, lg_max(leanx + delta * deltat / CIT_CYCLE, -CONTROL_MAX_VAL));
             player_set_lean(leanx, player_struct.leany);
+        } else if (player_struct.leanx != 0) {
+            // No lean input - gradually return to center
+            int leanx = player_struct.leanx;
+            if (leanx > 0)
+                leanx = lg_max(0, leanx - MAX_LEAN_RATE * deltat / CIT_CYCLE);
+            else
+                leanx = lg_min(0, leanx + MAX_LEAN_RATE * deltat / CIT_CYCLE);
+            player_set_lean(leanx, player_struct.leany);
         }
         if (player_struct.controls[CONTROL_YZROT] != 0) {
             int delta = player_struct.controls[CONTROL_YZROT] * MAX_PITCH_RATE / CONTROL_MAX_VAL;
@@ -665,7 +678,8 @@ errtype physics_run(void) {
                         if (safety_net_wont_you_back_me_up(oid))
                             allow_move = FALSE;
                         else {
-                            if (objs[oid].obclass == CLASS_CRITTER) {
+                            if (objs[oid].obclass == CLASS_CRITTER || oid == PLAYER_OBJ) {
+                                // Don't delete physics for critters or PLAYER
                                 newloc = objs[oid].loc;
                                 newloc.z += 3;
                                 safety_fail_oid = -1;
@@ -1382,6 +1396,11 @@ uchar get_phys_info(int ph, fix *list, int cnt) {
 // POSTURE STUFF
 
 errtype player_set_posture(ubyte new_posture) {
+    // Validate posture range (0=stand, 1=stoop, 2=prone)
+    if (new_posture > 2) {
+        printf("player_set_posture: INVALID posture %d, forcing to 0\n", new_posture);
+        new_posture = 0;
+    }
     player_struct.posture = new_posture;
     return OK;
 }
@@ -1570,6 +1589,11 @@ void cit_sleeper_callback(physics_handle caller) {
     id = physics_handle_to_id(caller);
 
     // Is this a kind of thing that wants to maintain it's physics-ness?
+    if (id == PLAYER_OBJ) {
+        return;
+    }
+
+    // Is this a kind of thing that wants to maintain it's physics-ness?
     // Live grenades should do this...
     if (ObjProps[OPNUM(id)].flags & EDMS_PRESERVE) {
         // Do put-to-sleep code here.
@@ -1689,6 +1713,7 @@ void instantiate_pelvis(int triple, Pelvis *new_pelvis) {
     short hard, pep;
 
     *new_pelvis = standard_pelvis;
+
     switch (level_gamedata.gravity) {
     case LEVEL_GRAV_LOW:
         new_pelvis->gravity = fix_div(standard_pelvis.gravity, fix_make(3, 0));
@@ -1703,11 +1728,14 @@ void instantiate_pelvis(int triple, Pelvis *new_pelvis) {
     }
 
     newmass = ObjProps[OPTRIP(triple)].mass;
-    if (newmass > 0)
+    if (newmass > 0) {
         new_pelvis->mass = fix_make(newmass, 0) / (PHYS_MASS_UNIT * PHYS_MASS_C_NUM / PHYS_MASS_C_DEN);
+    }
+
     newsize = ObjProps[OPTRIP(triple)].physics_xr;
-    if (newsize > 0)
+    if (newsize > 0) {
         new_pelvis->size = fix_make(newsize, 0) / PHYSICS_RADIUS_UNIT;
+    }
     hard = ObjProps[OPTRIP(triple)].hardness;
     if (hard > 0)
         new_pelvis->hardness = fix_make(hard, 0) / PHYS_HARDNESS_UNIT;

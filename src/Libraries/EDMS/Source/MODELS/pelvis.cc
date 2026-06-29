@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //	Seamus, Nov 2, 1993...
 //	========================
 
-#ifndef AMIGA
+#ifndef __AROS__
 #include <iostream>
 #endif
 ////#include <conio.h>
